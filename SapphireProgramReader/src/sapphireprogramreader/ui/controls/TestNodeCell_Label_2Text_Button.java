@@ -8,7 +8,7 @@ package sapphireprogramreader.ui.controls;
 import sapphireprogramreader.xmlreader.blockreader.Levels;
 import sapphireprogramreader.xmlreader.blockreader.PatternBurst;
 import sapphireprogramreader.xmlreader.blockreader.Test.TestItem;
-import sapphireprogramreader.xmlreader.blockreader.TestDescription;
+import sapphireprogramreader.xmlreader.blockreader.GenericBlock;
 import sapphireprogramreader.xmlreader.blockreader.Timing;
 import sapphireprogramreader.xmlreader.XMLRead;
 import java.io.File;
@@ -284,7 +284,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
         
         
     }
-    public TestNodeCell_Label_2Text_Button(TestDescription loadboardRef, String name, String _testName) {
+    public TestNodeCell_Label_2Text_Button(GenericBlock loadboardRef, String name, String _testName) {
         
         System.out.println("LB Ref is " + name);
         

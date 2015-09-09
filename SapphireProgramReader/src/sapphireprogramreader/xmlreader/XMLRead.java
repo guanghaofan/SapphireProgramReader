@@ -14,7 +14,7 @@ import sapphireprogramreader.xmlreader.blockreader.Test;
 import sapphireprogramreader.xmlreader.blockreader.Equation;
 import sapphireprogramreader.xmlreader.blockreader.Timing;
 import sapphireprogramreader.xmlreader.blockreader.Levels;
-import sapphireprogramreader.xmlreader.blockreader.TestDescription;
+import sapphireprogramreader.xmlreader.blockreader.GenericBlock;
 import sapphireprogramreader.xmlreader.blockreader.FlowTable;
 import sapphireprogramreader.xmlreader.blockreader.PatternBurst;
 import sapphireprogramreader.xmlreader.blockreader.ActionList;
@@ -66,7 +66,7 @@ public class XMLRead {
     public List<File> xmlFileList = new ArrayList<>();
     public String TestProgramFile = "";
     public List<ActionList> actionList = new ArrayList<>();
-    public TestDescription action;;
+    public GenericBlock action;;
     public List<FlowTable> flowTables = new ArrayList<>();
     public List<TreeItem> actionTree = new ArrayList<>();
     public List<String> flowContextList = new ArrayList();
@@ -99,7 +99,7 @@ public class XMLRead {
     
     public static HashMap<String,Levels> levels= new HashMap();
     public static HashMap<String, Timing> timing = new HashMap();
-    public static HashMap<String, TestDescription> loadBoards= new HashMap();
+    public static HashMap<String, GenericBlock> loadBoards= new HashMap();
     
     public static HashMap<String,patRefTreeItem> patRefTreeItems= new HashMap();
     public static List<String> currentPatRefTree= new ArrayList<>();
@@ -114,13 +114,13 @@ public class XMLRead {
     
     public static HashMap<String, TreeItem> timing_level= new HashMap();
     
-    public static HashMap<String, TestDescription> testDescription= new HashMap();
-    public static HashMap<String, TestDescription> resultSpecs = new HashMap<>();
-    public static HashMap<String, TestDescription> compares= new HashMap<>();
-    public static HashMap<String, TestDescription> DCs= new HashMap<>();
-    public static HashMap<String, TestDescription> vectorResult= new HashMap<>();
-    public static HashMap<String, TestDescription> softSet= new HashMap<>();
-    public static HashMap<String, TestDescription> softSetGroup= new HashMap<>();
+    public static HashMap<String, GenericBlock> testDescription= new HashMap();
+    public static HashMap<String, GenericBlock> resultSpecs = new HashMap<>();
+    public static HashMap<String, GenericBlock> compares= new HashMap<>();
+    public static HashMap<String, GenericBlock> DCs= new HashMap<>();
+    public static HashMap<String, GenericBlock> vectorResult= new HashMap<>();
+    public static HashMap<String, GenericBlock> softSet= new HashMap<>();
+    public static HashMap<String, GenericBlock> softSetGroup= new HashMap<>();
     
     public List<String> skipFileFilter = new ArrayList<>();
     public List<String> inValidFiles= new ArrayList<>();
@@ -248,7 +248,7 @@ public class XMLRead {
     }
     
     public void printLoadboards(){
-        for(TestDescription lb: this.loadBoards.values()){
+        for(GenericBlock lb: this.loadBoards.values()){
             lb.print();
         }
     }
@@ -260,38 +260,38 @@ public class XMLRead {
     }
     
     public void printSoftSet(){
-        for(TestDescription testDescription: XMLRead.softSet.values()){
+        for(GenericBlock testDescription: XMLRead.softSet.values()){
             testDescription.print();
         }
     }
     public void printSoftSetGroup(){
-        for(TestDescription testDescription: XMLRead.softSetGroup.values()){
+        for(GenericBlock testDescription: XMLRead.softSetGroup.values()){
             testDescription.print();
         }
     }
     
     public void printTestDescription(){
-        for(TestDescription testDescription: XMLRead.testDescription.values()){
+        for(GenericBlock testDescription: XMLRead.testDescription.values()){
             testDescription.print();
         }
     }
     public void printResultSpec(){
-        for(TestDescription result: XMLRead.resultSpecs.values()){
+        for(GenericBlock result: XMLRead.resultSpecs.values()){
             result.print();
         }
     }
     public void printCompare(){
-        for(TestDescription result: XMLRead.compares.values()){
+        for(GenericBlock result: XMLRead.compares.values()){
             result.print();
         }
     }
     public void printDCs(){
-        for(TestDescription result: XMLRead.DCs.values()){
+        for(GenericBlock result: XMLRead.DCs.values()){
             result.print();
         }
     }
     public void printVectorResult(){
-        for(TestDescription result:this.vectorResult.values()){
+        for(GenericBlock result:this.vectorResult.values()){
             result.print();
         }
     }
@@ -377,7 +377,7 @@ public class XMLRead {
         Document document = null;
         final String fileName=file.getAbsolutePath();
         
-        reader.addHandler( "/blocks/TestProgram",new ElementHandler() {
+        reader.addHandler("/blocks/TestProgram",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -390,7 +390,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Action " + testName);    
-                action= new TestDescription(row, fileName);
+                action= new GenericBlock(row, fileName);
                 // prune the tree
                 row.detach();
                 getActionList=true;
@@ -790,7 +790,7 @@ public class XMLRead {
                         } else if (fileName.contains("description")) {
                             readTestDescription(subFile);
     ////                       
-//                            System.out.println("start Reading TestDescription File " + fileName);
+//                            System.out.println("start Reading GenericBlock File " + fileName);
                         } else if (fileName.contains("timing")) {
                             readTiming(subFile);
 //                            System.out.println("start Reading Timing File " + fileName);
@@ -934,7 +934,7 @@ public class XMLRead {
                         } else if (fileName.contains("description")) {
                             readTestDescription(subFile);
     ////                       
-//                            System.out.println("start Reading TestDescription File " + fileName);
+//                            System.out.println("start Reading GenericBlock File " + fileName);
                         } else if (fileName.contains("timing")) {
                             readTiming(subFile);
 //                            System.out.println("start Reading Timing File " + fileName);
@@ -1166,7 +1166,7 @@ public class XMLRead {
                 row.detach();
             }
         });  
-        // For TestDescription Handler
+        // For GenericBlock Handler
         reader.addHandler( "/blocks/TestDescription",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
@@ -1591,7 +1591,7 @@ public class XMLRead {
                 row.detach();
             }
         });    
-        reader.addHandler( "/blocks/ResultSpec",new ElementHandler() {
+        reader.addHandler("/blocks/ResultSpec",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1604,12 +1604,12 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                resultSpecs.put(testName,new TestDescription(row, fileName));
+                resultSpecs.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/TestDescription",new ElementHandler() {
+        reader.addHandler("/blocks/TestDescription",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1622,7 +1622,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                testDescription.put(testName,new TestDescription(row, fileName));
+                testDescription.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -1647,7 +1647,7 @@ public class XMLRead {
             }
         });
         
-        reader.addHandler( "/blocks/SoftSet",new ElementHandler() {
+        reader.addHandler("/blocks/SoftSet",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1660,12 +1660,12 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                softSet.put(testName,new TestDescription(row, fileName));
+                softSet.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/SoftSetGroup",new ElementHandler() {
+        reader.addHandler("/blocks/SoftSetGroup",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1678,7 +1678,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                softSetGroup.put(testName,new TestDescription(row, fileName));
+                softSetGroup.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -1730,7 +1730,7 @@ public class XMLRead {
         int testCnt= XMLRead.newTests.size();
         int flowCnt=XMLRead.testDescription.size();
         
-        reader.addHandler( "/blocks/TestDescription",new ElementHandler() {
+        reader.addHandler("/blocks/TestDescription",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1743,7 +1743,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                testDescription.put(testName,new TestDescription(row, fileName));
+                testDescription.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -1815,7 +1815,7 @@ public class XMLRead {
         int testDescriptionCnt=XMLRead.testDescription.size();
         int resultSpecCnt=XMLRead.resultSpecs.size();
         
-        reader.addHandler( "/blocks/TestDescription",new ElementHandler() {
+        reader.addHandler("/blocks/TestDescription",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1828,12 +1828,12 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                testDescription.put(testName,new TestDescription(row, fileName));
+                testDescription.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/ResultSpec",new ElementHandler() {
+        reader.addHandler("/blocks/ResultSpec",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1846,7 +1846,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                resultSpecs.put(testName,new TestDescription(row, fileName));
+                resultSpecs.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -1915,7 +1915,7 @@ public class XMLRead {
     
         int resultSpecCnt=vectorResult.size();
         
-        reader.addHandler( "/blocks/VectorResult",new ElementHandler() {
+        reader.addHandler("/blocks/VectorResult",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1928,7 +1928,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                vectorResult.put(testName,new TestDescription(row, fileName));
+                vectorResult.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -1956,7 +1956,7 @@ public class XMLRead {
         int softSetGroupCnt=softSetGroup.size();
         int equationCne=equations.size();
         
-        reader.addHandler( "/blocks/SoftSet",new ElementHandler() {
+        reader.addHandler("/blocks/SoftSet",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1969,12 +1969,12 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                softSet.put(testName,new TestDescription(row, fileName));
+                softSet.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/SoftSetGroup",new ElementHandler() {
+        reader.addHandler("/blocks/SoftSetGroup",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -1987,7 +1987,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                softSetGroup.put(testName,new TestDescription(row, fileName));
+                softSetGroup.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -2033,7 +2033,7 @@ public class XMLRead {
         int compareCnt= compares.size();
 
         
-        reader.addHandler( "/blocks/Compare",new ElementHandler() {
+        reader.addHandler("/blocks/Compare",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -2046,7 +2046,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                compares.put(testName,new TestDescription(row, fileName));
+                compares.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -2074,7 +2074,7 @@ public class XMLRead {
         int DCCnt= DCs.size();
 
         
-        reader.addHandler( "/blocks/DCSequenceControl",new ElementHandler() {
+        reader.addHandler("/blocks/DCSequenceControl",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -2087,12 +2087,12 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                DCs.put(testName,new TestDescription(row, fileName));
+                DCs.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/DCPattern",new ElementHandler() {
+        reader.addHandler("/blocks/DCPattern",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -2105,12 +2105,12 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                DCs.put(testName,new TestDescription(row, fileName));
+                DCs.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/DCSequence",new ElementHandler() {
+        reader.addHandler("/blocks/DCSequence",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -2123,7 +2123,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
 //                System.out.println("End to read Test " + testName);    
-                DCs.put(testName,new TestDescription(row, fileName));
+                DCs.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -2242,7 +2242,7 @@ public class XMLRead {
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/TestDescription",new ElementHandler() {
+        reader.addHandler("/blocks/TestDescription",new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
 //                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
@@ -2255,7 +2255,7 @@ public class XMLRead {
 //                Document document = row.getDocument();
                 String testName=path.getCurrent().attributeValue("name");
                 System.out.println("Bad Rule, TestDescription is found in Equation file " + testName);    
-                testDescription.put(testName,new TestDescription(row, fileName));
+                testDescription.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
                 row.detach();
             }
@@ -2377,7 +2377,7 @@ public class XMLRead {
         reader.setValidation(false);
         final String fileName=file.getAbsolutePath();
         int loadBoardCnt= XMLRead.loadBoards.size();
-        reader.addHandler( "/blocks/Loadboard", new ElementHandler() {
+        reader.addHandler("/blocks/Loadboard", new ElementHandler() {
             @Override
             public void onStart(ElementPath path) {
            
@@ -2385,7 +2385,7 @@ public class XMLRead {
             @Override
             public void onEnd(ElementPath path) {
                 Element row=path.getCurrent();
-                loadBoards.put(row.attributeValue("name"),new TestDescription(row, fileName));
+                loadBoards.put(row.attributeValue("name"),new GenericBlock(row, fileName));
                 row.detach();
             }
         });
@@ -3813,7 +3813,7 @@ public class XMLRead {
         System.out.println("Equations search Done");
         
         // start to search test description
-        for(TestDescription _testDescription: XMLRead.testDescription.values()){
+        for(GenericBlock _testDescription: XMLRead.testDescription.values()){
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3824,7 +3824,7 @@ public class XMLRead {
         System.out.println("TestDescription search Done");
         
         // start to search test result spec
-        for(TestDescription _testDescription: XMLRead.resultSpecs.values()){
+        for(GenericBlock _testDescription: XMLRead.resultSpecs.values()){
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3836,7 +3836,7 @@ public class XMLRead {
         
         
         // start to search compareSpec
-        for(TestDescription _testDescription: XMLRead.compares.values()){
+        for(GenericBlock _testDescription: XMLRead.compares.values()){
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3847,7 +3847,7 @@ public class XMLRead {
         System.out.println("Compares search Done");
         
          // start to search DCs
-        for(TestDescription _testDescription: XMLRead.DCs.values()){
+        for(GenericBlock _testDescription: XMLRead.DCs.values()){
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3866,7 +3866,7 @@ public class XMLRead {
             }
         }
         System.out.println("Action search Done");
-        for (TestDescription _vectorResult :vectorResult.values()) {
+        for (GenericBlock _vectorResult :vectorResult.values()) {
             if(_vectorResult.search(content)){
                 addFile(_vectorResult.getFileName());
                 if(depthSearch){
@@ -3876,7 +3876,7 @@ public class XMLRead {
         }
         System.out.println("Vector Result search Done");
         //starts to search LoadBoardRef
-        for (TestDescription _loadBoardRef :XMLRead.loadBoards.values()) {
+        for (GenericBlock _loadBoardRef :XMLRead.loadBoards.values()) {
             if(_loadBoardRef.search(content)){
                 addFile(_loadBoardRef.getFileName());
                 if(depthSearch){
@@ -3887,7 +3887,7 @@ public class XMLRead {
         
         System.out.println("SoftSet search Done");
         //starts to search LoadBoardRef
-        for (TestDescription _softSet :XMLRead.softSet.values()) {
+        for (GenericBlock _softSet :XMLRead.softSet.values()) {
             if(_softSet.search(content)){
                 addFile(_softSet.getFileName());
                 if(depthSearch){
@@ -3896,7 +3896,7 @@ public class XMLRead {
             }
         }
         
-        for (TestDescription _softSet :XMLRead.softSetGroup.values()) {
+        for (GenericBlock _softSet :XMLRead.softSetGroup.values()) {
             if(_softSet.search(content)){
                 addFile(_softSet.getFileName());
                 if(depthSearch){
@@ -4401,7 +4401,7 @@ public class XMLRead {
                     printWriter.println("</PatternBurst>");
                     break;
                 case "TestDescription":
-                    TestDescription _testDescription =(TestDescription) object;
+                    GenericBlock _testDescription =(GenericBlock) object;
                     _testDescription.print(printWriter);
             }
         }

@@ -225,7 +225,7 @@ public class Test {
             //<TestParameters> Label
             //<CurrentMeasurement name="Leakage Low V18_P Pins"> Label+ text
             //<Measurement sigref="LeakageV18_P"> Label + text
-            //<Param name="TestDescription"><Value>TestVar</Value></Param> first should be Label, and then Label + Text
+            //<Param name="GenericBlock"><Value>TestVar</Value></Param> first should be Label, and then Label + Text
             
             if(testItem.attriName==null){
                 // this if for RingOsc test MacroConfig 

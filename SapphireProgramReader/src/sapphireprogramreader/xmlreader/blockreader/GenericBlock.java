@@ -14,13 +14,13 @@ import java.io.PrintWriter;
  *
  * @author ghfan
  */
-public class TestDescription {
+public class GenericBlock {
     private Item root;
     private String fileName=null;
 
     
     
-    public TestDescription(Element element, String fileName) {
+    public GenericBlock(Element element, String fileName) {
         root= new Item(element,0);
         this.fileName=fileName;
     }
