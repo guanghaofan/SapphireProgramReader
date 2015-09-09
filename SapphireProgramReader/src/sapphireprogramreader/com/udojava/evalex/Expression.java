@@ -23,7 +23,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * 
  */
-package com.udojava.evalex;
+package sapphireprogramreader.com.udojava.evalex;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

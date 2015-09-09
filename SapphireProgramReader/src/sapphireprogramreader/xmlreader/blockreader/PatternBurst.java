@@ -2,23 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package sapphireprogramreader.xmlreader.blockreader;
 
-import Control.FXML_Label_TextController;
-import Control.PatternRefCell;
-import Control.TestNodeCell_Label_2Text_Button;
-import Control.TestNodeCell_Label_Text;
+import sapphireprogramreader.ui.controls.PatternRefCell;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label_2Text_Button;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label_Text;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import sapphireprogramreader.xmlreader.XMLRead;
 
 /**
  *

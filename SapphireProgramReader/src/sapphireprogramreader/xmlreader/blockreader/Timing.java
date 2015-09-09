@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package sapphireprogramreader.xmlreader.blockreader;
 
-import Control.NodeCell_3Text;
-import Control.TestNodeCell_Label;
-import Control.TestNodeCell_Label_Text;
-import Control.VariableLabelNodeCell;
-import Util.Equation.equationNode;
+import sapphireprogramreader.ui.controls.NodeCell_3Text;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label_Text;
+import sapphireprogramreader.ui.controls.VariableLabelNodeCell;
+//import Util.Equation.equationNode;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TreeItem;
 import org.dom4j.Element;
+import sapphireprogramreader.xmlreader.XMLRead;
+import sapphireprogramreader.xmlreader.blockreader.Equation.equationNode;
 
 /**
  *

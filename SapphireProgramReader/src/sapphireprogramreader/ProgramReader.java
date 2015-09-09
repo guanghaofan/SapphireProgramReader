@@ -2,15 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package programreader;
+package sapphireprogramreader;
 
 
-import Control.OpenFile;
-import Util.ActionList;
-import Util.Equation;
-import Util.GoToResult;
-import Util.Test;
-import Util.Test.TestItem;
+import sapphireprogramreader.xmlreader.blockreader.ActionList;
+import sapphireprogramreader.xmlreader.blockreader.Equation;
+import sapphireprogramreader.xmlreader.blockreader.GoToResult;
+import sapphireprogramreader.xmlreader.blockreader.Test;
+import sapphireprogramreader.xmlreader.blockreader.Test.TestItem;
 import java.io.File;
 import java.io.FileFilter;
 import javafx.application.Application;
@@ -23,7 +22,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import Util.XMLRead;
+import sapphireprogramreader.xmlreader.XMLRead;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,8 +45,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
-import Util.XMLRead.TreeNode;
-import java.io.InputStream;
+import sapphireprogramreader.xmlreader.XMLRead.TreeNode;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -58,25 +56,15 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.SelectionModel;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;

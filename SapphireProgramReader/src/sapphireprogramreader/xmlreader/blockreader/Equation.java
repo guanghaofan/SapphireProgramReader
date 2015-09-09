@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package sapphireprogramreader.xmlreader.blockreader;
 
-import Control.EquationNodeCell;
-import Control.VariableLabelNodeCell;
-import Control.VariableNodeCell;
+import sapphireprogramreader.ui.controls.EquationNodeCell;
+import sapphireprogramreader.ui.controls.VariableLabelNodeCell;
+import sapphireprogramreader.ui.controls.VariableNodeCell;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TreeItem;

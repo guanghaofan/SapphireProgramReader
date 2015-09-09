@@ -2,13 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package sapphireprogramreader.xmlreader;
 
-import Control.EquationNodeCell;
-import Util.Equation.Group;
-import Util.Equation.equationNode;
-import Util.PatternBurst.patRefTreeItem;
-import com.udojava.evalex.Expression;
+import sapphireprogramreader.ui.controls.EquationNodeCell;
+import sapphireprogramreader.xmlreader.blockreader.Equation.Group;
+import sapphireprogramreader.xmlreader.blockreader.Equation.equationNode;
+import sapphireprogramreader.xmlreader.blockreader.PatternBurst.patRefTreeItem;
+
+import sapphireprogramreader.com.udojava.evalex.Expression;
+import sapphireprogramreader.xmlreader.blockreader.Test;
+import sapphireprogramreader.xmlreader.blockreader.Equation;
+import sapphireprogramreader.xmlreader.blockreader.Timing;
+import sapphireprogramreader.xmlreader.blockreader.Levels;
+import sapphireprogramreader.xmlreader.blockreader.TestDescription;
+import sapphireprogramreader.xmlreader.blockreader.FlowTable;
+import sapphireprogramreader.xmlreader.blockreader.PatternBurst;
+import sapphireprogramreader.xmlreader.blockreader.ActionList;
+import sapphireprogramreader.xmlreader.blockreader.StartNode;
+import sapphireprogramreader.xmlreader.blockreader.DeviceNode;
+import sapphireprogramreader.xmlreader.blockreader.ExitNode;
+import sapphireprogramreader.xmlreader.blockreader.GoToResult;
+import sapphireprogramreader.xmlreader.blockreader.BaseNode;
 //import com.sun.javafx.fxml.expression.Expression;
 import java.io.FileFilter;
 import java.io.File;

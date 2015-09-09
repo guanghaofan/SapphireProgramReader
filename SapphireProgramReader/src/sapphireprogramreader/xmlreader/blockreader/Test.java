@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package sapphireprogramreader.xmlreader.blockreader;
 
-import Control.TestNodeCell_Exec;
-import Control.TestNodeCell_Label;
-import Control.TestNodeCell_Label_2Text_Button;
-import Control.TestNodeCell_Label_Text;
+import sapphireprogramreader.ui.controls.TestNodeCell_Exec;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label_2Text_Button;
+import sapphireprogramreader.ui.controls.TestNodeCell_Label_Text;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import java.util.List;
 import javafx.scene.control.TreeItem;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import sapphireprogramreader.xmlreader.XMLRead;
 
 /**
  *

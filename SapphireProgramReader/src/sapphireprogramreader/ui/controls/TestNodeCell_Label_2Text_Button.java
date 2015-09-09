@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package sapphireprogramreader.ui.controls;
 
-import Util.Levels;
-import Util.PatternBurst;
-import Util.Test.TestItem;
-import Util.TestDescription;
-import Util.Timing;
-import Util.XMLRead;
+import sapphireprogramreader.xmlreader.blockreader.Levels;
+import sapphireprogramreader.xmlreader.blockreader.PatternBurst;
+import sapphireprogramreader.xmlreader.blockreader.Test.TestItem;
+import sapphireprogramreader.xmlreader.blockreader.TestDescription;
+import sapphireprogramreader.xmlreader.blockreader.Timing;
+import sapphireprogramreader.xmlreader.XMLRead;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;

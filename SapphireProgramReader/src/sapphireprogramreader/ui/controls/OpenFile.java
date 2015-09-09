@@ -3,22 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package sapphireprogramreader.ui.controls;
 
-import Util.XMLRead;
-import com.sun.glass.ui.Window;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Region;
-import javafx.stage.DirectoryChooser;
-import static programreader.ProgramReader.prorgamLoaded;
 import javafx.stage.FileChooser;
 /**
  *

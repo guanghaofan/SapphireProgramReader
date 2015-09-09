@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package sapphireprogramreader.ui.controls;
 
-import Util.Equation;
-import Util.Equation.Group;
-import Util.Equation.equationNode;
-import Util.XMLRead;
+import sapphireprogramreader.xmlreader.blockreader.Equation;
+import sapphireprogramreader.xmlreader.blockreader.Equation.Group;
+import sapphireprogramreader.xmlreader.blockreader.Equation.equationNode;
+import sapphireprogramreader.xmlreader.XMLRead;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

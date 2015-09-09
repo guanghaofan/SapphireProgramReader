@@ -2,12 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package sapphireprogramreader.xmlreader.blockreader;
 
-import Control.PatternRefCell;
 import java.io.PrintWriter;
 import java.util.List;
-import javafx.scene.control.TreeItem;
 import org.dom4j.Element;
 
 /**

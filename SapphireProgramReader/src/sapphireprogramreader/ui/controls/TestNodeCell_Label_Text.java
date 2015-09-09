@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package sapphireprogramreader.ui.controls;
 
-import Util.Test.TestItem;
+import sapphireprogramreader.xmlreader.blockreader.Test.TestItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;

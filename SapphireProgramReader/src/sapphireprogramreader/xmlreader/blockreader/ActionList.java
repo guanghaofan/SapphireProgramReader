@@ -2,8 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
-import org.dom4j.Attribute;
+package sapphireprogramreader.xmlreader.blockreader;
 import org.dom4j.Element;
 /**
  *

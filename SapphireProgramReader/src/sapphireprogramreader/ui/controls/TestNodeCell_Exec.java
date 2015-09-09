@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package sapphireprogramreader.ui.controls;
 
-import Util.Test.TestItem;
-import Util.XMLRead;
-import static Util.XMLRead.upaPath;
+import sapphireprogramreader.xmlreader.blockreader.Test.TestItem;
+import sapphireprogramreader.xmlreader.XMLRead;
+import static sapphireprogramreader.xmlreader.XMLRead.upaPath;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;

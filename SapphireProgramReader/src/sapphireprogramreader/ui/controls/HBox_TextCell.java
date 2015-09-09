@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Control;
+package sapphireprogramreader.ui.controls;
 
-import Util.XMLRead;
+import sapphireprogramreader.xmlreader.XMLRead;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
