@@ -1589,8 +1589,8 @@ public class SapphireProgramReader extends Application {
 //            xmlReader.printTests();
 //            xmlReader.printTestDescription();
 //            xmlReader.printResultSpec();
-            xmlReader.printSoftSet();
-            xmlReader.printSoftSetGroup();
+//            xmlReader.printSoftSet();
+//            xmlReader.printSoftSetGroup();
         } catch (DocumentException ex) {
             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
