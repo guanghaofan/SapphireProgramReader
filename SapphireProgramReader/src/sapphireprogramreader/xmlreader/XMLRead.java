@@ -70,7 +70,7 @@ public class XMLRead {
     public List<FlowTable> flowTables = new ArrayList<>();
     public List<TreeItem> actionTree = new ArrayList<>();
     public List<String> flowContextList = new ArrayList();
-    public List<testElement> tests = new ArrayList();
+//    public List<testElement> tests = new ArrayList();
     
     public static HashMap<String,Test> newTests = new HashMap();
     public  HashMap<String, Equation> equations = new HashMap();
@@ -154,7 +154,7 @@ public class XMLRead {
         flowTables.clear();
         actionTree.clear();
         flowContextList.clear();
-        tests.clear();
+//        tests.clear();
         upaPath = "";
         treeNodeIndex = 0;
         searchResult.clear();
@@ -570,7 +570,7 @@ public class XMLRead {
                 if (nodeType.equalsIgnoreCase("entry")) {
                     flowTable.setStartNode(new StartNode(nodeName, nodeType, readGoToResult(element), flowName, nodeNum++, flowTables.size()));
                 } else if ((nodeType.equalsIgnoreCase("test")) || (nodeType.equalsIgnoreCase("flow"))) {
-                    flowTable.addNodes(readNode(element, nodeName, nodeType, flowName, fileName, nodeNum++, flowTables.size()));
+                    flowTable.addNodes(readNode(element, nodeName, nodeType, flowName, fileName, nodeNum++, flowTables.size(),flowTable.getNodes().size()));
                 } else if (nodeType.equalsIgnoreCase("exit")) {
                     String decision = element.element("Decision").getText();
                     flowTable.addExitNodes(new ExitNode(nodeName, nodeType, decision, flowName, nodeNum++, flowTables.size()));
@@ -589,7 +589,7 @@ public class XMLRead {
 //        else additionalTables.add(flowTable);
     }
 
-    private BaseNode readNode(Element element, String nodeName, String nodeType, String flowName, String fileName, int nodeNum, int flowNo) {
+    private BaseNode readNode(Element element, String nodeName, String nodeType, String flowName, String fileName, int nodeNum, int flowNo, int baseNodeNo) {
 
         /*
          <Node name="DDR3_DLLLockRead_667_D3AByte2_VddioNom">
@@ -627,7 +627,7 @@ public class XMLRead {
             }
         }
 
-        return (new BaseNode(nodeName, nodeType, syncPoint, equationsRef, strategyRef, tfRef, binningRef,readGoToResult(element), flowName, fileName, nodeNum, flowNo));
+        return (new BaseNode(nodeName, nodeType, syncPoint, equationsRef, strategyRef, tfRef, binningRef,readGoToResult(element), flowName, fileName, nodeNum, flowNo,baseNodeNo));
     }
 
     private List<GoToResult> readGoToResult(Element element) {
@@ -993,6 +993,7 @@ public class XMLRead {
         
     }
     
+    /*
     private void read_Action_Flow_Test_Equation_PatternBurst_Timing_Level(File file) {
         SAXReader reader = new SAXReader();
         reader.setValidation(false);
@@ -1321,6 +1322,7 @@ public class XMLRead {
             Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    */
 
     private boolean readPatternBurst(Document document, String fileName) {
         List<Element> nodes = document.selectNodes("//blocks/PatternBurst");
@@ -2143,6 +2145,7 @@ public class XMLRead {
         
         }
     }
+    /*
     private boolean readTest(Document document, String fileName) {
         List<Element> patNodes = document.selectNodes("//blocks/Test/TestParameters/PatternBurst");
         List<String> test_Pattern = new ArrayList();
@@ -2171,6 +2174,7 @@ public class XMLRead {
             return true;
         }
     }
+    */
 
     private void readEquation(File file) {
         SAXReader reader = new SAXReader();
@@ -2939,7 +2943,10 @@ public class XMLRead {
         }
 
         public BaseNode getBaseNode() {
-            return flowTables.get(this.flowNo).getNodes().get(this.nodeNo - 1);
+            if(flowTables.get(this.flowNo).getDeviceNodes()!=null)
+                return flowTables.get(this.flowNo).getNodes().get(this.nodeNo - 2);
+            else
+                return flowTables.get(this.flowNo).getNodes().get(this.nodeNo - 1);
         }
         
         public DeviceNode getDeviceNode(){
@@ -3991,7 +3998,7 @@ public class XMLRead {
             }
         }
     }
-
+    /*
     private void reReadTest() {
         for (File file : xmlFileList) {
             boolean isSame=false;
@@ -4024,6 +4031,7 @@ public class XMLRead {
             }
         }
     }
+    */
     public void reReadAll() {
         for (File file : this.skipFiles) {
 //            System.out.println(file.getAbsolutePath());

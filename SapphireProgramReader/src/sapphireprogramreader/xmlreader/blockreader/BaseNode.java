@@ -52,12 +52,13 @@ public class BaseNode {
     private int flowNo=0;
     private List<String> textLine= new ArrayList();
     private int nodeNo =1;
+    private int baseNodeNo=0;
     private List<GoToResult> gotoResult=new ArrayList<>();
     
     private boolean testIsReady=false;
     
     public BaseNode(){}
-    public BaseNode(String nodeName, String nodeType, String syncPoint,String equationsRef, String strategyRef, String testRef, String binningRef, List<GoToResult> result, String flowName, String xmlFileName, int nodeNumber, int flowNo){
+    public BaseNode(String nodeName, String nodeType, String syncPoint,String equationsRef, String strategyRef, String testRef, String binningRef, List<GoToResult> result, String flowName, String xmlFileName, int nodeNumber, int flowNo, int baseNodeNum){
         this.nodeName=nodeName;
         this.nodeType=nodeType;
         this.syncPoint=syncPoint;
@@ -70,6 +71,7 @@ public class BaseNode {
         this.flowName=flowName;
         this.xmlFileName=xmlFileName;
         this.flowNo=flowNo;
+        this.baseNodeNo=baseNodeNum;
 //        getLine();
     }
     public void printTestNode(){
@@ -145,7 +147,11 @@ public class BaseNode {
         this.nodeName=name;
     }
     
+    
 
+    public int getBaseNodeNo() {
+        return baseNodeNo;
+    }
     public String getBinningRef() {
         return binningRef;
     }

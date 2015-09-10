@@ -848,7 +848,8 @@ public class SapphireProgramReader extends Application {
 //                    testArea.clear();
 //                    testFlowArea.clear();
                     if (t1.getNodeType().equalsIgnoreCase("test")){
-                        Test test=XMLRead.newTests.get(t1.getBaseNode().getTestFlowRef());
+//                        Test test=XMLRead.newTests.get(t1.getBaseNode().getTestFlowRef());
+                        Test test=XMLRead.newTests.get(t1.getTestFlowRef());
                         
                         if(test!=null){
                             if(test.getPatternBurst()!=null)
@@ -868,9 +869,9 @@ public class SapphireProgramReader extends Application {
                         
 //                        testFlowArea.appendText(xmlReader.tests.get(t1.getNodeIndex()).getElement().asXML());
 //                        testFlowArea.appendText("\n");
-                        Test _test = XMLRead.newTests.get(t1.getBaseNode().getTestFlowRef());
-                        String pattternBurst;
-                        if(_test!=null){
+//                        Test _test = XMLRead.newTests.get(t1.getBaseNode().getTestFlowRef());
+//                        String pattternBurst;
+//                        if(test!=null){
 //                            printTestFlowArea(_test.getRoot());
 //                            pattternBurst=XMLRead.newTests.get(t1.getBaseNode().getTestFlowRef()).getPatternBurst();
 //                            if(pattternBurst!=null){
@@ -888,7 +889,7 @@ public class SapphireProgramReader extends Application {
 //                                }
 //                                testFlowArea.appendText("</PatternBurst>");
 //                            }
-                        }
+//                        }
                         
                         
                         
