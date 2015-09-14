@@ -349,7 +349,7 @@ public class Timing {
                     this.nodeCell.add(node);
                     root.getChildren().add(new TreeItem(node));
 //                    
-                    root.getChildren().add( new NodeCell_3Text(this.time4, this.time4, this.event4));
+//                    root.getChildren().add( new NodeCell_3Text(this.time4, this.time4, this.event4));
                 }
                    
                 

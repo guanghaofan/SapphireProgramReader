@@ -224,7 +224,7 @@ public class XMLRead {
     }
 
     public void printPatternBurst() {
-        for (PatternBurst pat : this.patternBursts.values()) {
+        for (PatternBurst pat : XMLRead.patternBursts.values()) {
             pat.print();
         }
     }
@@ -236,13 +236,13 @@ public class XMLRead {
     }
     
     public void printTiming(){
-        for(Timing timing: this.timing.values()){
+        for(Timing timing: XMLRead.timing.values()){
             timing.print();
         }
     }
     
     public void printLevel(){
-        for(Levels level: this.levels.values()){
+        for(Levels level: XMLRead.levels.values()){
             level.print();
         }
     }

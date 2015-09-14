@@ -162,10 +162,7 @@ public class FlowTable {
     }
     
     public boolean search(String content){
-        if(this.flowName.equals(content)||((this.equationsRef!=null)&&(this.equationsRef.equals(content)))){
-                return true;
-        }
-        else return false;
+        return this.flowName.equals(content)||((this.equationsRef!=null)&&(this.equationsRef.equals(content)));
             
     }
     
