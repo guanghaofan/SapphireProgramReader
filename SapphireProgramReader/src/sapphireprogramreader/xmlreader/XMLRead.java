@@ -4497,10 +4497,17 @@ public class XMLRead {
            
             node= EditorRoot.addElement("Variable");
             node.addComment("This is to set the editor which will be using to open files");
+            node.addComment("You can use notepadd++ or gvim as the editor");
+            String gvimPath= getGvimPath();
             
             File editor= new File("C:/Program Files/Notepad++/notepad++.exe");
-            if(editor.exists())
+            // verify if vim is installed
+            if(gvimPath!=null){
+                node.setText(gvimPath);
+            }
+            else if(editor.exists()){
                 node.setText("C:\\Program Files\\Notepad++\\notepad++.exe");
+            }
             else{
                 editor= new File("C:\\Windows\\System32\\notepad.exe");
                 if(editor.exists()){
@@ -4673,6 +4680,24 @@ public class XMLRead {
             Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
         }
        
+        
+    }
+    private String getGvimPath(){
+        File editor= new File("C:/Program Files/Vim");
+        String fileName=null;
+        if (editor.exists()){
+            
+            for(File file: editor.listFiles()){
+                editor= new File(file.getAbsolutePath() + "\\gvim.exe");
+                if(editor.exists()){
+                    fileName=editor.getAbsolutePath();
+                    break;
+                }   
+            }
+            return fileName;           
+        }
+        else
+            return null;
         
     }
    
