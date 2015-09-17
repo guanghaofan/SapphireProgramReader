@@ -26,6 +26,7 @@ public class HBox_TextCell extends HBox{
         
         this.fileName=file.getAbsolutePath();
         this.text.setText(file.getName());
+        text.setEditable(false);
         text.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
             @Override
