@@ -216,6 +216,11 @@ public class Test {
 
                     testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.DCs.get(testItem.expression).getFileName()));
                 }
+                else if((testItemName.contains("TestRef"))&&XMLRead.newTests.get(testItem.expression)!=null){
+//                    System.out.println(testItemName);
+
+                    testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.newTests.get(testItem.expression).getFileName()));
+                }
                 else
                     testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
   
@@ -336,6 +341,12 @@ public class Test {
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.DCs.get(subItem.expression).getFileName()));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
+                            else if((testItemName.contains("TestRef"))&&XMLRead.newTests.get(subItem.expression)!=null){
+                //                    System.out.println(testItemName);
+
+                                TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.newTests.get(subItem.expression).getFileName()));
+                                if(temp!=null) temp.getChildren().add(item);
+                            }
                             else{
                                 TreeItem item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
                                 if(temp!=null) temp.getChildren().add(item);
@@ -411,6 +422,12 @@ public class Test {
                 //                    System.out.println(testItemName);
 
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.DCs.get(subItem.expression).getFileName()));
+                                if(temp!=null) temp.getChildren().add(item);
+                            }
+                            else if((testItemName.contains("TestRef"))&&XMLRead.newTests.get(subItem.expression)!=null){
+                //                    System.out.println(testItemName);
+
+                                TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.newTests.get(subItem.expression).getFileName()));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                             else{
