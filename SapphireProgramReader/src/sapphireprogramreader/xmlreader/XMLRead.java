@@ -73,7 +73,7 @@ public class XMLRead {
 //    public List<testElement> tests = new ArrayList();
     
     public static HashMap<String,Test> newTests = new HashMap();
-    public  HashMap<String, Equation> equations = new HashMap();
+    public static HashMap<String, Equation> equations = new HashMap();
     public int treeNodeIndex = 0;
     public static HashMap<String, PatternBurst> patternBursts = new HashMap();
     public int patNo = 0;

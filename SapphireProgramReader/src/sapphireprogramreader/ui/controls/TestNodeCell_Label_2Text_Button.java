@@ -36,8 +36,10 @@ public class TestNodeCell_Label_2Text_Button extends Region{
     private Label label;
     final String fileName;
     private String testName=null;
+    final String equationName;
 
     public TestNodeCell_Label_2Text_Button(TestItem testItem,String openFile,final String testName) {
+        equationName=null;
         openButton = new Button();
         this.testName=testName;
         String temp="";
@@ -191,6 +193,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
         });
     }
     public TestNodeCell_Label_2Text_Button(PatternBurst pattern) {
+        equationName=null;
  
         if(pattern!=null){
             fileName=pattern.getFileName();
@@ -285,7 +288,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
         
     }
     public TestNodeCell_Label_2Text_Button(GenericBlock loadboardRef, String name, String _testName) {
-        
+        equationName=null;
         System.out.println("LB Ref is " + name);
         
         testName= _testName;
@@ -399,7 +402,87 @@ public class TestNodeCell_Label_2Text_Button extends Region{
     }
    
     public TestNodeCell_Label_2Text_Button(String labelName, String text, String _fileName) {
+        String temp=null;
+        equationName=null;
+        if(_fileName!=null){
+            
+            File file= new File(_fileName);
+            if (!file.exists()){
+                openButton.setDisable(true);
+                this.fileName=" ";
+            }
+            else{
+                this.fileName=_fileName;
+                temp=file.getName();
+            }
+        }
+        else{
+            this.fileName=" ";
+            openButton.setDisable(true);
+        }
         
+        
+        
+        setId("SearchBox");
+        getStyleClass().add("search-box");
+        setMinHeight(24);
+        setPrefSize(200, 24);
+        setMaxSize(Control.USE_COMPUTED_SIZE, Control.USE_COMPUTED_SIZE);
+        
+        
+        
+        label= new Label();
+        label.setText(labelName);
+        
+        textBox_1 = new TextField();
+        textBox_1.setText(text);
+       
+        textBox_2 = new TextField();
+        textBox_2.setText(temp);
+
+        textBox_1.setEditable(false);
+        textBox_2.setEditable(false);
+        
+        
+        openButton = new Button();
+        openButton.setText("...");
+
+        getChildren().addAll(label,textBox_1,textBox_2, openButton);
+        
+        openButton.setOnAction(new EventHandler<ActionEvent>() {                
+            @Override
+            public void handle(ActionEvent actionEvent) {
+//                    textBox.setText("");
+                textBox_2.requestFocus();
+                if(XMLRead.notePadPath.toLowerCase().contains("gvim")){  
+                        XMLRead.editBat(fileName,textBox_1.getText());
+                    try {
+                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else{
+                    XMLRead.editBat(fileName);
+                    try {
+                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
+    }
+    public void updateTips(){
+        textBox_1.setStyle("-fx-text-fill:blue");
+        this.textBox_1.setTooltip(new Tooltip("Double Click to Expand the Tree"));
+        
+    }
+    public TestNodeCell_Label_2Text_Button(String labelName, String text, String _fileName, String _equationName) {
+        if(_equationName!=null)
+            this.equationName=_equationName;
+        else
+            this.equationName=null;
         String temp=null;
         if(_fileName!=null){
             
@@ -452,7 +535,9 @@ public class TestNodeCell_Label_2Text_Button extends Region{
 //                    textBox.setText("");
                 textBox_2.requestFocus();
                 if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
-                    XMLRead.editBat(fileName,textBox_1.getText());
+                
+                     XMLRead.editBat(fileName,equationName);
+                 
                     try {
                         XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
                     } catch (InterruptedException ex) {
@@ -469,10 +554,5 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 }
             }
         });
-    }
-    public void updateTips(){
-        textBox_1.setStyle("-fx-text-fill:blue");
-        this.textBox_1.setTooltip(new Tooltip("Double Click to Expand the Tree"));
-        
     }
 }

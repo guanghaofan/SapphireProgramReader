@@ -221,8 +221,21 @@ public class Test {
 
                     testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.newTests.get(testItem.expression).getFileName()));
                 }
-                else
-                    testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
+                else{
+                    if(testItem.expression.contains(".")){
+                        
+                        String tempEuqationName=testItem.expression.split("\\.")[0];
+                     
+                        if(XMLRead.equations.containsKey(tempEuqationName)){
+                            testRoot = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.name, testItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),tempEuqationName));
+      
+                        }
+                        else
+                            testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
+                    }
+                    else    
+                        testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
+                }
   
             }
         }
@@ -348,7 +361,23 @@ public class Test {
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                             else{
-                                TreeItem item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
+                                // the reason we always need to define a TreeItem here is due to it's a Tree and we can not re-use it and point it to a new Tree
+                                TreeItem item;
+                                if(subItem.expression.contains(".")){
+                                    
+                                    String tempEuqationName=subItem.expression.split("\\.")[0];
+                                    if(XMLRead.equations.containsKey(tempEuqationName)){
+                                        item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),tempEuqationName));
+
+                                    }
+                                    else
+                                        item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
+                                }
+                                else
+                                    item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
+                                
+                                
+                                
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                  
@@ -431,14 +460,26 @@ public class Test {
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                             else{
-                                TreeItem item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
+                                TreeItem item;
+                                if(subItem.expression.contains(".")){
+                                    
+                                    String tempEuqationName=subItem.expression.split("\\.")[0];
+                                    if(XMLRead.equations.containsKey(tempEuqationName)){
+                                        item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),tempEuqationName));
+
+                                    }
+                                    else
+                                        item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
+                                }
+                                else
+                                    item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                        }   
                        return null;
                     }
                 }
-                else{
+                else{               
                     testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
                     for(TestItem subItem: testItem.subItems){
                         testRoot.getChildren().add(buildTreeItem(subItem));    
