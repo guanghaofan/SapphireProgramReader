@@ -35,7 +35,7 @@ public class OpenFile extends Region{
             textBox = new TextField();
 //            textBox.setPromptText(name);
 //            textBox.setText(name);
-            textBox.setEditable(true);
+            textBox.setEditable(false);
             openButton = new Button();
             openButton.setText("...");
             

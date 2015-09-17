@@ -27,6 +27,7 @@ public class TestNodeCell_Label_Text extends Region {
         else
             label.setText(testItem.getName());        
         text= new TextField();
+        text.setEditable(false);
         if(testItem.getAttriName()!=null){
             if(testItem.getAttriName().toLowerCase().equals("name"))
                 text.setText(testItem.getExpression());
@@ -41,7 +42,6 @@ public class TestNodeCell_Label_Text extends Region {
     public TestNodeCell_Label_Text(String labelName, String textIn) {
         setMinHeight(24);
         setPrefSize(200, 24);
-        
         label= new Label();
         if (labelName!=null)
             label.setText(labelName);
@@ -49,6 +49,7 @@ public class TestNodeCell_Label_Text extends Region {
             label.setText("Empty");  
         
         text= new TextField();
+        text.setEditable(false);
         if(textIn!=null){
             text.setText(textIn);
         }

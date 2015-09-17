@@ -78,6 +78,9 @@ public class PatternRefCell extends Region {
 //        load.setMaxWidth(40);
         load.setPrefSize(40,24);
         
+        nameText.setEditable(false);
+        loadText.setEditable(false);
+        enabledText.setEditable(false);
         getChildren().addAll(name, nameText,enabled,enabledText, load, loadText);
         
     }

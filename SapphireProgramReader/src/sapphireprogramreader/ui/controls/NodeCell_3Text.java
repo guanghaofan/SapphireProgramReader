@@ -21,6 +21,9 @@ public class NodeCell_3Text extends Region{
         TextField1.setText(str1);
         TextField2.setText(str2);
         TextField3.setText(str3);
+        TextField1.setEditable(false);
+        TextField2.setEditable(false);
+        TextField3.setEditable(false);
         getChildren().addAll(TextField1,TextField2,TextField3);
     }
     @Override
