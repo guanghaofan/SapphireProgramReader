@@ -76,6 +76,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.paint.Color;
+import javafx.scene.text.FontWeight;
 
 
 
@@ -1591,6 +1593,7 @@ public class SapphireProgramReader extends Application {
 //            xmlReader.printResultSpec();
 //            xmlReader.printSoftSet();
 //            xmlReader.printSoftSetGroup();
+//              xmlReader.printFlowOverride();
         } catch (DocumentException ex) {
             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -1798,7 +1801,6 @@ public class SapphireProgramReader extends Application {
 
         
         public TextFieldTreeCellImpl() {
-          
             super.setStyle("-fx-indent:25");
             openSource= new MenuItem();
             final MenuItem openTest = new MenuItem("Open Test File");
@@ -2003,7 +2005,15 @@ public class SapphireProgramReader extends Application {
     //                    else if(node.getNodeType().equals("flow"))
     //                        setGraphic(new ImageView(new Image(getClass().getResourceAsStream("testflow_tm.png"))));
                         setContextMenu(addMenu);
-
+                        TreeNode node = (TreeNode) getTreeItem();
+//                        if(node!=null && node.getNodeType().equals("Test")){
+                        if(node.isOverRide()){
+                            System.out.println("this node " + node.getFlowContext() + " is override during node update");
+                                setTextFill(Color.RED);
+                        }
+                        else
+                            setTextFill(Color.BLACK);
+                            
                     }
                 
             }

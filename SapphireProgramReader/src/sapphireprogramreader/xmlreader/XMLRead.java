@@ -56,6 +56,7 @@ import org.dom4j.ElementPath;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import sapphireprogramreader.xmlreader.blockreader.FlowOverride;
 
 /**
  *
@@ -121,6 +122,7 @@ public class XMLRead {
     public static HashMap<String, GenericBlock> vectorResult= new HashMap<>();
     public static HashMap<String, GenericBlock> softSet= new HashMap<>();
     public static HashMap<String, GenericBlock> softSetGroup= new HashMap<>();
+    public HashMap<String, FlowOverride> flowOverrides= new HashMap<>();
     
     public List<String> skipFileFilter = new ArrayList<>();
     public List<String> inValidFiles= new ArrayList<>();
@@ -185,6 +187,7 @@ public class XMLRead {
         DCs.clear();
         vectorResult.clear();
         this.newInValidFiles.clear();
+        this.flowOverrides.clear();
 //        this.propertyFile=null;
 //        this.signalsFile=null;
 //        this.signalGroupFile=null;
@@ -294,6 +297,12 @@ public class XMLRead {
         for(GenericBlock result:this.vectorResult.values()){
             result.print();
         }
+    }
+    public void printFlowOverride(){
+        for(FlowOverride flowOverride: this.flowOverrides.values()){
+            flowOverride.print();
+        }
+            
     }
     
     /**
@@ -435,6 +444,7 @@ public class XMLRead {
         int equCnt= this.equations.size();
         int testCnt= XMLRead.newTests.size();
         int flowCnt=this.flowTables.size();
+        int flowOverrideCnt= this.flowOverrides.size();
         
         reader.addHandler( "/blocks/Flow",new ElementHandler() {
             @Override
@@ -495,12 +505,31 @@ public class XMLRead {
                 // prune the tree
                 row.detach();
             }
-        });   
+        });  
+        
+    
+
+        reader.addHandler( "/blocks/FlowOverride", new ElementHandler() {
+            @Override
+            public void onStart(ElementPath path) {
+            }
+            @Override
+            public void onEnd(ElementPath path) {
+                // process a ROW element
+                Element row = path.getCurrent();
+                FlowOverride  flowOverride= new FlowOverride(row, fileName);
+                flowOverrides.put(row.attributeValue("name"),flowOverride);
+                if(!flowOverride.isEnable())
+                    flowOverrides.remove(row.attributeValue("name"));
+                row.detach();
+
+            }
+        });
 
         Document document = null;
         try {
             document = reader.read(file);
-             if (equCnt== this.equations.size() && testCnt== XMLRead.newTests.size() && flowCnt==this.flowTables.size()){
+             if (equCnt== this.equations.size() && testCnt== XMLRead.newTests.size() && flowCnt==this.flowTables.size() && flowOverrideCnt== this.flowOverrides.size()){
                 this.newInValidFiles.add(file.getAbsolutePath());
                 
                  System.out.println("Invalid XML file "+ fileName);
@@ -819,6 +848,7 @@ public class XMLRead {
                         } else if (fileName.contains("flow")||(parentName.contains("flow"))) {
     //                        System.out.println("start Reading Flow Table File " + fileName);
                             readFlowTables(subFile);
+                        
                         } else if (fileName.contains("test") && (!fileName.contains("descr"))) {
                             readTest(subFile);
     //                        System.out.println("start Reading Test File " + fileName);
@@ -2419,6 +2449,41 @@ public class XMLRead {
         }
     }
     
+    public void readFlowOrerrides(File file){
+        SAXReader reader = new SAXReader();
+        reader.setValidation(false);
+        final String fileName=file.getAbsolutePath();
+        
+        int flowOverrideCnt= this.flowOverrides.size();
+    
+
+        reader.addHandler( "/blocks/FlowOverride", new ElementHandler() {
+            @Override
+            public void onStart(ElementPath path) {
+            }
+            @Override
+            public void onEnd(ElementPath path) {
+                // process a ROW element
+                Element row = path.getCurrent();
+                flowOverrides.put(row.attributeValue("name"),new FlowOverride(row, fileName));
+//                Element row = path.getCurrent();
+                row.detach();
+            }
+        });
+
+        Document document = null;
+        
+        try {
+            document = reader.read(file);
+        } catch (DocumentException ex) {
+            Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(flowOverrideCnt== this.flowOverrides.size()){
+            System.out.println("Invalid XML file "+ fileName);
+            this.newInValidFiles.add(file.getAbsolutePath());
+        }
+    }
+    
     public void printFileList(File inFile) {
         File[] fileList = inFile.listFiles(fileFilter);
         for (File subFile : fileList) {
@@ -2832,6 +2897,7 @@ public class XMLRead {
         //private List<String> nodeText=new ArrayList<>();
         final private List<String> validEquaitons = new ArrayList<>();
         final private List<equationNode> overRideEqnNodes= new ArrayList<>();
+        private boolean overRide=false;
 
         public TreeNode(StartNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("start.gif"))));
@@ -2880,20 +2946,17 @@ public class XMLRead {
                 }
             } else {
                 this.equationsRef = node.getEquationsRef();
-            }
-//            node.printTestNode();
-            if (this.nodeType.equals("Test")){
-                Test test=newTests.get(this.testFlowRef);
-               if(test!=null){
-                   if(test.getEquationRef()!=null)       
-                        this.equationsRef=this.equationsRef+"," +newTests.get(this.testFlowRef).getEquationRef();
-               }
-            }   
+            } 
 //            if (this.nodeType.equals("test"))
 //                this.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("config/run_test.gif"))));
              
             
                 if(this.nodeType.equals("Test")){
+                    Test test=newTests.get(this.testFlowRef);
+                    if(test!=null){
+                        if(test.getEquationRef()!=null)       
+                             this.equationsRef=this.equationsRef+"," +newTests.get(this.testFlowRef).getEquationRef();
+                    }
 //                    System.out.println(node.getBaseNode().getName() + "  set graphic as test");
                     setGraphic(new ImageView(new Image(getClass().getResourceAsStream("run_test.gif"))));}
 
@@ -2901,7 +2964,14 @@ public class XMLRead {
 //                    System.out.println(node.getBaseNode().getName() + "  set graphic as flow");
                     setGraphic(new ImageView(new Image(getClass().getResourceAsStream("testflow_tm.png"))));
                 }
-                        
+                
+                for(FlowOverride flowOverride:flowOverrides.values() ){
+                    if(flowOverride.contains(this.flowContext)){
+                        this.overRide=true;
+                        break;
+                    }
+                }
+                    
            checkEquationRefs();
         }
 
@@ -2925,6 +2995,10 @@ public class XMLRead {
         }
         
         
+
+        public boolean isOverRide() {
+            return overRide;
+        }
 
         public String getTestFlowRef() {
             return testFlowRef;
