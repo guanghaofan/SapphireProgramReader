@@ -1797,9 +1797,10 @@ public class SapphireProgramReader extends Application {
         final MenuItem openSource;
         private MenuItem copyFlowContext = new MenuItem("Copy FlowContext to Clipboard");
         final MenuItem printPatternBurst = new MenuItem("Print Pattern Burst");
+        private MenuItem flowOverride =new MenuItem();
         
-
         
+       
         public TextFieldTreeCellImpl() {
             super.setStyle("-fx-indent:25");
             openSource= new MenuItem();
@@ -1818,6 +1819,20 @@ public class SapphireProgramReader extends Application {
                                 flowTree.getSelectionModel().clearAndSelect(nodeIndex);
                                 TreeNode node = (TreeNode) getTreeItem();
                                 if (node!=null){
+
+                                    if(node.isOverRide()){
+                                        System.out.println("this node " + node.getFlowContext() + " is override during node update");
+                                        setTextFill(Color.RED);
+                                        flowOverride.setText("FlowOverride: " + node.getOverRideString() );
+                                        flowOverride.setDisable(false);
+                                    }
+                                    else
+                                    {
+                                        flowOverride.setDisable(true);
+                                        
+                                        flowOverride.setText("");
+                                        
+                                    }
                                     if (node.getNodeType().equalsIgnoreCase("test")){
                                         if(node.getBaseNode().isTestIsReady()){
                                             openTest.setDisable(false);
@@ -1825,7 +1840,10 @@ public class SapphireProgramReader extends Application {
     //                                        System.out.println("click is " + xmlReader.tests.get(node.getNodeIndex()).getExecName());
                                             if(XMLRead.newTests.get(node.getTestFlowRef()).getSourceFile()==null){
                                                 openSource.setDisable(true);
+//                                                openSource.setText("");
                                             }
+                                            else
+                                                openSource.setDisable(false);
                                         }
                                         else{
                                             openTest.setDisable(true);
@@ -1973,8 +1991,38 @@ public class SapphireProgramReader extends Application {
                     }
                 }
             });
-          
-                addMenu.getItems().addAll(openFlow, openTest, openSource,copyFlowContext);
+            flowOverride.setOnAction(new EventHandler() {
+
+                @Override
+                public void handle(Event t) {
+                    TreeNode node = (TreeNode) getTreeItem();
+                    if(node.getFlowOverrideFile()!=null){
+                        
+                        String equationFile=null;
+                        if(XMLRead.equations.get(node.getOverRideString().split("\\.")[0])!=null)
+                            equationFile= XMLRead.equations.get(node.getOverRideString().split("\\.")[0]).getFileName();
+                        if(equationFile!=null){
+                            if(XMLRead.notePadPath.toLowerCase().contains("gvim")){ 
+//                                System.out.println(node.getOverRideString().split("\\.")[0]+"\""+ ">");
+                                    XMLRead.editBat(equationFile,  node.getOverRideString().split("\\.")[0]);  
+                            }
+                            
+                            else
+                                XMLRead.editBat(equationFile);
+                            try {
+                                XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                    
+  
+                    
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            });
+                addMenu.getItems().addAll(openFlow, openTest, openSource,copyFlowContext,flowOverride);
       
         }
 
@@ -2007,12 +2055,15 @@ public class SapphireProgramReader extends Application {
                         setContextMenu(addMenu);
                         TreeNode node = (TreeNode) getTreeItem();
 //                        if(node!=null && node.getNodeType().equals("Test")){
-                        if(node.isOverRide()){
-                            System.out.println("this node " + node.getFlowContext() + " is override during node update");
+                        
+                            if(node.isOverRide()){
+//                                System.out.println("this node " + node.getFlowContext() + " is override during node update");
                                 setTextFill(Color.RED);
-                        }
-                        else
-                            setTextFill(Color.BLACK);
+                            }
+                            else{
+                                setTextFill(Color.BLACK);
+                            }
+                        
                             
                     }
                 

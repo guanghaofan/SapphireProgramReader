@@ -536,7 +536,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 textBox_2.requestFocus();
                 if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
                 
-                     XMLRead.editBat(fileName,equationName);
+                     XMLRead.editBat(fileName,equationName );
                  
                     try {
                         XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());

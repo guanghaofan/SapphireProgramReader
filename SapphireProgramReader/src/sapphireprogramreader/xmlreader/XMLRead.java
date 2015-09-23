@@ -56,6 +56,8 @@ import org.dom4j.ElementPath;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import sapphireprogramreader.xmlreader.blockreader.FlowContext;
+import sapphireprogramreader.xmlreader.blockreader.FlowContext.Bypass;
 import sapphireprogramreader.xmlreader.blockreader.FlowOverride;
 
 /**
@@ -2898,6 +2900,8 @@ public class XMLRead {
         final private List<String> validEquaitons = new ArrayList<>();
         final private List<equationNode> overRideEqnNodes= new ArrayList<>();
         private boolean overRide=false;
+        private String overRideString = null;
+        private String flowOverrideFile=null;
 
         public TreeNode(StartNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("start.gif"))));
@@ -2966,8 +2970,12 @@ public class XMLRead {
                 }
                 
                 for(FlowOverride flowOverride:flowOverrides.values() ){
-                    if(flowOverride.contains(this.flowContext)){
+                    FlowContext temp =flowOverride.contains(this.flowContext);
+                    if(temp!=null){
                         this.overRide=true;
+                        Bypass bypass= temp.getByPass();
+                        this.overRideString= temp.getByPass().getEquationRef()+"."+ temp.getByPass().getVariableName();
+                        this.flowOverrideFile=flowOverride.getFileName();
                         break;
                     }
                 }
@@ -2994,6 +3002,15 @@ public class XMLRead {
                 setGraphic(new ImageView(new Image(getClass().getResourceAsStream("badBin.gif"))));
         }
         
+
+        public String getFlowOverrideFile() {
+            return flowOverrideFile;
+        }
+      
+
+        public String getOverRideString() {
+            return overRideString;
+        }
         
 
         public boolean isOverRide() {

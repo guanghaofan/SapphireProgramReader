@@ -223,11 +223,15 @@ public class Test {
                 }
                 else{
                     if(testItem.expression.contains(".")){
+                        String[] equationVariable =null;
+                        equationVariable =testItem.expression.split("\\.");
+                        String tempEuqationName=equationVariable[0];
                         
-                        String tempEuqationName=testItem.expression.split("\\.")[0];
+                        String variableName=null;
                      
-                        if(XMLRead.equations.containsKey(tempEuqationName)){
-                            testRoot = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.name, testItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),tempEuqationName));
+                        if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
+                            variableName= equationVariable[1];
+                            testRoot = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.name, testItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
       
                         }
                         else
@@ -365,9 +369,15 @@ public class Test {
                                 TreeItem item;
                                 if(subItem.expression.contains(".")){
                                     
-                                    String tempEuqationName=subItem.expression.split("\\.")[0];
-                                    if(XMLRead.equations.containsKey(tempEuqationName)){
-                                        item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),tempEuqationName));
+                                    String[] equationVariable =null;
+                                    equationVariable =testItem.expression.split("\\.");
+                                    String tempEuqationName=equationVariable[0];
+
+                                    String variableName=null;
+
+                                    if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
+                                        variableName= equationVariable[1];
+                                        item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
 
                                     }
                                     else
@@ -463,9 +473,15 @@ public class Test {
                                 TreeItem item;
                                 if(subItem.expression.contains(".")){
                                     
-                                    String tempEuqationName=subItem.expression.split("\\.")[0];
-                                    if(XMLRead.equations.containsKey(tempEuqationName)){
-                                        item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),tempEuqationName));
+                                    String[] equationVariable =null;
+                                    equationVariable =testItem.expression.split("\\.");
+                                    String tempEuqationName=equationVariable[0];
+
+                                    String variableName=null;
+
+                                    if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
+                                        variableName= equationVariable[1];
+                                        item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
 
                                     }
                                     else
