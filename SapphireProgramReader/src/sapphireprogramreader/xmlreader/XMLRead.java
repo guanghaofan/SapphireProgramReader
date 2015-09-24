@@ -831,7 +831,7 @@ public class XMLRead {
                         } else if (fileName.contains("test_")) {
                             readTest(subFile);
     //                        System.out.println("start Reading Test File " + fileName);
-                        } else if (fileName.contains("testprogram")) {
+                        } else if (fileName.contains("testprogram")||fileName.contains("test_program")) {
                             readAction(subFile);
                             if(getActionList)
                                 TestProgramFile += subFile.getAbsolutePath();

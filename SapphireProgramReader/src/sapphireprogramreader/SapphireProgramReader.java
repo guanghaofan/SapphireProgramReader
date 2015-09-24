@@ -1823,7 +1823,7 @@ public class SapphireProgramReader extends Application {
                                     if(node.isOverRide()){
                                         System.out.println("this node " + node.getFlowContext() + " is override during node update");
                                         setTextFill(Color.RED);
-                                        flowOverride.setText("FlowOverride: " + node.getOverRideString() );
+                                        flowOverride.setText("FlowOverrideControl: " + node.getOverRideString() );
                                         flowOverride.setDisable(false);
                                     }
                                     else
