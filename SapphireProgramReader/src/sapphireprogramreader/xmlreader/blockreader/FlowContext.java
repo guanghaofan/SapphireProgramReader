@@ -43,6 +43,14 @@ public class FlowContext{
             }
             
         }
+        public boolean search(String context){
+            if(this.name.equals(context))
+                return true;
+            else{
+                return (this.byPass.search(context));
+            }
+        
+        }
         
         public void print(){
             System.out.println("    <FlowContext name=\"" + this.name +"\">" );
@@ -85,6 +93,16 @@ public class FlowContext{
               <VariableName>OverRideCPUBin1</VariableName>
             </Bypass>
             */
+            
+            public boolean search(String context){
+                if(this.equationRef.equals(context))
+                    return true;
+                else if(this.variableName.equals(context))
+                    return true;
+                else
+                    return false;
+                  
+            }
             public void print(){
                 System.out.println("    <Bypass>");
                 if(this.switchOn)

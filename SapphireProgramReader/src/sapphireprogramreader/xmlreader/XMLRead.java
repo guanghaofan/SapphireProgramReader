@@ -4027,6 +4027,14 @@ public class XMLRead {
         }
         System.out.println("Timing search Done");
         
+        for(FlowOverride flowOverride: this.flowOverrides.values()){
+            if(searchResult.contains(flowOverride.getFileName()))
+                continue;
+            if(flowOverride.search(content)){
+                addFile(flowOverride.getFileName());
+            }
+        }
+        
         
         if(depthSearch && fileName!=""){
             searchResult.add(fileName);

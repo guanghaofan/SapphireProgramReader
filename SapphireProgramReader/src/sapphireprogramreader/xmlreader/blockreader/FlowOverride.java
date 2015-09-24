@@ -78,6 +78,18 @@ public class FlowOverride {
         }
         return(temp);       
     }
+    public boolean search(String context){
+        
+        boolean found=false;
+        for(FlowContext flowContext: this.flowContext){
+            if(flowContext.search(context)){
+                found=true;
+                break;
+            }
+        }
+        return found;
+    
+    }
     public void print(){
       System.out.println("<FlowOverride name=\"  "+ this.name + "\">");
       if(this.enable)
