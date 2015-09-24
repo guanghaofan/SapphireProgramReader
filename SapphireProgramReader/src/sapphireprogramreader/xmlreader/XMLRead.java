@@ -3809,6 +3809,8 @@ public class XMLRead {
 //        }
         
         for(Test test: XMLRead.newTests.values()){
+            if(searchResult.contains(test.getFileName()) && (!depthSearch))
+                continue;
             if(test.search(content)){
                 addFile(test.getFileName());
                 if(depthSearch){
@@ -3820,6 +3822,8 @@ public class XMLRead {
         System.out.println("Test Search Done");
         
         for (FlowTable table : flowTables) {
+            if(searchResult.contains(table.getFileName()) && (!depthSearch))
+                continue;
 //            System.out.println("flow Name " + table.getFlowName());
             boolean isFound = false;
             if(table.search(content)){
@@ -3859,6 +3863,9 @@ public class XMLRead {
         
         for (Iterator<PatternBurst> it = patternBursts.values().iterator(); it.hasNext();) {
             PatternBurst pattern = it.next();
+            if(searchResult.contains(pattern.getFileName()) && (!depthSearch))
+                continue;
+            
             if(pattern.search(content)){
                 addFile(pattern.getFileName());
                 if(depthSearch)
@@ -3870,6 +3877,8 @@ public class XMLRead {
         // start to search equations
 //        int i=0;
         for (Equation equation : this.equations.values()) {
+            if(searchResult.contains(equation.getFileName()) && (!depthSearch))
+                continue;
             
             if(equation.getName().equals(content)){
                 addFile(equation.getFileName());
@@ -3882,8 +3891,8 @@ public class XMLRead {
 //            }
             boolean isFind=false;
             System.out.println("Start to search in " + equation.getName() );
-            if(equation.getName().equals("OBD"))
-                isFind=false;
+//            if(equation.getName().equals("OBD"))
+//                isFind=false;
             if(equation.getGroupList()!=null){
                 for (Group group : equation.getGroupList()) {
                     if(group.getNodes()!=null){
@@ -3912,6 +3921,8 @@ public class XMLRead {
         
         // start to search test description
         for(GenericBlock _testDescription: XMLRead.testDescription.values()){
+            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                continue;
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3923,6 +3934,8 @@ public class XMLRead {
         
         // start to search test result spec
         for(GenericBlock _testDescription: XMLRead.resultSpecs.values()){
+            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                continue;
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3935,6 +3948,8 @@ public class XMLRead {
         
         // start to search compareSpec
         for(GenericBlock _testDescription: XMLRead.compares.values()){
+            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                continue;
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3946,6 +3961,8 @@ public class XMLRead {
         
          // start to search DCs
         for(GenericBlock _testDescription: XMLRead.DCs.values()){
+            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                continue;
             if (_testDescription.search(content)){
                 addFile(_testDescription.getFileName());
                 if(depthSearch){
@@ -3965,6 +3982,8 @@ public class XMLRead {
         }
         System.out.println("Action search Done");
         for (GenericBlock _vectorResult :vectorResult.values()) {
+            if(searchResult.contains(_vectorResult.getFileName()) && (!depthSearch))
+                continue;
             if(_vectorResult.search(content)){
                 addFile(_vectorResult.getFileName());
                 if(depthSearch){
@@ -3975,6 +3994,8 @@ public class XMLRead {
         System.out.println("Vector Result search Done");
         //starts to search LoadBoardRef
         for (GenericBlock _loadBoardRef :XMLRead.loadBoards.values()) {
+            if(searchResult.contains(_loadBoardRef.getFileName()) && (!depthSearch))
+                continue;
             if(_loadBoardRef.search(content)){
                 addFile(_loadBoardRef.getFileName());
                 if(depthSearch){
@@ -3986,6 +4007,8 @@ public class XMLRead {
         System.out.println("SoftSet search Done");
         //starts to search LoadBoardRef
         for (GenericBlock _softSet :XMLRead.softSet.values()) {
+            if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
+                continue;
             if(_softSet.search(content)){
                 addFile(_softSet.getFileName());
                 if(depthSearch){
@@ -3995,6 +4018,8 @@ public class XMLRead {
         }
         
         for (GenericBlock _softSet :XMLRead.softSetGroup.values()) {
+            if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
+                continue;
             if(_softSet.search(content)){
                 addFile(_softSet.getFileName());
                 if(depthSearch){
@@ -4006,6 +4031,8 @@ public class XMLRead {
         System.out.println("LoadBoards search Done");
         // start to search levels
         for(Levels _level: levels.values()){
+            if(searchResult.contains(_level.getFileName()) && (!depthSearch))
+                continue;
             System.out.println("start search Level in " + _level.getName());
             if(_level.search(content)){
                 addFile(_level.getFileName());
@@ -4017,6 +4044,9 @@ public class XMLRead {
         System.out.println("Levels search Done");
         // starts to search timing
         for(Timing _timing: XMLRead.timing.values()){
+            
+            if(searchResult.contains(_timing.getFileName()) && (!depthSearch))
+                continue;
             
             if(_timing.search(content)){
                 addFile(_timing.getFileName());
