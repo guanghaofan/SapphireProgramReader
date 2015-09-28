@@ -125,6 +125,7 @@ public class XMLRead {
     public static HashMap<String, GenericBlock> softSet= new HashMap<>();
     public static HashMap<String, GenericBlock> softSetGroup= new HashMap<>();
     public HashMap<String, FlowOverride> flowOverrides= new HashMap<>();
+    public static HashMap<String, GenericBlock> AxisList = new HashMap<>();
     
     public List<String> skipFileFilter = new ArrayList<>();
     public List<String> inValidFiles= new ArrayList<>();
@@ -877,6 +878,9 @@ public class XMLRead {
                         else if(fileName.contains("softset")||fileName.contains("soft_set")){
                             readSoftSet(subFile);
                         }
+                        else if(fileName.contains("axislist")){
+                            readAxisList(subFile);
+                        }
 //                        else if(fileName.contains("signal")){
 //                            if(fileName.contains("group")){
 //                                this.signalGroupFile=fullName;
@@ -1546,6 +1550,9 @@ public class XMLRead {
         int patternCnt=this.patternBursts.size();
         int softSetCnt= softSet.size();
         int softSetGroupCnt= softSetGroup.size();
+        int AxisListCnt=AxisList.size();
+
+        
         
         reader.addHandler( "/blocks/Test",new ElementHandler() {
             @Override
@@ -1718,6 +1725,25 @@ public class XMLRead {
                 row.detach();
             }
         });
+
+        reader.addHandler("/blocks/AxisList",new ElementHandler() {
+            @Override
+            public void onStart(ElementPath path) {
+//                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
+            }
+            @Override
+            public void onEnd(ElementPath path) {
+                // process a ROW element
+                Element row = path.getCurrent();
+//                Element rowSet = row.getParent();
+//                Document document = row.getDocument();
+                String testName=path.getCurrent().attributeValue("name");
+//                System.out.println("End to read Test " + testName);    
+                AxisList.put(testName,new GenericBlock(row, fileName));
+                // prune the tree
+                row.detach();
+            }
+        });
         
         Document document = null;
         try {
@@ -1725,7 +1751,7 @@ public class XMLRead {
         } catch (DocumentException ex) {
             Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (binningTestCnt== this.binningTest.size() && equCnt== this.equations.size() && testCnt== XMLRead.newTests.size() && flowCnt==this.flowTables.size() && resultSpecCnt== XMLRead.resultSpecs.size()&&testDescriptionCnt==XMLRead.testDescription.size()&&XMLRead.patternBursts.size()==patternCnt&&softSetCnt==softSet.size()&&softSetGroupCnt==softSetGroup.size()){
+        if (binningTestCnt== this.binningTest.size() && equCnt== this.equations.size() && testCnt== XMLRead.newTests.size() && flowCnt==this.flowTables.size() && resultSpecCnt== XMLRead.resultSpecs.size()&&testDescriptionCnt==XMLRead.testDescription.size()&&XMLRead.patternBursts.size()==patternCnt&&softSetCnt==softSet.size()&&softSetGroupCnt==softSetGroup.size()&&AxisListCnt==AxisList.size()){
             System.out.println("Invalid XML file "+ fileName);
             this.newInValidFiles.add(file.getAbsolutePath());
         }
@@ -2056,6 +2082,47 @@ public class XMLRead {
         }
         
         if (softSetCnt==softSet.size()&&softSetGroupCnt==softSetGroup.size()&&equationCne==equations.size()){
+            System.out.println("Invalid XML file "+ fileName);
+            this.newInValidFiles.add(file.getAbsolutePath());
+        
+        }
+    }
+    private void readAxisList(File file) {
+        SAXReader reader = new SAXReader();
+        reader.setValidation(false);
+        Document document = null;
+        final String fileName=file.getAbsolutePath();
+        int AxisListCnt=AxisList.size();
+
+        
+        reader.addHandler("/blocks/AxisList",new ElementHandler() {
+            @Override
+            public void onStart(ElementPath path) {
+//                System.out.println("Start to read Test " + path.getCurrent().attributeValue("name")); 
+            }
+            @Override
+            public void onEnd(ElementPath path) {
+                // process a ROW element
+                Element row = path.getCurrent();
+//                Element rowSet = row.getParent();
+//                Document document = row.getDocument();
+                String testName=path.getCurrent().attributeValue("name");
+//                System.out.println("End to read Test " + testName);    
+                AxisList.put(testName,new GenericBlock(row, fileName));
+                // prune the tree
+                row.detach();
+            }
+        });
+  
+        
+        
+        try {
+            document = reader.read(file);
+        } catch (DocumentException ex) {
+            Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (AxisListCnt== this.AxisList.size()){
             System.out.println("Invalid XML file "+ fileName);
             this.newInValidFiles.add(file.getAbsolutePath());
         
@@ -4026,6 +4093,16 @@ public class XMLRead {
                 addFile(_softSet.getFileName());
                 if(depthSearch){
                     _softSet.print(printWriter);
+                }
+            }
+        }
+        for (GenericBlock axisList :XMLRead.AxisList.values()) {
+            if(searchResult.contains(axisList.getFileName()) && (!depthSearch))
+                continue;
+            if(axisList.search(content)){
+                addFile(axisList.getFileName());
+                if(depthSearch){
+                    axisList.print(printWriter);
                 }
             }
         }

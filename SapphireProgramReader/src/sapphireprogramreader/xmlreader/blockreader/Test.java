@@ -225,6 +225,12 @@ public class Test {
 
                     testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.newTests.get(testItem.expression).getFileName()));
                 }
+                else if((testItemName.contains("AxisList"))&&XMLRead.AxisList.get(testItem.expression)!=null){
+//                    System.out.println(testItemName);
+
+                    testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.AxisList.get(testItem.expression).getFileName()));
+                }
+                
                 else{
                     if(testItem.expression.contains(".")){
                         String[] equationVariable =null;
@@ -373,6 +379,12 @@ public class Test {
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.newTests.get(subItem.expression).getFileName()));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
+                            else if((testItemName.contains("AxisList"))&&XMLRead.AxisList.get(subItem.expression)!=null){
+                //                    System.out.println(testItemName);
+
+                                TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.AxisList.get(subItem.expression).getFileName()));
+                                if(temp!=null) temp.getChildren().add(item);
+                            }
                             else{
                                 // the reason we always need to define a TreeItem here is due to it's a Tree and we can not re-use it and point it to a new Tree
                                 TreeItem item;
@@ -481,6 +493,12 @@ public class Test {
                 //                    System.out.println(testItemName);
 
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.newTests.get(subItem.expression).getFileName()));
+                                if(temp!=null) temp.getChildren().add(item);
+                            }
+                            else if((testItemName.contains("AxisList"))&&XMLRead.AxisList.get(subItem.expression)!=null){
+                //                    System.out.println(testItemName);
+
+                                TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.AxisList.get(subItem.expression).getFileName()));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                             else{
