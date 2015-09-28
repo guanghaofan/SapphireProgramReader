@@ -210,6 +210,10 @@ public class Test {
 
                     testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.softSet.get(testItem.expression).getFileName()));
                 }
+                else if(testItemName.toLowerCase().contains("softset")&&XMLRead.softSetGroup.get(testItem.expression)!=null){
+                   
+                    testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.softSetGroup.get(testItem.expression).getFileName()));
+                }
                 
                 else if((testItemName.toLowerCase().contains("dcsequ")||testItemName.toLowerCase().contains("dcpatt"))&&XMLRead.DCs.get(testItem.expression)!=null){
 //                    System.out.println(testItemName);
@@ -352,6 +356,11 @@ public class Test {
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.softSet.get(subItem.expression).getFileName()));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
+                            else if(testItemName.toLowerCase().contains("softset")&&XMLRead.softSetGroup.get(testItem.expression)!=null){
+                        
+                                TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.softSetGroup.get(testItem.expression).getFileName()));
+                                if(temp!=null) temp.getChildren().add(item);
+                            }
                             else if((testItemName.toLowerCase().contains("dcseq")||testItemName.toLowerCase().contains("dcpatter"))&&XMLRead.DCs.get(subItem.expression)!=null){
                 //                    System.out.println(testItemName);
 
@@ -455,6 +464,11 @@ public class Test {
 //                                    System.out.println(testItemName);
 
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.softSet.get(subItem.expression).getFileName()));
+                                if(temp!=null) temp.getChildren().add(item);
+                            }
+                            else if(testItemName.toLowerCase().contains("softset")&&XMLRead.softSetGroup.get(testItem.expression)!=null){
+         
+                                TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.softSetGroup.get(testItem.expression).getFileName()));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
                             else if((testItemName.toLowerCase().contains("dcseq")||testItemName.toLowerCase().contains("dcpatt"))&&XMLRead.DCs.get(subItem.expression)!=null){

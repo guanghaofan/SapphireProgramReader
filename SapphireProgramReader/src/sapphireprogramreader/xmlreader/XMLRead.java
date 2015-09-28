@@ -1710,7 +1710,8 @@ public class XMLRead {
                 Element row = path.getCurrent();
 //                Element rowSet = row.getParent();
 //                Document document = row.getDocument();
-                String testName=path.getCurrent().attributeValue("name");
+//                String testName=path.getCurrent().attributeValue("name");
+                String testName= path.getCurrent().attribute(0).getText();
 //                System.out.println("End to read Test " + testName);    
                 softSetGroup.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
@@ -2019,7 +2020,8 @@ public class XMLRead {
                 Element row = path.getCurrent();
 //                Element rowSet = row.getParent();
 //                Document document = row.getDocument();
-                String testName=path.getCurrent().attributeValue("name");
+//                String testName=path.getCurrent().attributeValue("name");
+                String testName= path.getCurrent().attribute(0).getText();
 //                System.out.println("End to read Test " + testName);    
                 softSetGroup.put(testName,new GenericBlock(row, fileName));
                 // prune the tree
