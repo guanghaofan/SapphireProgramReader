@@ -66,7 +66,7 @@ import sapphireprogramreader.xmlreader.blockreader.FlowOverride;
  */
 public class XMLRead {
 
-    public List<File> xmlFileList = new ArrayList<>();
+    public static List<File> xmlFileList = new ArrayList<>();
     public String TestProgramFile = "";
     public List<ActionList> actionList = new ArrayList<>();
     public GenericBlock action;;
@@ -96,6 +96,7 @@ public class XMLRead {
     public boolean reReadTest=false;
     public boolean reReadFlow=false;
     public List<String> recentFileList = new ArrayList<>();
+    public static ObservableList<String> searchFilesList = FXCollections.observableArrayList();
     
     public String programName=null;
     
@@ -191,6 +192,7 @@ public class XMLRead {
         vectorResult.clear();
         this.newInValidFiles.clear();
         this.flowOverrides.clear();
+        searchFilesList.clear();
 //        this.propertyFile=null;
 //        this.signalsFile=null;
 //        this.signalGroupFile=null;
@@ -4907,6 +4909,19 @@ public class XMLRead {
         else
             return null;
         
+    }
+    
+    public static boolean xmlFileSearch(String content){
+//        System.out.println("start search ....");
+        searchFilesList.clear();
+        for(File file: xmlFileList){
+//            System.out.println("here is a step");
+            if(file.getAbsolutePath().toLowerCase().contains(content.toLowerCase())){
+                searchFilesList.add(file.getAbsolutePath());
+//                System.out.println(file.getAbsolutePath());
+            }
+        }
+            return true;
     }
    
     

@@ -77,7 +77,6 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
-import javafx.scene.text.FontWeight;
 
 
 
@@ -91,6 +90,7 @@ public class SapphireProgramReader extends Application {
     public File ProjectPath=null;
     public XMLRead xmlReader = new XMLRead();
     final static ProgressIndicator searchProgressIndicator= new ProgressIndicator(-1.0);
+    final static ProgressIndicator fileSearchProgressIndicator= new ProgressIndicator(-1.0);
 //    final static ProgressIndicator binningAuditProgressIndicator = new ProgressIndicator(-1.0);
     final static SimpleBooleanProperty startSearch=new SimpleBooleanProperty();
     
@@ -98,6 +98,7 @@ public class SapphireProgramReader extends Application {
     public static  SimpleBooleanProperty prorgamLoaded=new SimpleBooleanProperty();
     boolean firstSearch=true;
     final ListView fileListView= new ListView<>();
+    final static ListView xmlFileListView= new ListView();
     final Label flowContextLabel = new Label("FlowContext");
     final TextField flowContextField= new TextField("");
     final TextField programNameField = new TextField();
@@ -114,7 +115,9 @@ public class SapphireProgramReader extends Application {
 //    final TextArea testArea = new TextArea();
     public static String searchContent="";
     public static boolean deepSearch=false;
+    public static boolean firstFileSearch=true;
     
+    public static String fileSearchKey="";
     final TitledPane equationPane= new TitledPane();
     final TitledPane testContextPane = new TitledPane();
     final TreeView equationTree = new TreeView();
@@ -139,6 +142,20 @@ public class SapphireProgramReader extends Application {
                 @Override
                 protected Object call() throws Exception {
                     xmlReader.startSearch(searchContent,deepSearch);
+                    return null;
+                }
+            };
+        }
+    };
+    
+    public static Service filesSearch = new Service() {
+        @Override
+        protected Task createTask() {
+            return new Task(){
+                @Override
+                protected Object call() throws Exception {
+                    if(XMLRead.xmlFileSearch(fileSearchKey))
+                        System.out.println("Successfully searched");
                     return null;
                 }
             };
@@ -205,7 +222,8 @@ public class SapphireProgramReader extends Application {
         
         String searchBoxCss = SapphireProgramReader.class.getResource("SearchBox.css").toExternalForm();
         fileListView.setEditable(false);
-        MenuItem openFile= new MenuItem("Open Selected File");
+        xmlFileListView.setEditable(false);
+//        MenuItem openFile= new MenuItem("Open Selected File");
         fileListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
             @Override
@@ -238,22 +256,54 @@ public class SapphireProgramReader extends Application {
                
             }
         });
-        
-        openFile.setOnAction(new EventHandler() {
+        xmlFileListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
             @Override
-            public void handle(Event t) {
-                XMLRead.editBat(fileListView.getItems().get(fileListView.getSelectionModel().getSelectedIndex()).toString());
-                try {
-                    XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+            public void handle(MouseEvent t) {
+                if(t.getClickCount()==2){
+//                    System.out.println("");
+                    
+                    if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
+                        XMLRead.editBat(xmlFileListView.getSelectionModel().getSelectedItem().toString());
+                        try {
+                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    else{
+                        XMLRead.editBat(xmlFileListView.getSelectionModel().getSelectedItem().toString());
+                        try {
+                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                
                 }
+//                else if(t.getButton().equals(MouseButton.SECONDARY)){
+//                    System.out.println("Right clicked  on " +t.getSource());
+//                }
+//                System.out.println(fileListView.getSelectionModel().getSelectedItem().toString());
+               
             }
         });
-        ContextMenu searchContextMenu = new ContextMenu();
-        searchContextMenu.getItems().add(openFile);
+        
+//        openFile.setOnAction(new EventHandler() {
+//
+//            @Override
+//            public void handle(Event t) {
+//                XMLRead.editBat(fileListView.getItems().get(fileListView.getSelectionModel().getSelectedIndex()).toString());
+//                try {
+//                    XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+//                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+//        ContextMenu searchContextMenu = new ContextMenu();
+//        searchContextMenu.getItems().add(openFile);
         
         
         //fileListView.setContextMenu(searchContextMenu);
@@ -295,6 +345,29 @@ public class SapphireProgramReader extends Application {
                 fileListView.setItems(xmlReader.searchResult);
             }
         });
+//        xmlFileListView.setItems(XMLRead.searchFilesList);
+//        
+        filesSearch.setOnSucceeded(new EventHandler<WorkerStateEvent>(){
+
+            @Override
+            public void handle(WorkerStateEvent t) {
+//                System.out.println("Succesfully Searched " + t.getSource().getValue());
+//                firstFileSearch=false;
+                xmlFileListView.setItems(XMLRead.searchFilesList);
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        filesSearch.setOnFailed(new EventHandler<WorkerStateEvent>(){
+
+            @Override
+            public void handle(WorkerStateEvent t) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//                System.out.println("Failed Search " + t.getSource().getValue());
+                
+//                xmlFileListView.setItems(null);
+                XMLRead.searchFilesList.clear();
+            }
+        });
 
         
         flowTree.setEditable(true);
@@ -314,6 +387,8 @@ public class SapphireProgramReader extends Application {
         });
         searchProgressIndicator.setPrefSize(100, 100);
         searchProgressIndicator.visibleProperty().bind(searchTask.runningProperty());
+        fileSearchProgressIndicator.setPrefSize(100, 100);
+        fileSearchProgressIndicator.visibleProperty().bind(filesSearch.runningProperty());
 //        binningAuditProgressIndicator.setPrefSize(100, 100);
 //        binningAuditProgressIndicator.visibleProperty().bind(binningAuditTask.runningProperty());
         
@@ -325,7 +400,7 @@ public class SapphireProgramReader extends Application {
 //        final SplitPane textSplitPane= new SplitPane();
         
         BorderPane root = new BorderPane();
-        root.setPrefSize(800,400);
+        root.setPrefSize(1000,600);
        
         HBox statusBar= new HBox();
         statusBar.setAlignment(Pos.CENTER);
@@ -580,10 +655,53 @@ public class SapphireProgramReader extends Application {
         actionTab.setClosable(false);
         explorerTab.setClosable(false);
         programExplorerView.setShowRoot(false);
+        Tab fileSearchTab= new Tab("Files Search");
+        fileSearchTab.setClosable(false);
     
-        leftTabPane.getTabs().addAll(actionTab, explorerTab);
+        leftTabPane.getTabs().addAll(actionTab, explorerTab,fileSearchTab);
         final AnchorPane  actionAnchorPane = new AnchorPane();
         final AnchorPane  explorerAnchorPane = new AnchorPane();
+        final AnchorPane fileSearchPane= new AnchorPane();
+        fileSearchTab.setContent(fileSearchPane);
+        
+//        FileSearchBox fileSearchBox= new FileSearchBox();
+        
+        final VBox fileSearchVBox = new VBox();
+        fileSearchVBox.getStylesheets().add(searchBoxCss);
+        //vbox.setPrefWidth(800);
+        fileSearchVBox.setMaxWidth(Control.USE_COMPUTED_SIZE);
+        fileSearchVBox.getChildren().add(new FileSearchBox());
+        
+        
+        
+        fileSearchPane.getChildren().addAll(fileSearchVBox, xmlFileListView,searchProgressIndicator);
+        xmlFileListView.setLayoutY(25);
+        
+        fileSearchPane.widthProperty().addListener(new ChangeListener<Number>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                fileSearchVBox.setPrefWidth(t1.doubleValue());
+                xmlFileListView.setPrefWidth(t1.doubleValue());
+                fileSearchProgressIndicator.setPrefWidth(t1.doubleValue()/4);
+                fileSearchProgressIndicator.setLayoutX(t1.doubleValue()*3.0/8.0 );
+ 
+            }
+        });
+         fileSearchPane.heightProperty().addListener(new ChangeListener<Number>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                xmlFileListView.setPrefHeight(t1.doubleValue()-26);
+                fileSearchProgressIndicator.setPrefHeight(t1.doubleValue()/4);
+                fileSearchProgressIndicator.setLayoutY(t1.doubleValue()*3.0/8.0);
+            }
+        });
+        
+        
+        
         
         actionTab.setContent(actionAnchorPane);
         actionAnchorPane.getChildren().add(actionTree);
@@ -1292,7 +1410,7 @@ public class SapphireProgramReader extends Application {
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                fileListView.setPrefHeight(t1.doubleValue()-30);
+                fileListView.setPrefHeight(t1.doubleValue()-26);
                  searchProgressIndicator.setPrefHeight(t1.doubleValue()/4);
                 searchProgressIndicator.setLayoutY(t1.doubleValue()*3.0/8.0);
             }
@@ -2331,6 +2449,88 @@ public class SapphireProgramReader extends Application {
             textBox.resize(getWidth()-50, getHeight());
             clearButton.resizeRelocate(getWidth() - 68, 6, 12, 13);//x-y-width-height
             deepSearchButton.resizeRelocate(getWidth() - 50, 0, 50, getHeight());
+        }
+    }
+        private static class FileSearchBox extends Region {
+
+        private TextField textBox;
+        private Button clearButton;
+//        private Button deepSearchButton;
+        public String getText(){
+            return textBox.getText();
+        }
+        public FileSearchBox() {
+//            this.textBox.setTooltip(new Tooltip("Case sensitive and must be the full content of the element name, attribute or value "));
+            setId("SearchBox");
+            getStyleClass().add("search-box");
+            setMinHeight(24);
+            setPrefSize(200, 24);
+            setMaxSize(Control.USE_COMPUTED_SIZE, Control.USE_COMPUTED_SIZE);
+            textBox = new TextField();
+//            textBox.setPromptText("Search, Case sensitive");
+//            this.textBox.setTooltip(new Tooltip("Must be the full element attribute or value "));
+            clearButton = new Button();
+            clearButton.setVisible(false);
+            clearButton.setId("clearButton");
+//            
+//            deepSearchButton= new Button();
+//            deepSearchButton.setText("Go");
+            getChildren().addAll(textBox, clearButton/*,deepSearchButton*/);
+//            deepSearchButton.setOnAction(new EventHandler<ActionEvent>() {                
+//                @Override public void handle(ActionEvent actionEvent) {
+//                    searchContent=textBox.getText().trim();
+//                    if((searchContent!="")&&(prorgamLoaded.getValue())&&(textBox.getText().trim().length()!=0)){
+//                        deepSearch=true;
+//                        if (startSearch.getValue()){
+//                            startSearch.set(false);
+//                        }
+//                        else
+//                            startSearch.set(true);
+//                    }
+//                }
+//            });
+            clearButton.setOnAction(new EventHandler<ActionEvent>() {                
+                @Override public void handle(ActionEvent actionEvent) {
+                    textBox.setText("");
+                    textBox.requestFocus();
+                }
+            });
+            textBox.textProperty().addListener(new ChangeListener<String>() {
+                @Override public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    clearButton.setVisible(textBox.getText().length() != 0);
+                }
+            });
+            textBox.setOnKeyReleased(new EventHandler<KeyEvent>(){
+
+                @Override
+                public void handle(KeyEvent t) {
+                    if((t.getCode().equals(KeyCode.ENTER))&&(prorgamLoaded.getValue())&&(textBox.getText().trim().length()!=0)){
+                        fileSearchKey=textBox.getText().trim();
+//                        deepSearch=false;
+                        if (!filesSearch.isRunning() && prorgamLoaded.get()){
+                            xmlFileListView.setItems(null);
+//                            XMLRead.searchFilesList.clear();
+                            if(firstFileSearch){
+                                firstFileSearch=false;
+                                
+                                filesSearch.start();
+                                System.out.println("first search in files");
+                            }
+                        else{
+                                filesSearch.restart();
+                                System.out.println("continue search in files");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        protected void layoutChildren() {
+            textBox.resize(getWidth(), getHeight());
+            clearButton.resizeRelocate(getWidth()-15, 6, 12, 13);//x-y-width-height
+//            deepSearchButton.resizeRelocate(getWidth() - 50, 0, 50, getHeight());
         }
     }
     
