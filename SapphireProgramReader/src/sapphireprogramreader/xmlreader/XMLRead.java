@@ -135,6 +135,8 @@ public class XMLRead {
     
     public static HashMap<String, equationNode> variables= new HashMap();
     
+    public static List<File> unusedFileList = new ArrayList<>();
+    
     public static boolean evaluationOn=false; 
 //    public String propertyFile;
 //    public String signalsFile;
@@ -193,6 +195,7 @@ public class XMLRead {
         this.newInValidFiles.clear();
         this.flowOverrides.clear();
         searchFilesList.clear();
+        unusedFileList.clear();
 //        this.propertyFile=null;
 //        this.signalsFile=null;
 //        this.signalGroupFile=null;
@@ -903,10 +906,12 @@ public class XMLRead {
                         }
                     }
                     else{
+                        unusedFileList.add(subFile);
                         System.out.println("Skip " + path + " due to File Filter ");
                     }
                     
                 } else {
+                    unusedFileList.add(subFile);
 //                    System.out.println("None XML file or Big size GT 800K");
                     if(fileSize>800000 &&fileName.endsWith("xml"))
                         System.out.println("Big XML file, SKIP this file " + path);
@@ -4916,7 +4921,14 @@ public class XMLRead {
         searchFilesList.clear();
         for(File file: xmlFileList){
 //            System.out.println("here is a step");
-            if(file.getAbsolutePath().toLowerCase().contains(content.toLowerCase())){
+            if(file.getName().toLowerCase().contains(content.toLowerCase())){
+                searchFilesList.add(file.getAbsolutePath());
+//                System.out.println(file.getAbsolutePath());
+            }
+        }
+        for(File file: unusedFileList){
+//            System.out.println("here is a step");
+            if(file.getName().toLowerCase().contains(content.toLowerCase())){
                 searchFilesList.add(file.getAbsolutePath());
 //                System.out.println(file.getAbsolutePath());
             }
