@@ -234,7 +234,7 @@ public class SapphireProgramReader extends Application {
                     if(XMLRead.notePadPath.toLowerCase().contains("gvim") && searchContent!=null && searchContent!=""){
                         XMLRead.editBat(fileListView.getSelectionModel().getSelectedItem().toString(),searchContent);
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -242,7 +242,7 @@ public class SapphireProgramReader extends Application {
                     else{
                         XMLRead.editBat(fileListView.getSelectionModel().getSelectedItem().toString());
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -266,7 +266,7 @@ public class SapphireProgramReader extends Application {
                     if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
                         XMLRead.editBat(xmlFileListView.getSelectionModel().getSelectedItem().toString());
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -274,7 +274,7 @@ public class SapphireProgramReader extends Application {
                     else{
                         XMLRead.editBat(xmlFileListView.getSelectionModel().getSelectedItem().toString());
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -295,7 +295,7 @@ public class SapphireProgramReader extends Application {
 //            public void handle(Event t) {
 //                XMLRead.editBat(fileListView.getItems().get(fileListView.getSelectionModel().getSelectedIndex()).toString());
 //                try {
-//                    XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+//                    XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
 //                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //                } catch (InterruptedException ex) {
 //                    Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
@@ -470,7 +470,7 @@ public class SapphireProgramReader extends Application {
                         XMLRead.editBat(fileName);
                         System.out.println("Start to open config file");
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1860,7 +1860,7 @@ public class SapphireProgramReader extends Application {
     public void editBat( String fileName){
         
         
-        String file= new File("config/openXML.bat").getAbsolutePath();
+        String file= new File(XMLRead.openXMLFile).getAbsolutePath();
         PrintWriter printWriter =null;
 
         if ( printWriter == null) {
@@ -2022,8 +2022,8 @@ public class SapphireProgramReader extends Application {
                                 XMLRead.editBat(fileName,node.getBaseNode().getName()); 
                             else
                                 XMLRead.editBat(fileName);
-                            String batFile=new File("config/openXML.bat").getAbsolutePath();
-//                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            String batFile=XMLRead.openXMLFile;
+//                            XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
                             try {
                             Process ps = Runtime.getRuntime().exec(batFile);
 //                            programNameField.setText("open flow file " + fileName +" pass");
@@ -2052,8 +2052,8 @@ public class SapphireProgramReader extends Application {
                                 XMLRead.editBat(fileName,node.getBaseNode().getName()); 
                             else
                                 XMLRead.editBat(fileName);
-                            String batFile= new File("config/openXML.bat").getAbsolutePath();
-//                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            String batFile=XMLRead.openXMLFile;
+//                            XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
                             try {
                             Process ps = Runtime.getRuntime().exec(batFile);
 //                            programNameField.setText("open flow file " + fileName +" pass");
@@ -2088,7 +2088,7 @@ public class SapphireProgramReader extends Application {
                             else
                                 XMLRead.editBat(fileName);
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -2102,7 +2102,7 @@ public class SapphireProgramReader extends Application {
                     if(node.getNodeType().equalsIgnoreCase("test")){
                         XMLRead.editBat(XMLRead.newTests.get(node.getTestFlowRef()).getSourceFile());   
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -2128,7 +2128,7 @@ public class SapphireProgramReader extends Application {
                             else
                                 XMLRead.editBat(equationFile);
                             try {
-                                XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                                XMLRead.runBat(XMLRead.openXMLFile);
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -2239,7 +2239,7 @@ public class SapphireProgramReader extends Application {
                                     if(file.exists()){
                                         XMLRead.editBat(fileName);                          
                                         try {
-                                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                                            XMLRead.runBat(XMLRead.openXMLFile);
                                         } catch (InterruptedException ex) {
                                             Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -2304,8 +2304,8 @@ public class SapphireProgramReader extends Application {
 //                            System.out.println("open flow file " + fileName);
 //                            programNameField.setText("open flow file " + fileName);
 //                            XMLRead.editBat(fileName); 
-//                            String batFile=new File("config/openXML.bat").getAbsolutePath();
-////                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+//                            String batFile=new File(XMLRead.openXMLFile).getAbsolutePath();
+////                            XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
 //                            try {
 //                            Process ps = Runtime.getRuntime().exec(batFile);
 ////                            programNameField.setText("open flow file " + fileName +" pass");
@@ -2333,7 +2333,7 @@ public class SapphireProgramReader extends Application {
 //                            String fileName= XMLRead.newTests.get(node.getTestFlowRef()).getFileName();
 ////                            System.out.println(fileName);
 //                            XMLRead.editBat(fileName);                          
-//                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+//                            XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
 //                    }
 //                }
 //            });
@@ -2343,7 +2343,7 @@ public class SapphireProgramReader extends Application {
 //                    TreeNode node = (TreeNode) getTreeItem();
 //                    if(node.getNodeType().equalsIgnoreCase("test")){
 //                        XMLRead.editBat(XMLRead.newTests.get(node.getTestFlowRef()).getSourceFile());   
-//                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+//                        XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
 //                    }
 //                }
 //            });

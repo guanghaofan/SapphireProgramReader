@@ -55,7 +55,7 @@ public class EquationNodeCell extends Region{
                         try {
                             XMLRead.editBat(fileName,textBox.getText());
                             System.out.println("Equation file name is " + fileName);
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
 //                            XMLRead.runBat(new File("config/openXML.cmd").getAbsolutePath());
                         } catch (InterruptedException ex) {
                             Logger.getLogger(EquationNodeCell.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +65,7 @@ public class EquationNodeCell extends Region{
 
                         XMLRead.editBat(fileName);
                         try {
-                            XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                            XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(EquationNodeCell.class.getName()).log(Level.SEVERE, null, ex);
                         }

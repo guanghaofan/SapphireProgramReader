@@ -36,7 +36,7 @@ public class HBox_TextCell extends HBox{
                         if(new File(fileName).exists()){
                             XMLRead.editBat(fileName);
                             try {
-                                XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                                XMLRead.runBat(XMLRead.openXMLFile);
                             } catch (InterruptedException ex) {
                                 Logger.getLogger(HBox_TextCell.class.getName()).log(Level.SEVERE, null, ex);
                             }

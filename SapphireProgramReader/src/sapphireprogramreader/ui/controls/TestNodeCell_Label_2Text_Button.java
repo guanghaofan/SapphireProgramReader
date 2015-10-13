@@ -174,7 +174,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
                     XMLRead.editBat(fileName,textBox_1.getText());
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -183,7 +183,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 
                     XMLRead.editBat(fileName);
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -268,7 +268,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
                     XMLRead.editBat(fileName,textBox_1.getText());
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -277,7 +277,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 {
                     XMLRead.editBat(fileName);
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -364,7 +364,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
                     XMLRead.editBat(fileName,textBox_1.getText());
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -372,7 +372,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 else{
                     XMLRead.editBat(fileName);
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -457,7 +457,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 if(XMLRead.notePadPath.toLowerCase().contains("gvim")){  
                         XMLRead.editBat(fileName,textBox_1.getText());
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -465,7 +465,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 else{
                     XMLRead.editBat(fileName);
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -539,7 +539,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                      XMLRead.editBat(fileName,equationName );
                  
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -547,7 +547,7 @@ public class TestNodeCell_Label_2Text_Button extends Region{
                 else{
                     XMLRead.editBat(fileName);
                     try {
-                        XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                        XMLRead.runBat(XMLRead.openXMLFile);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(TestNodeCell_Label_2Text_Button.class.getName()).log(Level.SEVERE, null, ex);
                     }

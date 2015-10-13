@@ -65,7 +65,7 @@ public class TestNodeCell_Exec extends Region {
                 textBox_1.requestFocus();
                 XMLRead.editBat(fileName);
                 try {
-                    XMLRead.runBat(new File("config/openXML.bat").getAbsolutePath());
+                    XMLRead.runBat(XMLRead.openXMLFile);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(TestNodeCell_Exec.class.getName()).log(Level.SEVERE, null, ex);
                 }

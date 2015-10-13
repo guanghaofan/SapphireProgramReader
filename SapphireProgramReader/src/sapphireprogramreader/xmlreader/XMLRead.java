@@ -138,6 +138,7 @@ public class XMLRead {
     public static List<File> unusedFileList = new ArrayList<>();
     
     public static boolean evaluationOn=false; 
+    public static String openXMLFile=null;
 //    public String propertyFile;
 //    public String signalsFile;
 //    public String signalGroupFile;
@@ -196,6 +197,7 @@ public class XMLRead {
         this.flowOverrides.clear();
         searchFilesList.clear();
         unusedFileList.clear();
+        openXMLFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat";
 //        this.propertyFile=null;
 //        this.signalsFile=null;
 //        this.signalGroupFile=null;
@@ -4281,6 +4283,7 @@ public class XMLRead {
         }
     }
     public boolean readConfig(){
+        System.out.println(System.getProperty("user.home"));
 //         List<String> upaConfig= new ArrayList<>();
 //         static String notePadPath = "";
 //         List<String> folderNameFilter= new ArrayList<>(); 
@@ -4289,10 +4292,14 @@ public class XMLRead {
         reader.setValidation(false);
         Document document = null;
         try {
-            File file= new File("config/Config.xml");
+            File file= new File(System.getProperty("user.home")+ "\\SapphireProgramReader\\config\\Config.xml");
             if(!file.exists()){
                 try {
-                    File folder= new File("config");
+                    System.out.println(file.getAbsolutePath());
+                    File folder= new File(System.getProperty("user.home") + "\\SapphireProgramReader");
+                    if(!folder.exists()||(folder.exists() && folder.isFile()))
+                        folder.mkdir();
+                    folder= new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config");
                     if(!folder.exists()||(folder.exists() && folder.isFile()))
                         folder.mkdir();
                     file.createNewFile();
@@ -4377,7 +4384,7 @@ public class XMLRead {
         OutputFormat format= OutputFormat.createPrettyPrint();
         format.setIndent(true);
         format.setIndentSize(2);
-        File file= new File("config/RecentFileList.xml");
+        File file= new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config\\RecentFileList.xml");
         if(file.exists()){
             System.out.println("Start to read RecentFileList.xml");
             SAXReader reader = new SAXReader();
@@ -4455,7 +4462,7 @@ public class XMLRead {
     }
     public static void editBat( String fileName){
         
-        File _file=new File("config/openXML.bat");
+        File _file=new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat");
         if (!_file.exists()){
             try {
                 _file.createNewFile();
@@ -4490,7 +4497,7 @@ public class XMLRead {
     }
     public static void editBat( String fileName, String content){
         
-        File _file=new File("config/openXML.bat");
+        File _file=new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat");
         if (!_file.exists()){
             try {
                 _file.createNewFile();
@@ -4529,7 +4536,7 @@ public class XMLRead {
     }
     public PrintWriter FileLog(String content){
         
-        File _file=new File("config/Log.txt");
+        File _file=new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config\\Log.txt");
         if (!_file.exists()){
             try {
                 _file.createNewFile();
@@ -4637,7 +4644,7 @@ public class XMLRead {
         SAXReader reader = new SAXReader();
         reader.setValidation(false);
         Document document=null;
-        File file= new File("config/Config.xml");
+        File file= new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config\\Config.xml");
         try {
                 if(file.exists()){
                     document = reader.read(file);
