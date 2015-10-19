@@ -105,14 +105,14 @@ public class PatternRefCell extends Region {
         else if(!enabledText.getText().equals("")){
             if(getWidth()>480){
                 name.resize(120, getHeight());
-                nameText.resize(getWidth()/2-120 ,getHeight());
+                nameText.resize(getWidth()-360 ,getHeight());
                 nameText.setLayoutX(120);
                 
                 enabled.resize(120, getHeight());
-                enabled.setLayoutX(getWidth()/2);
+                enabled.setLayoutX(getWidth()-240);
                 
-                enabledText.resize(getWidth()/2-120 ,getHeight());
-                enabledText.setLayoutX(getWidth()/2+120);
+                enabledText.resize(120 ,getHeight());
+                enabledText.setLayoutX(getWidth()-120);
                 
             }
             else{
