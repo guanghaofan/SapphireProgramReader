@@ -138,7 +138,9 @@ public class XMLRead {
     public static List<File> unusedFileList = new ArrayList<>();
     
     public static boolean evaluationOn=false; 
-    public static String openXMLFile=null;
+
+    public String configFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\Config.xml";
+    public static String openXMLFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat";
 //    public String propertyFile;
 //    public String signalsFile;
 //    public String signalGroupFile;
@@ -197,7 +199,7 @@ public class XMLRead {
         this.flowOverrides.clear();
         searchFilesList.clear();
         unusedFileList.clear();
-        openXMLFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat";
+        
 //        this.propertyFile=null;
 //        this.signalsFile=null;
 //        this.signalGroupFile=null;
@@ -3827,15 +3829,17 @@ public class XMLRead {
             return false;
     }
 
-    private void getNotePadPP() {
-        File file = new File("C:\\Program Files (x86)\\Notepad++");
-        if (file.exists()) {
-            XMLRead.notePadPath = "C:\\Program Files (x86)\\Notepad++\\notepad++.exe";
-        } else {
-            file = new File("C:\\Program Files\\Notepad++");
-            if (file.exists()) {
-                XMLRead.notePadPath = "C:\\Program Files\\Notepad++\\notepad++.exe";
+    private void setNotePadPP() {
+        String xmlEditor=getGvimPath();
+        if(xmlEditor!=null)
+            XMLRead.notePadPath=xmlEditor;
+        else
+        {
+            File editor= new File("C:\\Windows\\System32\\notepad.exe");
+            if(editor.exists()){
+                XMLRead.notePadPath=editor.getAbsolutePath();
             }
+        
         }
     }
 
@@ -4342,7 +4346,7 @@ public class XMLRead {
                             File file= new File(XMLRead.notePadPath.replace('\\', '/'));
                             if(!file.exists()){
                                 XMLRead.notePadPath="";
-                                this.getNotePadPP();
+                                setNotePadPP();
                             }
                         }
                         break;
@@ -4681,6 +4685,7 @@ public class XMLRead {
                 
     }
     private void writeConfigFile(File file){
+        System.out.println("writeConfigFile for the first time");
         OutputFormat format= OutputFormat.createPrettyPrint();
         format.setIndent(true);
         format.setIndentSize(2);
@@ -4722,13 +4727,10 @@ public class XMLRead {
             node.addComment("You can use notepadd++ or gvim as the editor");
             String gvimPath= getGvimPath();
             
-            File editor= new File("C:/Program Files/Notepad++/notepad++.exe");
+            File editor;
             // verify if vim is installed
             if(gvimPath!=null){
                 node.setText(gvimPath);
-            }
-            else if(editor.exists()){
-                node.setText("C:\\Program Files\\Notepad++\\notepad++.exe");
             }
             else{
                 editor= new File("C:\\Windows\\System32\\notepad.exe");
@@ -4918,9 +4920,37 @@ public class XMLRead {
             }
             return fileName;           
         }
-        else
-            return null;
+        else{
+            editor= new File("C:/Program Files (x86)/Vim");
+            if (editor.exists()){
+
+                for(File file: editor.listFiles()){
+                    editor= new File(file.getAbsolutePath() + "\\gvim.exe");
+                    if(editor.exists()){
+                        fileName=editor.getAbsolutePath();
+                        break;
+                    }   
+                }
+                return fileName;           
+            }
+            else{
+                editor = new File("C:\\Program Files (x86)\\Notepad++\\notepad++.exe");
+                if (editor.exists()) {
+                     return editor.getAbsolutePath();
+                } else {
+                    editor = new File("C:\\Program Files\\Notepad++\notepad++.exe");
+                    if (editor.exists()) {
+                        return editor.getAbsolutePath();
+                    }
+                    else
+                        return null;
+                }
+            
+            
+            }
+            
         
+        }   
     }
     
     public static boolean xmlFileSearch(String content){

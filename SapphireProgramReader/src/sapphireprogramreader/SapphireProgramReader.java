@@ -464,7 +464,9 @@ public class SapphireProgramReader extends Application {
             @Override
             public void handle(ActionEvent t) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                    File file= new File("config/Config.xml");
+                System.out.println("config file is " + xmlReader.configFile);
+                File file= new File(xmlReader.configFile);
+                    
                     if(file.exists()){
                         String fileName = file.getAbsolutePath();
                         XMLRead.editBat(fileName);
