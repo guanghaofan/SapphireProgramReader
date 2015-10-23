@@ -2021,7 +2021,7 @@ public class SapphireProgramReader extends Application {
 //                            System.out.println("open flow file " + fileName);
 //                            programNameField.setText("open flow file " + fileName);
                             if(XMLRead.notePadPath.toLowerCase().contains("gvim"))
-                                XMLRead.editBat(fileName,node.getBaseNode().getName()); 
+                                XMLRead.editBat(fileName,"\""+ "\""+ "\""+ node.getBaseNode().getName() +"\""+ "\""+ "\""); 
                             else
                                 XMLRead.editBat(fileName);
                             String batFile=XMLRead.openXMLFile;
@@ -2051,7 +2051,7 @@ public class SapphireProgramReader extends Application {
 //                            System.out.println("open flow file " + fileName);
 //                            programNameField.setText("open flow file " + fileName);
                             if(XMLRead.notePadPath.toLowerCase().contains("gvim"))
-                                XMLRead.editBat(fileName,node.getBaseNode().getName()); 
+                                XMLRead.editBat(fileName,"\""+ "\""+ "\""+ node.getBaseNode().getName()+ "\""+ "\""+ "\""); 
                             else
                                 XMLRead.editBat(fileName);
                             String batFile=XMLRead.openXMLFile;
@@ -2086,7 +2086,7 @@ public class SapphireProgramReader extends Application {
                             String fileName= XMLRead.newTests.get(node.getTestFlowRef()).getFileName();
 //                            System.out.println(fileName);
                             if(XMLRead.notePadPath.toLowerCase().contains("gvim"))
-                                XMLRead.editBat(fileName, node.getTestFlowRef());   
+                                XMLRead.editBat(fileName, "\""+ "\""+ "\""+ node.getTestFlowRef() +"\""+"\"" +"\"");   
                             else
                                 XMLRead.editBat(fileName);
                         try {

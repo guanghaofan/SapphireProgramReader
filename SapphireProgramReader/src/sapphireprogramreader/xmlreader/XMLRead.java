@@ -4527,8 +4527,20 @@ public class XMLRead {
             printWriter.print(notePadPath);
             printWriter.print("\"");
             if(notePadPath.toLowerCase().contains("gvim")&& content!=null){
+                
                 //-c /\V\CINSTALLATION
-                 printWriter.print(" -c /\\V\\C" + content);
+                String s="^";
+                if(content.contains(s))
+                    content= content.replaceAll("\\^", "\"" + "^" + "\"");
+                s="|";
+                if(content.contains(s))
+                    content= content.replaceAll("\\|", "\"" + "|" + "\"");
+                s="%";
+                if(content.contains(s)){
+                    int i = content.split("%").length;
+                    content=content.split("%")[i-1];
+                            }
+                printWriter.print(" -c /\\V\\C" + content);
             }
             printWriter.print(" \"");
             printWriter.print(fileName);
