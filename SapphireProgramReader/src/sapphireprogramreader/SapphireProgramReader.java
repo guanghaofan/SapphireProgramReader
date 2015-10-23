@@ -2469,7 +2469,7 @@ public class SapphireProgramReader extends Application {
             setPrefSize(200, 24);
             setMaxSize(Control.USE_COMPUTED_SIZE, Control.USE_COMPUTED_SIZE);
             textBox = new TextField();
-//            textBox.setPromptText("Search, Case sensitive");
+            textBox.setPromptText("file filter");
 //            this.textBox.setTooltip(new Tooltip("Must be the full element attribute or value "));
             clearButton = new Button();
             clearButton.setVisible(false);
