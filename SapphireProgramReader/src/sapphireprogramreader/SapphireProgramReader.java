@@ -1078,7 +1078,7 @@ public class SapphireProgramReader extends Application {
                                         t1.refreshVariables();
                                         t1.equationEvaluate();
                                         System.out.println(t1.getValidEquaitons());
-                                        if(test!=null)
+                                        if(test!=null && test.isTreeIsReady())
                                             test.updateTestTree();
                                         
                                     }
