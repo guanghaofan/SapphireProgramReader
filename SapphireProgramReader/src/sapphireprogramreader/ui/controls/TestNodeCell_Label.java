@@ -37,4 +37,11 @@ public class TestNodeCell_Label extends Region{
         label.setLayoutX(0);
         label.setLayoutY(0);    
     }
+
+    @Override
+    public String toString() {
+        //return super.toString(); //To change body of generated methods, choose Tools | Templates.
+        return this.label.getText();
+    }
+    
 }

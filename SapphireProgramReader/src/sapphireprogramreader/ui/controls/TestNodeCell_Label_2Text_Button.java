@@ -555,4 +555,10 @@ public class TestNodeCell_Label_2Text_Button extends Region{
             }
         });
     }
+
+    @Override
+    public String toString() {
+        return this.label.getText(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

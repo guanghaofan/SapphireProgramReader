@@ -126,6 +126,134 @@ public class Test {
     public String getPatternBurst() {
         return patternBurst;
     }
+    
+    // Scan and Bist test need to update the evaluated values from its equation ref variables
+    public void updateTestTree(){
+        String[] label_text=null;
+        String label=null;
+        String text=null;
+        System.out.println("test exec name is " + this.execName);
+        if(this.execName.endsWith("/Scan")||this.execName.endsWith(".Scan")){
+            for(int i=0; i!= rootItem.getChildren().size();i++){
+                
+                TreeItem item= (TreeItem) rootItem.getChildren().get(i);
+                                    System.out.println("getValue().toString() equals " +item.getValue().toString());
+//                    System.out.println("item.toString() equals " +item.toString());
+                
+                if(!item.isLeaf() && item.getValue().toString().equals("Param")){   
+                    
+                    for(int j=0; j!=item.getChildren().size();j++){
+                        
+                        TreeItem scanItem=(TreeItem) item.getChildren().get(j);
+//                        System.out.println("Scanitem.toString() equals " +scanItem.toString());
+//                        System.out.println("Scanitem.getValue().toString() equals " +scanItem.getValue().toString());
+                        TestNodeCell_Label_Text labelCell=(TestNodeCell_Label_Text) scanItem.getValue();
+                        label_text=scanItem.getValue().toString().split(":");
+                        System.out.println("label_text is " + label_text[0] + label_text[1]);
+                        
+                        if(label_text.length==2){                           
+                            label= label_text[0];
+                            text=label_text[1];
+                            if(!text.contains("'")){
+                                System.out.println("label is " + label);
+                                switch (label){
+                                    case "DownComponentOnFail":
+                                        updateLabelCell(labelCell,text);
+                                        break;
+                                    case "ScanMode":
+                                        updateLabelCell(labelCell,text);
+                                        break;
+                                    case "Iterations":
+                                        updateLabelCell(labelCell,text);
+                                        break;
+                                    case "Vdd":
+                                        updateLabelCell(labelCell,text);
+                                        break;
+                                    case "Fmax":
+                                        updateLabelCell(labelCell,text);
+                                        break;
+                                    default:
+                                }
+                            }   
+                        }
+                    
+                    }
+//                   
+//                    System.out.println("getValue().toString() equals " +item.getValue().toString());
+//                    System.out.println("item.toString() equals " +item.toString());
+                }
+            }
+            
+        }
+        else if(this.execName.endsWith("/Bist")||this.execName.endsWith(".Bist")){
+            for(int i=0; i!= rootItem.getChildren().size();i++){
+                
+                TreeItem item= (TreeItem) rootItem.getChildren().get(i);
+                                    System.out.println("getValue().toString() equals " +item.getValue().toString());
+//                    System.out.println("item.toString() equals " +item.toString());
+                
+                if(!item.isLeaf() && item.getValue().toString().equals("TestParameters")){
+                    TestNodeCell_Label_Text labelCell;
+                    
+                    for(int j=0; j!=item.getChildren().size();j++){
+                        
+                        TreeItem scanItem=(TreeItem) item.getChildren().get(j);
+                        if(!scanItem.isLeaf())
+                            continue;
+//                        System.out.println("Scanitem.toString() equals " +scanItem.toString());
+//                        System.out.println("Scanitem.getValue().toString() equals " +scanItem.getValue().toString());
+                        
+                        label= scanItem.getValue().toString() ;
+                        if(label.contains(":")){
+                            System.out.println("label is " + label);
+                            label_text=scanItem.getValue().toString().split(":");
+                            
+                            if(label_text.length==2){                           
+                                label= label_text[0];
+                                text=label_text[1];
+                                if(!text.contains("'")){                      
+                                    switch (label){
+                                        case "VddNB":
+                                            labelCell=(TestNodeCell_Label_Text) scanItem.getValue();
+                                            updateLabelCell(labelCell,labelCell.getText());
+                                            break;
+                                        case "VddCore":
+                                            labelCell=(TestNodeCell_Label_Text) scanItem.getValue();
+                                            updateLabelCell(labelCell,labelCell.getText());
+                                            break;
+                                        case "FmaxCore":
+                                            labelCell=(TestNodeCell_Label_Text) scanItem.getValue();
+                                            updateLabelCell(labelCell,labelCell.getText());
+                                            break;
+                                        case "DownComponentOnFail":
+                                            labelCell=(TestNodeCell_Label_Text) scanItem.getValue();
+                                            updateLabelCell(labelCell,labelCell.getText());
+                                            break;
+                                        default:
+                                    }
+                                }
+                            }
+                        }
+    
+                    }
+//                   
+//                    System.out.println("getValue().toString() equals " +item.getValue().toString());
+//                    System.out.println("item.toString() equals " +item.toString());
+                }
+            }
+        }
+    }
+    private void updateLabelCell(TestNodeCell_Label_Text labelCell, String text){
+        if(XMLRead.variables.containsKey(text)){
+//            System.out.println("variables contains this key " + text);
+//            System.out.println("update this variable " + text + "equals " + XMLRead.variables.get(text).getValue());
+            if(XMLRead.variables.get(text).isIsEvaluated() || XMLRead.variables.get(text).isIsValid()){
+                
+                labelCell.update(labelCell.getText() +  " == " + XMLRead.variables.get(text).getValue());
+            }
+        }
+    
+    }
     public TreeItem getTreeItem(){
         
         this.rootItem = new TreeItem(new TestNodeCell_Label_2Text_Button(root, this.fileName, this.root.expression)); 
@@ -135,6 +263,7 @@ public class Test {
             if(child!=null) rootItem.getChildren().add(child);
         }
         treeIsReady=true;
+//        updateTestTree();
         return rootItem;
     }
     public void setExpanded(TreeItem treeItem){

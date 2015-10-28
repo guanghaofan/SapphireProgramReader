@@ -4649,6 +4649,7 @@ public class XMLRead {
                 case "TestDescription":
                     GenericBlock _testDescription =(GenericBlock) object;
                     _testDescription.print(printWriter);
+                    break;
             }
         }
     }

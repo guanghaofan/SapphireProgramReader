@@ -75,5 +75,13 @@ public class TestNodeCell_Label_Text extends Region {
          this.text.setText(_value);
         this.text.setStyle("-fx-text-fill:green");
     }
+
+    @Override
+    public String toString() {
+        return this.label.getText() + ":"+ this.text.getText(); //To change body of generated methods, choose Tools | Templates.
+    }
+    public String getText(){
+        return this.text.getText();
+    }
     
 }
