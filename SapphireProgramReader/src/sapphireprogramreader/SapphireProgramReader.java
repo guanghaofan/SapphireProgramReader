@@ -1740,10 +1740,12 @@ public class SapphireProgramReader extends Application {
 
         xmlReader.readRecentFile(false, ProjectPath.getAbsolutePath());
         
-//        for(ActionList action: xmlReader.actionList){
-//            if(action.getType().equals("Device"))
-//                actionBox.getItems().add(action.getActionName() + ";" + action.getFlowRef() );                
-//        }
+        for(ActionList action: xmlReader.actionList){
+            if(action.getType().equals("Device")){
+            
+            }
+                //String flowRef = action.getFlowRef();                
+        }
         
         
         

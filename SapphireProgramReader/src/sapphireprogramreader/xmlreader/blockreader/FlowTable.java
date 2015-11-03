@@ -23,7 +23,8 @@ public class FlowTable {
     private List<ExitNode> exitNodes = new ArrayList<>();
     private List<DeviceNode> deviceNodes= new ArrayList<>();
     private int nodeCnt=0;
-    private boolean isUsed=false;
+//    private boolean isUsed=false;
+    private boolean used=false;
     
     public void FlowTable(){}
     
@@ -130,16 +131,7 @@ public class FlowTable {
     public void setFlowName(String flowName) {
         this.flowName = flowName;
     }
-    
-    public boolean getIsUsed(){
-        return this.isUsed;
-    }
-    
-
-    public void setIsUsed(boolean isUsed) {
-        this.isUsed = isUsed;
-    }
-            
+          
     public int getNodeCnt() {
         return nodeCnt;
     }
@@ -165,5 +157,14 @@ public class FlowTable {
         return this.flowName.equals(content)||((this.equationsRef!=null)&&(this.equationsRef.equals(content)));
             
     }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+    
     
 }

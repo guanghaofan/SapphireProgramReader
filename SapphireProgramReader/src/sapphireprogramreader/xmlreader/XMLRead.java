@@ -2584,7 +2584,7 @@ public class XMLRead {
         boolean isFind = false;
         for (FlowTable flowTable : flowTables) {
             if (flowTable.getFlowName().equals(flowName)) {
-                flowTable.setIsUsed(true);
+//                flowTable.setIsUsed(true);
                 isFind = true;
                 TreeNode startNode;
                 startNode = new TreeNode(flowTable.getStartNode(), motherFlowName);
@@ -2646,8 +2646,8 @@ public class XMLRead {
                             if(test!=null){
                                 node.setTestIsReady(true);
                                 item.setNodeIndex(test.getTestNo());
-                                if(!test.isIsUsed())
-                                    test.setIsUsed(true);
+//                                if(!test.isIsUsed())
+//                                    test.setIsUsed(true);
                             }
                             else{
                                 System.out.println("Error This Test is not found:  " + node.getTestFlowRef());

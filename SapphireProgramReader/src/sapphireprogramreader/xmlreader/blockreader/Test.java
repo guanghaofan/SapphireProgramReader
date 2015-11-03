@@ -39,7 +39,7 @@ public class Test {
     private String equationRef=null;
     private String execName=null;
     private String sourceFile=null;
-    private boolean isUsed=false;
+//    private boolean isUsed=false;
     private boolean udpateDone=false;
     
     private int testNo=0;
@@ -678,14 +678,14 @@ public class Test {
     }
     
 
-    public void setIsUsed(boolean isUsed) {
-        this.isUsed = isUsed;
-    }
-    
-
-    public boolean isIsUsed() {
-        return isUsed;
-    }
+//    public void setIsUsed(boolean isUsed) {
+//        this.isUsed = isUsed;
+//    }
+//    
+//
+//    public boolean isIsUsed() {
+//        return isUsed;
+//    }
     public String getSourceFile() {
         System.out.println("Exec name "+ this.execName);
         sourceFile = XMLRead.upaPath  +"\\"+  this.execName.replace('.', '\\') + ".java";

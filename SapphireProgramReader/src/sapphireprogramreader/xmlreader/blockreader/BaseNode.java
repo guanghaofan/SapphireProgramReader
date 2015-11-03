@@ -56,6 +56,7 @@ public class BaseNode {
     private List<GoToResult> gotoResult=new ArrayList<>();
     
     private boolean testIsReady=false;
+    private boolean used=false;
     
     public BaseNode(){}
     public BaseNode(String nodeName, String nodeType, String syncPoint,String equationsRef, String strategyRef, String testRef, String binningRef, List<GoToResult> result, String flowName, String xmlFileName, int nodeNumber, int flowNo, int baseNodeNum){
@@ -259,5 +260,14 @@ public class BaseNode {
         }
         
     }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+    
    
 }
