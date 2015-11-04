@@ -22,6 +22,7 @@ public class DeviceNode {
    
     public int flowNo=0;
     private List<GoToResult> gotoResult=new ArrayList<>();
+    private boolean used=false;
 
     public DeviceNode(Element element, String _flowName, int _nodeNum, int _flowNo) {
         name=element.attributeValue("name");
@@ -75,6 +76,14 @@ public class DeviceNode {
 
     public List<GoToResult> getGotoResult() {
         return gotoResult;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
     
     

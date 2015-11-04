@@ -166,5 +166,30 @@ public class FlowTable {
         this.used = used;
     }
     
+    public BaseNode getBaseNode(String nodeName){
+        
+     BaseNode node=null;
+     for(BaseNode baseNode: this.nodes){
+         if(baseNode.getName().equals(nodeName)){
+            node=baseNode;
+            break;
+         }
+     }
+    return node;
+    }
+    public DeviceNode getDeviceNode(String nodeName){
+        DeviceNode deviceNode=null;
+        if(!this.deviceNodes.isEmpty()) {
+            for(DeviceNode node: this.deviceNodes){
+                if(node.getName().equals(nodeName)){
+                    deviceNode=node;
+                    break;
+                }
+            }
+        } 
+        return deviceNode;
+        
+    
+    }
     
 }

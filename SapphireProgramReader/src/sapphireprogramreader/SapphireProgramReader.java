@@ -77,6 +77,10 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
+import sapphireprogramreader.xmlreader.blockreader.BaseNode;
+import sapphireprogramreader.xmlreader.blockreader.DeviceNode;
+import sapphireprogramreader.xmlreader.blockreader.FlowTable;
+//import sapphireprogramreader.xmlreader.blockreader.StartNode;
 
 
 
@@ -1231,11 +1235,38 @@ public class SapphireProgramReader extends Application {
         Tab tab2 = new Tab("Search");
         tab1.setClosable(false);
         tab2.setClosable(false);
-//        Tab tab3 = new Tab("BinningTable Auditor");
-//        tab3.setClosable(false);
+        Tab tab3 = new Tab("Clean Up");
+        tab3.setClosable(false);
         
-//        AnchorPane binTablePane= new AnchorPane();
-//        binTablePane.autosize();
+        Accordion  CleanUpPane= new Accordion();
+        CleanUpPane.autosize();
+        TitledPane unUsedflowTablePane= new TitledPane();
+        TitledPane unUsednodePane = new TitledPane();
+        TitledPane unUsedtestPane= new TitledPane();
+        TitledPane unUsedequationPane= new TitledPane();
+        TitledPane unUsedpatternPane = new TitledPane();
+        
+        unUsedflowTablePane.setText("FlowTable");
+        unUsednodePane.setText("Node");
+        unUsedtestPane.setText("Test");
+        unUsedequationPane.setText("Equation");
+        unUsedpatternPane.setText("Pattern");
+        
+        ListView unUsedFlowListView= new ListView();
+        ListView unUsedNodeListView =new ListView();
+        ListView unUsedTestListView= new ListView();
+        ListView unUsedEquationListView = new ListView();
+        ListView unUsedPatternListView= new ListView();
+        
+        unUsedflowTablePane.setContent(unUsedFlowListView);
+        unUsednodePane.setContent(unUsedNodeListView);
+        unUsedtestPane.setContent(unUsedTestListView);
+        unUsedequationPane.setContent(unUsedEquationListView);
+        unUsedpatternPane.setContent(unUsedPatternListView);
+                
+                
+        CleanUpPane.getPanes().addAll(unUsedflowTablePane,unUsednodePane,unUsedtestPane,unUsedequationPane,unUsedpatternPane);
+        
         
 
         accordion.autosize();
@@ -1423,7 +1454,7 @@ public class SapphireProgramReader extends Application {
         
         tab2.setContent(extendPane);
         tab1.setContent(accordion);
-//        tab3.setContent(binTablePane);
+        tab3.setContent(CleanUpPane);
         
 //        HBox actionHBox= new HBox();
 //        Label _actionLabel= new Label("Action");
@@ -1509,10 +1540,10 @@ public class SapphireProgramReader extends Application {
 //        
 //        binTableVBox.getChildren().addAll(actionHBox, ignoreHBox,startAudit);
 //        binTableVBox.setLayoutX(4);
-//        binTablePane.getChildren().addAll(binTableVBox,binningAuditProgressIndicator);
+//        CleanUpPane.getChildren().addAll(binTableVBox,binningAuditProgressIndicator);
 //        
 //        
-//        binTablePane.widthProperty().addListener(new ChangeListener<Number>(){
+//        CleanUpPane.widthProperty().addListener(new ChangeListener<Number>(){
 //
 //            @Override
 //            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
@@ -1527,7 +1558,7 @@ public class SapphireProgramReader extends Application {
 //            }
 //        });
 //        
-//        binTablePane.heightProperty().addListener(new ChangeListener<Number>(){
+//        CleanUpPane.heightProperty().addListener(new ChangeListener<Number>(){
 //
 //            @Override
 //            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
@@ -1538,7 +1569,7 @@ public class SapphireProgramReader extends Application {
 //        });
         
         
-        tabPane.getTabs().addAll(tab1,tab2/*,tab3*/);
+        tabPane.getTabs().addAll(tab1,tab2,tab3);
         infoPane.setMinWidth(0);
         infoPane.getChildren().add(tabPane);
 
@@ -1741,10 +1772,29 @@ public class SapphireProgramReader extends Application {
         xmlReader.readRecentFile(false, ProjectPath.getAbsolutePath());
         
         for(ActionList action: xmlReader.actionList){
-            if(action.getType().equals("Device")){
-            
-            }
+//            if(action.getActionName().equals("OS"))
+                FlowTableCheck(action.getFlowRef());          
                 //String flowRef = action.getFlowRef();                
+        }
+        
+        for(FlowTable flowTable: xmlReader.flowTables){
+            if(!flowTable.isUsed())
+                System.out.println("unused flow table " + flowTable.getFlowName());
+            else{
+                for(BaseNode baseNode: flowTable.getNodes()){
+                    if(!baseNode.isUsed()){
+                        System.out.println("unused node " + baseNode.getName());
+                    }
+                }
+            }
+        
+        }
+        
+        for(Test test: XMLRead.newTests.values()){
+            if(!test.isUsed()){
+                System.out.println("unused test " + test.getRoot().getExpression());
+            }
+        
         }
         
         
@@ -1790,6 +1840,71 @@ public class SapphireProgramReader extends Application {
         
         
         
+    }
+    public void FlowTableCheck(String flowTableName){
+        for(FlowTable flowTable: xmlReader.flowTables){
+            if(flowTable.getFlowName().equals(flowTableName)){
+                
+               if(!flowTable.isUsed()){
+                   flowTable.setUsed(true);
+//                   System.out.println("uased flow " + flowTable.getFlowName());
+               }
+               for(GoToResult result: flowTable.getStartNode().getResult()){
+//                   System.out.println("check flow " + flowTable.getFlowName() + " " + result.getReuslt() + "--->" + result.getNodeRef() +"--->" + result.getDecision());
+                   baseNodeCheck(flowTable,result.getNodeRef() );
+               }
+               break;
+           }
+        }
+    }
+    public void baseNodeCheck(FlowTable flowTable, String baseNodeName){
+        BaseNode baseNode =flowTable.getBaseNode(baseNodeName);
+        
+        
+        if(baseNode!=null && (!baseNode.isUsed())){
+            baseNode.setUsed(true);
+//            System.out.println("used node " + baseNode.getName());
+            
+            if(baseNode.getNodeType().equals("Test")){
+                Test test= XMLRead.newTests.get(baseNode.getTestFlowRef());
+                if(test!=null&& (! test.isUsed())){
+                    test.setUsed(true);
+                }
+                for(GoToResult result: baseNode.getGoToResult()){
+//                    System.out.println("check node "+ baseNode.getName() + " "+ result.getReuslt()+"--->"+ result.getNodeRef() +"--->"+ result.getDecision());
+                    
+                    baseNodeCheck(flowTable, result.getNodeRef());
+                
+                }
+           
+            
+            }
+            else if(baseNode.getNodeType().equals("Flow")){
+                String flowTableName= baseNode.getTestFlowRef();
+                FlowTableCheck(flowTableName);
+                for(GoToResult result: baseNode.getGoToResult()){
+                    baseNodeCheck(flowTable, result.getNodeRef());
+                }
+            }
+        
+        }
+        else if(baseNode==null){
+            DeviceNode deviceNode= flowTable.getDeviceNode(baseNodeName);
+            if(deviceNode!=null &&(!deviceNode.isUsed())){
+                deviceNode.setUsed(true);
+                
+                for(GoToResult result: deviceNode.getGotoResult()){
+                    baseNodeCheck(flowTable, result.getNodeRef());
+                
+                }
+                
+                
+
+
+            }
+        
+        }
+            
     }
     public static class Result{
         private  SimpleStringProperty result;

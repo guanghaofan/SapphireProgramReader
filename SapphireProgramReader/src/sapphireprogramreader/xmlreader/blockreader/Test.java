@@ -41,7 +41,7 @@ public class Test {
     private String sourceFile=null;
 //    private boolean isUsed=false;
     private boolean udpateDone=false;
-    
+    private boolean used=false;
     private int testNo=0;
     private List<DCMeasurement> measurement= new ArrayList();
     private boolean findMeasure=false;
@@ -1029,6 +1029,15 @@ public class Test {
         else
             return null;
     }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+    
     
     
     
