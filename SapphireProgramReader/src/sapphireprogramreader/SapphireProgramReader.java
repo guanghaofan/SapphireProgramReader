@@ -1799,7 +1799,7 @@ public class SapphireProgramReader extends Application {
         
         
         
-        List<String> skip= new ArrayList<>();
+//        List<String> skip= new ArrayList<>();
 //        for(Equation equ: xmlReader.equations.values()){
 //            
 //            if(!equ.getIsUsed()){

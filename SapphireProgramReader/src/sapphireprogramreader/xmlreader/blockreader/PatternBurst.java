@@ -28,6 +28,7 @@ public class PatternBurst {
     private String fileName=null;
     private int patternNo=-1;
     private List<PatListItem> patternList= new ArrayList<>();
+    private boolean used=false;
    
 //    private boolean treeIsReady=false;
 
@@ -351,4 +352,13 @@ public class PatternBurst {
         }
         printWriter.println("</PatternBurst>");
     }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+    
 }

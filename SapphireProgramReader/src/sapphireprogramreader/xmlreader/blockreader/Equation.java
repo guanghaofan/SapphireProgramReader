@@ -30,6 +30,7 @@ public class Equation {
     private final List<TreeItem> treeNodes =new ArrayList<>();
     private boolean treeNodeReady=false;
     private boolean isUsed=false;
+    private boolean useFul=false;
 
     
    public Equation(String name){
@@ -1181,5 +1182,14 @@ public class Equation {
         
         
     }
+
+    public boolean isUseFul() {
+        return useFul;
+    }
+
+    public void setUseFul(boolean useFul) {
+        this.useFul = useFul;
+    }
+    
     
 }
