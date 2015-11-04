@@ -36,7 +36,7 @@ public class Test {
     private TreeItem levelRoot=new TreeItem();
     private TreeItem timingRoot= new TreeItem();
     private TreeItem loadBoardRoot=new TreeItem();
-    private String equationRef=null;
+    private List<String> equationRef=new ArrayList();
     private String execName=null;
     private String sourceFile=null;
 //    private boolean isUsed=false;
@@ -51,6 +51,7 @@ public class Test {
 
     public Test(Element element, String fileName, int testNo) {
         root= new TestItem(element,0);
+//        System.out.println(root.getExpression());
         this.fileName=fileName;
         this.testNo=testNo;
     }
@@ -110,11 +111,9 @@ public class Test {
     
     
 
-    public String getEquationRef() {
-        if (equationRef!=null)
+    public List<String> getEquationRef() {
             return equationRef;
-        else
-            return null;
+       
     }
     
 
@@ -380,7 +379,10 @@ public class Test {
                         if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
                             variableName= equationVariable[1];
                             testRoot = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.name, testItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
-      
+                            if(equationRef.isEmpty())
+                                equationRef.add(equationVariable[0]);
+                            else if(!equationRef.contains(equationVariable[0]))
+                                equationRef.add(equationVariable[0]);
                         }
                         else
                             testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
@@ -537,7 +539,10 @@ public class Test {
                                     if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
                                         variableName= equationVariable[1];
                                         item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
-
+                                        if(equationRef.isEmpty())
+                                            equationRef.add(equationVariable[0]);
+                                        else if(!equationRef.contains(equationVariable[0]))
+                                            equationRef.add(equationVariable[0]);
                                     }
                                     else
                                         item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
@@ -652,7 +657,10 @@ public class Test {
                                     if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
                                         variableName= equationVariable[1];
                                         item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
-
+                                        if(equationRef.isEmpty())
+                                            equationRef.add(equationVariable[0]);
+                                        else if(!equationRef.contains(equationVariable[0]))
+                                            equationRef.add(equationVariable[0]);
                                     }
                                     else
                                         item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
@@ -765,7 +773,12 @@ public class Test {
                     loadBoard=this.expression;
                 }
                 else if(name.toLowerCase().contains("equation")/*&&XMLRead.timing.get(expression)!=null*/){
-                    equationRef=this.expression;
+                    if(equationRef.isEmpty())
+                        equationRef.add(this.expression);
+                    else if(!equationRef.contains(this.expression))
+                        equationRef.add(this.expression);
+//                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            
                 }
                 
             }

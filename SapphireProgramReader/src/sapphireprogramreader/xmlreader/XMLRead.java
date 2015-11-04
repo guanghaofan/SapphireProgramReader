@@ -3036,11 +3036,13 @@ public class XMLRead {
              
             
                 if(this.nodeType.equals("Test")){
-                    Test test=newTests.get(this.testFlowRef);
-                    if(test!=null){
-                        if(test.getEquationRef()!=null)       
-                             this.equationsRef=this.equationsRef+"," +newTests.get(this.testFlowRef).getEquationRef();
-                    }
+                    
+                    //skip this equationRefs in the test
+//                    Test test=newTests.get(this.testFlowRef);
+//                    if(test!=null){
+//                        if(test.getEquationRef()!=null)       
+//                             this.equationsRef=this.equationsRef+"," +newTests.get(this.testFlowRef).getEquationRef();
+//                    }
 //                    System.out.println(node.getBaseNode().getName() + "  set graphic as test");
                     setGraphic(new ImageView(new Image(getClass().getResourceAsStream("run_test.gif"))));}
 
