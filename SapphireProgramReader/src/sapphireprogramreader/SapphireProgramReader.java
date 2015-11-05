@@ -61,7 +61,9 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -137,6 +139,11 @@ public class SapphireProgramReader extends Application {
 //    final ComboBox actionBox= new ComboBox();
 //    public static int actionIndex=-1;
 //    public static String ignoredFileName=null;
+    public final ListView unUsedFlowListView= new ListView();
+    public final ListView unUsedNodeListView =new ListView();
+    public final ListView unUsedTestListView= new ListView();
+    public final ListView unUsedEquationListView = new ListView();
+    public final ListView unUsedPatternListView= new ListView();
     
     
     public Service searchTask = new Service() {
@@ -1252,11 +1259,6 @@ public class SapphireProgramReader extends Application {
         unUsedequationPane.setText("Equation");
         unUsedpatternPane.setText("Pattern");
         
-        ListView unUsedFlowListView= new ListView();
-        ListView unUsedNodeListView =new ListView();
-        ListView unUsedTestListView= new ListView();
-        ListView unUsedEquationListView = new ListView();
-        ListView unUsedPatternListView= new ListView();
         
         unUsedflowTablePane.setContent(unUsedFlowListView);
         unUsednodePane.setContent(unUsedNodeListView);
@@ -1265,7 +1267,7 @@ public class SapphireProgramReader extends Application {
         unUsedpatternPane.setContent(unUsedPatternListView);
                 
                 
-        CleanUpPane.getPanes().addAll(unUsedflowTablePane,unUsednodePane,unUsedtestPane,unUsedequationPane,unUsedpatternPane);
+        CleanUpPane.getPanes().addAll(unUsedflowTablePane,unUsednodePane,unUsedtestPane,unUsedequationPane/*,unUsedpatternPane*/);
         
         
 
@@ -1780,12 +1782,15 @@ public class SapphireProgramReader extends Application {
 
         
         for(FlowTable flowTable: xmlReader.flowTables){
-            if(!flowTable.isUsed())
+            if(!flowTable.isUsed()){
                 System.out.println("unused flow table " + flowTable.getFlowName());
+                unUsedFlowListView.getItems().add(flowTable.getFlowName());
+            }
             else{
                 for(BaseNode baseNode: flowTable.getNodes()){
                     if(!baseNode.isUsed()){
-                        System.out.println("unused node " + baseNode.getName());
+                        unUsedNodeListView.getItems().add(baseNode.getName() +" in " + flowTable.getFlowName() );
+                        System.out.println("unused node " + baseNode.getName() +" in Flow Table: " + flowTable.getFlowName());
                     }
                 }
             }
@@ -1794,9 +1799,18 @@ public class SapphireProgramReader extends Application {
         
         for(Test test: XMLRead.newTests.values()){
             if(!test.isUsed()){
+                unUsedTestListView.getItems().add(test.getRoot().getExpression());
                 System.out.println("unused test " + test.getRoot().getExpression());
             }
         
+        }
+        for(Equation equ: XMLRead.equations.values()){
+            if(!equ.isUseFul()){
+                unUsedEquationListView.getItems().add(equ.getName());
+                System.out.println("unused equation " + equ.getName());
+            }
+            unUsedEquationListView.setEditable(true);
+//            unUsedEquationListView.setS
         }
         
         
