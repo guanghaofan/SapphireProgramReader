@@ -1760,6 +1760,7 @@ public class XMLRead {
         try {
             document = reader.read(file);
         } catch (DocumentException ex) {
+            System.out.println("Error during read File " + fileName);
             Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (binningTestCnt== this.binningTest.size() && equCnt== this.equations.size() && testCnt== XMLRead.newTests.size() && flowCnt==this.flowTables.size() && resultSpecCnt== XMLRead.resultSpecs.size()&&testDescriptionCnt==XMLRead.testDescription.size()&&XMLRead.patternBursts.size()==patternCnt&&softSetCnt==softSet.size()&&softSetGroupCnt==softSetGroup.size()&&AxisListCnt==AxisList.size()){
@@ -2982,6 +2983,7 @@ public class XMLRead {
         private boolean overRide=false;
         private String overRideString = null;
         private String flowOverrideFile=null;
+        private String overRideEqu=null;
 
         public TreeNode(StartNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("start.gif"))));
@@ -3057,9 +3059,8 @@ public class XMLRead {
                         this.overRide=true;
                         Bypass bypass= temp.getByPass();
                         this.overRideString= temp.getByPass().getEquationRef()+"."+ temp.getByPass().getVariableName();
+                        overRideEqu=temp.getByPass().getEquationRef();
                         this.flowOverrideFile=flowOverride.getFileName();
-                        // here to add the equation which is used in flow override control
-                        XMLRead.equations.get(temp.getByPass().getEquationRef()).setUseFul(true);
                         break;
                     }
                 }
@@ -3074,13 +3075,22 @@ public class XMLRead {
                             XMLRead.equations.get(equ).setUseFul(true);
                         }
                     }
+                    for(String equ: test.getEquationRef()){
+                        if(XMLRead.equations.containsKey(equ)){
+                            XMLRead.equations.get(equ).setUseFul(true);
+                        }
+                    }
+                    test.checkEquInTestDescription();
+                    
+                    // here to add the equation which is used in flow override control
+                    if(this.overRideEqu!=null){
+                        Equation equ = XMLRead.equations.get(overRideEqu);
+                        if(equ!=null)
+                            equ.setUseFul(true);
+                    }
 
                 }
-                for(String equ: test.getEquationRef()){
-                    if(XMLRead.equations.containsKey(equ)){
-                        XMLRead.equations.get(equ).setUseFul(true);
-                    }
-                }              
+                
            }
         }
 

@@ -46,15 +46,18 @@ public class Test {
     private List<DCMeasurement> measurement= new ArrayList();
     private boolean findMeasure=false;
     private List<String> variables= new ArrayList<>();
+    private List<String> testDesc=new ArrayList<>();
+    private boolean euqationChecDone=false;
 
 
     
 
     public Test(Element element, String fileName, int testNo) {
-        root= new TestItem(element,0);
-//        System.out.println(root.getExpression());
         this.fileName=fileName;
         this.testNo=testNo;
+        root= new TestItem(element,0);
+//        System.out.println(root.getExpression());
+
     }
     
 
@@ -332,6 +335,8 @@ public class Test {
                 else if(testItemName.toLowerCase().contains("description")&&XMLRead.testDescription.get(testItem.expression)!=null){
 
                     testRoot= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.name, testItem.expression,XMLRead.testDescription.get(testItem.expression).getFileName() ));
+//                    if(!testDesc.contains(testItem.expression))
+//                        testDesc.add(testItem.expression);
                 }
                 else if(testItemName.toLowerCase().contains("resultspec")&&XMLRead.resultSpecs.get(testItem.expression)!=null){
 //                    System.out.println(testItemName);
@@ -484,7 +489,8 @@ public class Test {
                                 this.loadBoard=subItem.expression;
                             }
                             else if(testItemName.toLowerCase().contains("description")&&XMLRead.testDescription.get(subItem.expression)!=null){
-
+//                                if(!testDesc.contains(subItem.expression))
+//                                    testDesc.add(subItem.expression);
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.testDescription.get(subItem.expression).getFileName() ));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
@@ -605,7 +611,8 @@ public class Test {
                                 this.loadBoard=subItem.expression;
                             }
                             else if(testItemName.toLowerCase().contains("description")&&XMLRead.testDescription.get(subItem.expression)!=null){
-
+//                                if(!testDesc.contains(subItem.expression))
+//                                    testDesc.add(subItem.expression);
                                 TreeItem item= new TreeItem(new TestNodeCell_Label_2Text_Button( testItem.expression, subItem.expression,XMLRead.testDescription.get(subItem.expression).getFileName() ));
                                 if(temp!=null) temp.getChildren().add(item);
                             }
@@ -746,7 +753,7 @@ public class Test {
         private boolean isLeaf=true;
         private String attriName=null;
         private String expression=null;
-        private List<TestItem> subItems= new ArrayList<>();;
+        private List<TestItem> subItems= new ArrayList<>();
         private int level=0;
         private String space="";
         private String previousItem="";
@@ -781,13 +788,23 @@ public class Test {
                     loadBoard=this.expression;
                 }
                 else if(name.toLowerCase().contains("equation")/*&&XMLRead.timing.get(expression)!=null*/){
-                    if(equationRef.isEmpty())
-                        equationRef.add(this.expression);
-                    else if(!equationRef.contains(this.expression))
+                   if(!equationRef.contains(this.expression))
                         equationRef.add(this.expression);
 //                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             
                 }
+                else if(this.name.equals("TestDescription")){
+                    if(!testDesc.contains(this.expression)){
+                        testDesc.add(this.expression);
+//                        System.out.println("name is " + this.name + "  expression is " + this.expression);
+                    }
+                    
+                }
+//                else if(fileName.contains("Test_PinContinuity")) {
+//                    System.out.println("name is " + this.name + "  expression is " + this.expression);
+//                
+//                }
+                
                 
             }
             else{
@@ -805,6 +822,19 @@ public class Test {
                     item.parentName=this.expression;
                     temp=item.getName();
                     this.subItems.add(item);
+//                    if(this.expression!=null){
+//                        if(fileName.contains("Test_PinContinuity"))
+//                            System.out.println("parent item is " + this.expression);
+//                    }
+                    
+                    if(this.expression!=null && this.expression.equals("TestDescription")){
+                         if(!testDesc.contains(item.expression)){
+                            testDesc.add(item.expression);
+//                            System.out.println("parent is " + this.expression);
+//                            System.out.println("name is " + item.name +" expression is " + item.expression);
+                         }
+                         
+                    }
                     
                 }
             }
@@ -1061,6 +1091,31 @@ public class Test {
 
     public List<String> getVariables() {
         return variables;
+    }
+
+    public List<String> getTestDesc() {
+        return testDesc;
+    }
+    
+    public void checkEquInTestDescription(){
+        if(!this.euqationChecDone){
+            System.out.println("Start to check Equation in TestDescription for Test " + this.root.expression );
+            String eqnName=null;
+            for(String testDes: this.testDesc){
+                    System.out.println("TestDescription: " + testDes);
+                    eqnName =XMLRead.testDescription.get(testDes).getEquation();
+                    if(eqnName!=null){
+                        Equation equ =XMLRead.equations.get(eqnName);
+                        if(equ!=null){
+                            equ.setUseFul(true);
+                            System.out.println("equation " + equ.getName() + "is used");
+                        }
+                    }
+
+
+            }
+            euqationChecDone=true;
+        }
     }
     
     

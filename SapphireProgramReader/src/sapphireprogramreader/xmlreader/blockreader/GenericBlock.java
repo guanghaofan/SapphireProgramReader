@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 public class GenericBlock {
     private Item root;
     private String fileName=null;
-
+    private String equation=null;
     
     
     public GenericBlock(Element element, String fileName) {
@@ -220,6 +220,18 @@ public class GenericBlock {
             return attriName;
         }
  
+        
+    }
+    
+    public String getEquation(){
+        for(Item item: this.root.subItems){
+            if(item.name.equals("ParamRefBlock")){
+                equation=item.expression;
+                
+                break;
+            }
+        }
+        return this.equation;
         
     }
 }

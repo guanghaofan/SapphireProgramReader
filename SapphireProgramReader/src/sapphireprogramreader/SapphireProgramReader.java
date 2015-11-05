@@ -1877,12 +1877,13 @@ public class SapphireProgramReader extends Application {
         
         if(baseNode!=null && (!baseNode.isUsed())){
             baseNode.setUsed(true);
-//            System.out.println("used node " + baseNode.getName());
+            System.out.println("used node " + baseNode.getName());
             
             if(baseNode.getNodeType().equals("Test")){
                 Test test= XMLRead.newTests.get(baseNode.getTestFlowRef());
                 if(test!=null&& (! test.isUsed())){
                     test.setUsed(true);
+                    System.out.println("test "+ test.getRoot().getExpression() + " is used");
                 }
                 for(GoToResult result: baseNode.getGoToResult()){
 //                    System.out.println("check node "+ baseNode.getName() + " "+ result.getReuslt()+"--->"+ result.getNodeRef() +"--->"+ result.getDecision());
