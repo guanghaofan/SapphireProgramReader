@@ -45,6 +45,7 @@ public class Test {
     private int testNo=0;
     private List<DCMeasurement> measurement= new ArrayList();
     private boolean findMeasure=false;
+    private List<String> variables= new ArrayList<>();
 
 
     
@@ -383,6 +384,9 @@ public class Test {
                                 equationRef.add(equationVariable[0]);
                             else if(!equationRef.contains(equationVariable[0]))
                                 equationRef.add(equationVariable[0]);
+                            
+                            if(!variables.contains(variableName))
+                                variables.add(variableName);
                         }
                         else
                             testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
@@ -543,6 +547,8 @@ public class Test {
                                             equationRef.add(equationVariable[0]);
                                         else if(!equationRef.contains(equationVariable[0]))
                                             equationRef.add(equationVariable[0]);
+                                         if(!variables.contains(variableName))
+                                            variables.add(variableName);
                                     }
                                     else
                                         item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
@@ -661,6 +667,8 @@ public class Test {
                                             equationRef.add(equationVariable[0]);
                                         else if(!equationRef.contains(equationVariable[0]))
                                             equationRef.add(equationVariable[0]);
+                                         if(!variables.contains(variableName))
+                                            variables.add(variableName);
                                     }
                                     else
                                         item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
@@ -1050,6 +1058,11 @@ public class Test {
     public boolean isUsed() {
         return used;
     }
+
+    public List<String> getVariables() {
+        return variables;
+    }
+    
     
     
     

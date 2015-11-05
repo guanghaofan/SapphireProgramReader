@@ -3920,6 +3920,13 @@ public class XMLRead {
                     test.print(printWriter);
                 }
             }
+            else if(test.getEquationRef().contains(content) || test.getVariables().contains(content)){
+                addFile(test.getFileName());
+                if(depthSearch){
+                    test.print(printWriter);
+                }
+            }
+            
                 
         }
         System.out.println("Test Search Done");
