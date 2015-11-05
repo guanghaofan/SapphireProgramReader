@@ -1734,6 +1734,12 @@ public class SapphireProgramReader extends Application {
             xmlReader.LoadFile(ProjectPath,programExplorerRoot);
 //            xmlReader.LoadFile(ProjectPath);
             xmlReader.reReadAll();
+            for(ActionList action: xmlReader.actionList){
+    //            if(action.getActionName().equals("OS"))
+                    FlowTableCheck(action.getFlowRef());          
+                    //String flowRef = action.getFlowRef();                
+            }
+            
             xmlReader.buildActionTree();
 //            xmlReader.printPatternBurst();
 //            xmlReader.printActionList();
@@ -1771,11 +1777,7 @@ public class SapphireProgramReader extends Application {
 
         xmlReader.readRecentFile(false, ProjectPath.getAbsolutePath());
         
-        for(ActionList action: xmlReader.actionList){
-//            if(action.getActionName().equals("OS"))
-                FlowTableCheck(action.getFlowRef());          
-                //String flowRef = action.getFlowRef();                
-        }
+
         
         for(FlowTable flowTable: xmlReader.flowTables){
             if(!flowTable.isUsed())
@@ -1798,8 +1800,6 @@ public class SapphireProgramReader extends Application {
         }
         
         
-        
-//        List<String> skip= new ArrayList<>();
 //        for(Equation equ: xmlReader.equations.values()){
 //            
 //            if(!equ.getIsUsed()){

@@ -3058,11 +3058,30 @@ public class XMLRead {
                         Bypass bypass= temp.getByPass();
                         this.overRideString= temp.getByPass().getEquationRef()+"."+ temp.getByPass().getVariableName();
                         this.flowOverrideFile=flowOverride.getFileName();
+                        // here to add the equation which is used in flow override control
+                        XMLRead.equations.get(temp.getByPass().getEquationRef()).setUseFul(true);
                         break;
                     }
                 }
                     
            checkEquationRefs();
+           
+           if(this.nodeType.equals("Test")){
+                Test test=newTests.get(this.testFlowRef);
+                if(test!=null && test.isUsed()){
+                    for(String equ: this.validEquaitons){
+                        if(XMLRead.equations.containsKey(equ)){
+                            XMLRead.equations.get(equ).setUseFul(true);
+                        }
+                    }
+
+                }
+                for(String equ: test.getEquationRef()){
+                    if(XMLRead.equations.containsKey(equ)){
+                        XMLRead.equations.get(equ).setUseFul(true);
+                    }
+                }              
+           }
         }
 
         public TreeNode(ExitNode node, String motherFlowContext) {
@@ -3083,8 +3102,8 @@ public class XMLRead {
             else
                 setGraphic(new ImageView(new Image(getClass().getResourceAsStream("badBin.gif"))));
         }
+ 
         
-
         public String getFlowOverrideFile() {
             return flowOverrideFile;
         }
