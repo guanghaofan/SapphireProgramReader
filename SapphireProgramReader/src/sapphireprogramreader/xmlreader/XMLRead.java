@@ -2984,6 +2984,7 @@ public class XMLRead {
         private String overRideString = null;
         private String flowOverrideFile=null;
         private String overRideEqu=null;
+        private boolean used=false;
 
         public TreeNode(StartNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("start.gif"))));
@@ -2997,6 +2998,7 @@ public class XMLRead {
             }else{
                 this.flowContext = motherFlowContext + "|" +  node.getFlowName()+ "^" + node.getNodeName();
             }
+            used=true;
         }
         public TreeNode(DeviceNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("device.gif"))));
@@ -3010,6 +3012,7 @@ public class XMLRead {
             }else{
                 this.flowContext = motherFlowContext + "^" + node.getName();
             }
+            used=node.isUsed();
         }
 
         public TreeNode(BaseNode node, String motherFlowContext, String motherEquationsRef) {
@@ -3092,6 +3095,7 @@ public class XMLRead {
                 }
                 
            }
+           used=node.isUsed();
         }
 
         public TreeNode(ExitNode node, String motherFlowContext) {
@@ -3111,6 +3115,12 @@ public class XMLRead {
             }
             else
                 setGraphic(new ImageView(new Image(getClass().getResourceAsStream("badBin.gif"))));
+            used=true;
+        }
+        
+
+        public boolean isUsed() {
+            return used;
         }
  
         
