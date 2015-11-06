@@ -1103,12 +1103,14 @@ public class Test {
             String eqnName=null;
             for(String testDes: this.testDesc){
                     System.out.println("TestDescription: " + testDes);
-                    eqnName =XMLRead.testDescription.get(testDes).getEquation();
-                    if(eqnName!=null){
-                        Equation equ =XMLRead.equations.get(eqnName);
-                        if(equ!=null){
-                            equ.setUseFul(true);
-                            System.out.println("equation " + equ.getName() + "is used");
+                    if(XMLRead.testDescription.containsKey(testDes)){
+                        eqnName =XMLRead.testDescription.get(testDes).getEquation();
+                        if(eqnName!=null){
+                            Equation equ =XMLRead.equations.get(eqnName);
+                            if(equ!=null){
+                                equ.setUseFul(true);
+                                System.out.println("equation " + equ.getName() + "is used");
+                            }
                         }
                     }
 
