@@ -2088,7 +2088,12 @@ public class SapphireProgramReader extends Application {
                                         flowOverride.setText("");
                                         
                                     }
+                                    
+                                    
                                     if (node.getNodeType().equalsIgnoreCase("test")){
+                                            if(!node.getBaseNode().isUsed()){
+                                                setTextFill(Color.GREEN);    
+                                            }
                                         if(node.getBaseNode().isTestIsReady()){
                                             openTest.setDisable(false);
                                             openSource.setText("Open_SoureFile: " + XMLRead.newTests.get(node.getTestFlowRef()).getExecName());
@@ -2106,6 +2111,11 @@ public class SapphireProgramReader extends Application {
                                         }
                                     }
                                     else{
+                                        if(node.getNodeType().equals("Flow")){
+                                            if(!node.getBaseNode().isUsed())
+                                                setTextFill(Color.GREEN);
+                                        }
+                           
                                         openTest.setDisable(true);
                                         openSource.setDisable(true);
                                         openSource.setText("");
@@ -2318,6 +2328,11 @@ public class SapphireProgramReader extends Application {
                             else{
                                 setTextFill(Color.BLACK);
                             }
+                            if(node.getNodeType().equals("Test")||node.getNodeType().equals("Flow")){
+                                if(!node.getBaseNode().isUsed())
+                                    setTextFill(Color.GREEN);                               
+                            }
+                            
                         
                             
                     }

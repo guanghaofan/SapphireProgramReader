@@ -47,7 +47,15 @@ public class Test {
     private boolean findMeasure=false;
     private List<String> variables= new ArrayList<>();
     private List<String> testDesc=new ArrayList<>();
-    private boolean euqationChecDone=false;
+    private boolean euqationChecDone=false; 
+    private int _timming=1;
+    private int _level=2;
+    private int _pattern=3;
+    private int _exec=4;
+    private int _equation=5;
+    private int _testDescription=6;
+    private int _equationVariable=7;
+    private int _loadBoard=8;
 
 
     
@@ -385,13 +393,13 @@ public class Test {
                         if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
                             variableName= equationVariable[1];
                             testRoot = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.name, testItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
-                            if(equationRef.isEmpty())
-                                equationRef.add(equationVariable[0]);
-                            else if(!equationRef.contains(equationVariable[0]))
-                                equationRef.add(equationVariable[0]);
-                            
-                            if(!variables.contains(variableName))
-                                variables.add(variableName);
+//                            if(equationRef.isEmpty())
+//                                equationRef.add(equationVariable[0]);
+//                            else if(!equationRef.contains(equationVariable[0]))
+//                                equationRef.add(equationVariable[0]);
+//                            
+//                            if(!variables.contains(variableName))
+//                                variables.add(variableName);
                         }
                         else
                             testRoot= new TreeItem(new TestNodeCell_Label_Text(testItem,null));
@@ -549,12 +557,12 @@ public class Test {
                                     if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
                                         variableName= equationVariable[1];
                                         item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
-                                        if(equationRef.isEmpty())
-                                            equationRef.add(equationVariable[0]);
-                                        else if(!equationRef.contains(equationVariable[0]))
-                                            equationRef.add(equationVariable[0]);
-                                         if(!variables.contains(variableName))
-                                            variables.add(variableName);
+//                                        if(equationRef.isEmpty())
+//                                            equationRef.add(equationVariable[0]);
+//                                        else if(!equationRef.contains(equationVariable[0]))
+//                                            equationRef.add(equationVariable[0]);
+//                                         if(!variables.contains(variableName))
+//                                            variables.add(variableName);
                                     }
                                     else
                                         item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
@@ -670,12 +678,12 @@ public class Test {
                                     if(XMLRead.equations.containsKey(tempEuqationName) && equationVariable.length==2){
                                         variableName= equationVariable[1];
                                         item = new TreeItem(new TestNodeCell_Label_2Text_Button(testItem.expression, subItem.expression,XMLRead.equations.get(tempEuqationName).getFileName(),variableName));
-                                        if(equationRef.isEmpty())
-                                            equationRef.add(equationVariable[0]);
-                                        else if(!equationRef.contains(equationVariable[0]))
-                                            equationRef.add(equationVariable[0]);
-                                         if(!variables.contains(variableName))
-                                            variables.add(variableName);
+//                                        if(equationRef.isEmpty())
+//                                            equationRef.add(equationVariable[0]);
+//                                        else if(!equationRef.contains(equationVariable[0]))
+//                                            equationRef.add(equationVariable[0]);
+//                                         if(!variables.contains(variableName))
+//                                            variables.add(variableName);
                                     }
                                     else
                                         item= new TreeItem( new TestNodeCell_Label_Text(subItem,testItem.expression));
@@ -758,6 +766,7 @@ public class Test {
         private String space="";
         private String previousItem="";
         private String parentName=null;
+        private int type=0;
 //        private Item motherItem;
 
         public TestItem() {
@@ -773,39 +782,57 @@ public class Test {
             if(nodes.isEmpty()){
                 this.isLeaf=true;
                 this.expression=element.getText();
-                if (_level==1&& this.name=="Exec") execName=this.expression;
+                if (_level==1&& this.name=="Exec"){ 
+                    this.type=_exec;
+                    execName=this.expression;
+                }
                 
                 if(name.toLowerCase().contains("patternburst")/*&&XMLRead.patternBursts.get(expression)!=null*/){
                     patternBurst=this.expression;
+                    this.type=_pattern;
                 }
                 else if(name.toLowerCase().contains("level")/*&&XMLRead.levels.get(expression)!=null*/){
+                    this.type=_level;
                     levels=this.expression;
                 }
                 else if(name.toLowerCase().contains("timing")/*&&XMLRead.timing.get(expression)!=null*/){
+                    this.type=_timming;
                     timing=this.expression;
                 }
                 else if(name.toLowerCase().contains("loadboard")/*&&XMLRead.timing.get(expression)!=null*/){
+                    this.type=_loadBoard;
                     loadBoard=this.expression;
                 }
                 else if(name.toLowerCase().contains("equation")/*&&XMLRead.timing.get(expression)!=null*/){
+                    this.type=_equation;
                    if(!equationRef.contains(this.expression))
                         equationRef.add(this.expression);
 //                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
             
                 }
                 else if(this.name.equals("TestDescription")){
+                    this.type=_testDescription;
                     if(!testDesc.contains(this.expression)){
                         testDesc.add(this.expression);
 //                        System.out.println("name is " + this.name + "  expression is " + this.expression);
                     }
                     
                 }
-//                else if(fileName.contains("Test_PinContinuity")) {
-//                    System.out.println("name is " + this.name + "  expression is " + this.expression);
-//                
-//                }
+                else if(this.expression.contains(".")){
+                    this.type=_equationVariable;
+                    String[] equationVariable =null;
+                    equationVariable =this.expression.split("\\.");
+                     
+                    if(equationVariable.length==2){
+                        if(!equationRef.contains(equationVariable[0]))
+                            equationRef.add(equationVariable[0]);
+
+                        if(!variables.contains(equationVariable[1]))
+                            variables.add(equationVariable[1]);
+                    }
+                    
                 
-                
+                }
             }
             else{
                 this.isLeaf=false;
@@ -830,6 +857,7 @@ public class Test {
                     if(this.expression!=null && this.expression.equals("TestDescription")){
                          if(!testDesc.contains(item.expression)){
                             testDesc.add(item.expression);
+                            item.type=_testDescription;
 //                            System.out.println("parent is " + this.expression);
 //                            System.out.println("name is " + item.name +" expression is " + item.expression);
                          }
@@ -1116,8 +1144,22 @@ public class Test {
 
 
             }
+            checkRestEquation();
             euqationChecDone=true;
         }
+    }
+    public void checkRestEquation(){
+        for(String eqnName: this.equationRef){
+            if(XMLRead.equations.containsKey(eqnName)){
+                Equation equ =XMLRead.equations.get(eqnName);
+                if(equ!=null){
+                    equ.setUseFul(true);
+//                    System.out.println("equation " + equ.getName() + "is used");
+                }
+            }
+        
+        }
+    
     }
     
     

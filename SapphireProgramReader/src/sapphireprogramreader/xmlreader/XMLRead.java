@@ -3066,7 +3066,7 @@ public class XMLRead {
                 }
                     
            checkEquationRefs();
-           
+                   
            if(this.nodeType.equals("Test")){
                 Test test=newTests.get(this.testFlowRef);
                 if(test!=null && test.isUsed()){
