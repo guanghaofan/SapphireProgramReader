@@ -1265,6 +1265,180 @@ public class SapphireProgramReader extends Application {
         unUsedtestPane.setContent(unUsedTestListView);
         unUsedequationPane.setContent(unUsedEquationListView);
         unUsedpatternPane.setContent(unUsedPatternListView);
+        
+        unUsedFlowListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent t) {
+                if(t.getClickCount()==2){
+//                    System.out.println("");
+                    String flowName=unUsedFlowListView.getSelectionModel().getSelectedItem().toString();
+                    String fileName=null;
+                    
+                    for(FlowTable flowTable: xmlReader.flowTables){
+                        if(!flowTable.isUsed() && flowTable.getFlowName().equals(flowName)){
+                            fileName=flowTable.getFileName();
+                            break;
+                        }
+                    }
+                    if(fileName!=null){
+
+                        if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
+                            XMLRead.editBat(fileName, flowName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+
+                            XMLRead.editBat(fileName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                
+                }
+//                else if(t.getButton().equals(MouseButton.SECONDARY)){
+//                    System.out.println("Right clicked  on " +t.getSource());
+//                }
+//                System.out.println(fileListView.getSelectionModel().getSelectedItem().toString());
+               
+            }
+        });
+        
+        unUsedNodeListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent t) {
+                if(t.getClickCount()==2){
+//                    System.out.println("");
+                    String flowName=unUsedNodeListView.getSelectionModel().getSelectedItem().toString().split(":")[0];
+                    String nodeName=unUsedNodeListView.getSelectionModel().getSelectedItem().toString().split(":")[1];
+                    String fileName=null;
+                    System.out.println("flowName is " + flowName);
+                    System.out.println("nodeName is " + nodeName);
+                    
+                    
+                    for(FlowTable flowTable: xmlReader.flowTables){
+                        if(flowTable.getFlowName().equals(flowName)){
+                            fileName=flowTable.getFileName();
+                            System.out.println("fileName is " + fileName);
+                            break;
+                        }
+                    }
+                    if(fileName!=null){
+
+                        if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
+                            XMLRead.editBat(fileName, nodeName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+
+                            XMLRead.editBat(fileName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+//                    else{
+//                        System.out.println("Error file is not found for node " + nodeName +" in " + flowName);
+//                    }
+                
+                }
+//                else if(t.getButton().equals(MouseButton.SECONDARY)){
+//                    System.out.println("Right clicked  on " +t.getSource());
+//                }
+//                System.out.println(fileListView.getSelectionModel().getSelectedItem().toString());
+               
+            }
+        });
+        
+        unUsedTestListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent t) {
+                if(t.getClickCount()==2){
+                    String testName=unUsedTestListView.getSelectionModel().getSelectedItem().toString();
+                    String fileName=XMLRead.newTests.get(testName).getFileName();
+                    
+                    if(fileName!=null){
+
+                        if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
+                            XMLRead.editBat(fileName, testName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+
+                            XMLRead.editBat(fileName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                
+                }
+//                else if(t.getButton().equals(MouseButton.SECONDARY)){
+//                    System.out.println("Right clicked  on " +t.getSource());
+//                }
+//                System.out.println(fileListView.getSelectionModel().getSelectedItem().toString());
+               
+            }
+        });
+        
+        unUsedEquationListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent t) {
+                if(t.getClickCount()==2){
+                    String equName=unUsedEquationListView.getSelectionModel().getSelectedItem().toString();
+                    String fileName=XMLRead.equations.get(equName).getFileName();
+                    
+                    if(fileName!=null){
+
+                        if(XMLRead.notePadPath.toLowerCase().contains("gvim")){
+                            XMLRead.editBat(fileName, equName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else{
+
+                            XMLRead.editBat(fileName);
+                            try {
+                                XMLRead.runBat(XMLRead.openXMLFile);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                
+                }
+//                else if(t.getButton().equals(MouseButton.SECONDARY)){
+//                    System.out.println("Right clicked  on " +t.getSource());
+//                }
+//                System.out.println(fileListView.getSelectionModel().getSelectedItem().toString());
+               
+            }
+        });
                 
                 
         CleanUpPane.getPanes().addAll(unUsedflowTablePane,unUsednodePane,unUsedtestPane,unUsedequationPane/*,unUsedpatternPane*/);
@@ -1789,7 +1963,7 @@ public class SapphireProgramReader extends Application {
             else{
                 for(BaseNode baseNode: flowTable.getNodes()){
                     if(!baseNode.isUsed()){
-                        unUsedNodeListView.getItems().add(baseNode.getName() +" in " + flowTable.getFlowName() );
+                        unUsedNodeListView.getItems().add(flowTable.getFlowName()+":" + baseNode.getName()  );
                         System.out.println("unused node " + baseNode.getName() +" in Flow Table: " + flowTable.getFlowName());
                     }
                 }
