@@ -2394,6 +2394,35 @@ public class SapphireProgramReader extends Application {
 //                        }
                         
                     }
+                    else if(node.getNodeType().equalsIgnoreCase("device")){
+                        String fileName= node.getDeviceNodeFile();
+//                            System.out.println("open flow file " + fileName);
+//                            programNameField.setText("open flow file " + fileName);
+                            if(XMLRead.notePadPath.toLowerCase().contains("gvim"))
+                                XMLRead.editBat(fileName,"\""+ "\""+ "\""+ node.getDeviceNode().getName()+ "\""+ "\""+ "\""); 
+                            else
+                                XMLRead.editBat(fileName);
+                            String batFile=XMLRead.openXMLFile;
+//                            XMLRead.runBat(new File(XMLRead.openXMLFile).getAbsolutePath());
+                            try {
+                            Process ps = Runtime.getRuntime().exec(batFile);
+//                            programNameField.setText("open flow file " + fileName +" pass");
+//                            InputStream in = ps.getInputStream();
+//                            int c;
+//                            while ((c = in.read()) != -1) {
+//                                //System.out.print(c);
+//                            }
+//                            in.close();
+//                            ps.waitFor();
+
+                        } catch (IOException e) {
+//                            programNameField.setText("open flow file " + fileName +" failed" + e.toString() +" " +e.getStackTrace().toString() +" "+e.getMessage());
+                        } 
+//                            catch (InterruptedException ex) {
+//                            Logger.getLogger(SapphireProgramReader.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+                        
+                    }
                 }
             });
             openTest.setOnAction(new EventHandler() {

@@ -3154,6 +3154,9 @@ public class XMLRead {
         public DeviceNode getDeviceNode(){
             return flowTables.get(this.flowNo).getDeviceNodes();
         }
+        public String getDeviceNodeFile(){
+            return flowTables.get(this.flowNo).getFileName();
+        }
 
         public StartNode getStartNode() {
             return flowTables.get(this.flowNo).getStartNode();
