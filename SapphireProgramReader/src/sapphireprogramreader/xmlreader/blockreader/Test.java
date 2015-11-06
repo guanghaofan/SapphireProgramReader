@@ -1127,17 +1127,17 @@ public class Test {
     
     public void checkEquInTestDescription(){
         if(!this.euqationChecDone){
-//            System.out.println("Start to check Equation in TestDescription for Test " + this.root.expression );
+            System.out.println("Start to check Equation in TestDescription for Test " + this.root.expression );
             String eqnName=null;
             for(String testDes: this.testDesc){
-//                    System.out.println("TestDescription: " + testDes);
+                    System.out.println("TestDescription: " + testDes);
                     if(XMLRead.testDescription.containsKey(testDes)){
                         eqnName =XMLRead.testDescription.get(testDes).getEquation();
                         if(eqnName!=null){
                             Equation equ =XMLRead.equations.get(eqnName);
                             if(equ!=null){
                                 equ.setUseFul(true);
-//                                System.out.println("equation " + equ.getName() + "is used");
+                                System.out.println("equation " + equ.getName() + "is used");
                             }
                         }
                     }

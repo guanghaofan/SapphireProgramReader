@@ -1957,14 +1957,14 @@ public class SapphireProgramReader extends Application {
         
         for(FlowTable flowTable: xmlReader.flowTables){
             if(!flowTable.isUsed()){
-//                System.out.println("unused flow table " + flowTable.getFlowName());
+                System.out.println("unused flow table " + flowTable.getFlowName());
                 unUsedFlowListView.getItems().add(flowTable.getFlowName());
             }
             else{
                 for(BaseNode baseNode: flowTable.getNodes()){
                     if(!baseNode.isUsed()){
                         unUsedNodeListView.getItems().add(flowTable.getFlowName()+":" + baseNode.getName()  );
-//                        System.out.println("unused node " + baseNode.getName() +" in Flow Table: " + flowTable.getFlowName());
+                        System.out.println("unused node " + baseNode.getName() +" in Flow Table: " + flowTable.getFlowName());
                     }
                 }
             }
@@ -1974,14 +1974,14 @@ public class SapphireProgramReader extends Application {
         for(Test test: XMLRead.newTests.values()){
             if(!test.isUsed()){
                 unUsedTestListView.getItems().add(test.getRoot().getExpression());
-//                System.out.println("unused test " + test.getRoot().getExpression());
+                System.out.println("unused test " + test.getRoot().getExpression());
             }
         
         }
         for(Equation equ: XMLRead.equations.values()){
             if(!equ.isUseFul()){
                 unUsedEquationListView.getItems().add(equ.getName());
-//                System.out.println("unused equation " + equ.getName());
+                System.out.println("unused equation " + equ.getName());
             }
             unUsedEquationListView.setEditable(true);
 //            unUsedEquationListView.setS
@@ -2051,13 +2051,13 @@ public class SapphireProgramReader extends Application {
         
         if(baseNode!=null && (!baseNode.isUsed())){
             baseNode.setUsed(true);
-//            System.out.println("used node " + baseNode.getName());
+            System.out.println("used node " + baseNode.getName());
             
             if(baseNode.getNodeType().equals("Test")){
                 Test test= XMLRead.newTests.get(baseNode.getTestFlowRef());
                 if(test!=null&& (! test.isUsed())){
                     test.setUsed(true);
-//                    System.out.println("test "+ test.getRoot().getExpression() + " is used");
+                    System.out.println("test "+ test.getRoot().getExpression() + " is used");
                 }
                 for(GoToResult result: baseNode.getGoToResult()){
 //                    System.out.println("check node "+ baseNode.getName() + " "+ result.getReuslt()+"--->"+ result.getNodeRef() +"--->"+ result.getDecision());
@@ -2532,8 +2532,7 @@ public class SapphireProgramReader extends Application {
                                 setTextFill(Color.BLACK);
                             }
                             if(node.getNodeType().equals("Test")||node.getNodeType().equals("Flow")){
-//                                if(!node.getBaseNode().isUsed())
-                                if(!node.isIsUsed())
+                                if(!node.getBaseNode().isUsed())
                                     setTextFill(Color.GREEN);                               
                             }
                             
