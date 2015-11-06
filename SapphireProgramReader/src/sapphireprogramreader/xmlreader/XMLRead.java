@@ -2984,6 +2984,7 @@ public class XMLRead {
         private String overRideString = null;
         private String flowOverrideFile=null;
         private String overRideEqu=null;
+        private boolean isUsed=false;
 
         public TreeNode(StartNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("start.gif"))));
@@ -2997,6 +2998,7 @@ public class XMLRead {
             }else{
                 this.flowContext = motherFlowContext + "|" +  node.getFlowName()+ "^" + node.getNodeName();
             }
+            isUsed=true;
         }
         public TreeNode(DeviceNode node, String motherFlowContext) {
             setGraphic(new ImageView(new Image(getClass().getResourceAsStream("device.gif"))));
@@ -3010,6 +3012,7 @@ public class XMLRead {
             }else{
                 this.flowContext = motherFlowContext + "^" + node.getName();
             }
+            isUsed=node.isUsed();
         }
 
         public TreeNode(BaseNode node, String motherFlowContext, String motherEquationsRef) {
@@ -3092,6 +3095,7 @@ public class XMLRead {
                 }
                 
            }
+           isUsed=node.isUsed();
         }
 
         public TreeNode(ExitNode node, String motherFlowContext) {
@@ -3111,6 +3115,12 @@ public class XMLRead {
             }
             else
                 setGraphic(new ImageView(new Image(getClass().getResourceAsStream("badBin.gif"))));
+            isUsed=true;
+        }
+       
+
+        public boolean isIsUsed() {
+            return isUsed;
         }
  
         
@@ -3145,10 +3155,19 @@ public class XMLRead {
         }
 
         public BaseNode getBaseNode() {
+            try{
             if(flowTables.get(this.flowNo).getDeviceNodes()!=null)
                 return flowTables.get(this.flowNo).getNodes().get(this.nodeNo - 2);
             else
                 return flowTables.get(this.flowNo).getNodes().get(this.nodeNo - 1);
+            }catch(Exception e){
+                System.out.println("Error " + this.flowContext);
+                System.out.println("flowNo " + this.flowNo);
+                System.out.println("flowName is " + flowTables.get(this.flowNo).getFlowName());
+                flowTables.get(this.flowNo).printFlowTable();
+                System.out.println(e.getMessage());
+                return null;
+            }
         }
         
         public DeviceNode getDeviceNode(){
