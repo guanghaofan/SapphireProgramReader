@@ -84,7 +84,7 @@ public class PatListItem {
     }
 
     public boolean equals(PatListItem item) {
-        if((this.name.equals(item.getName())&&this.enabled==null)||(this.name.equals(item.getName())&&this.enabled.equals(item.getEnabled()))){
+        if((this.name.equals(item.getName())&&this.enabled==null && item.getEnabled()==null)||(this.name.equals(item.getName())&&this.enabled.equals(item.getEnabled()))){
          
                 return true;
         }
