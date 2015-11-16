@@ -84,12 +84,22 @@ public class PatListItem {
     }
 
     public boolean equals(PatListItem item) {
-        if((this.name.equals(item.getName())&&this.enabled==null && item.getEnabled()==null)||(this.name.equals(item.getName())&&this.enabled.equals(item.getEnabled()))){
-         
+        if(this.enabled==null){
+            if(this.name.equals(item.getName())&&item.getEnabled()==null){
                 return true;
+            }
+            else{
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
         }
-        else
-            return false; //To change body of generated methods, choose Tools | Templates.
+        else{
+            if(item.getEnabled()!=null && item.getEnabled().equals(this.enabled)&& item.getName().equals(this.name))
+                return true;
+            else
+                return false;
+                        
+        
+        }
     }
     
     
