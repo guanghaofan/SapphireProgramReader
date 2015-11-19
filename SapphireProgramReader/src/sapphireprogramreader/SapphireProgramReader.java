@@ -955,7 +955,7 @@ public class SapphireProgramReader extends Application {
             //****************************************************************************************
             @Override
             public void changed(ObservableValue<? extends TreeNode> ov, TreeNode t, TreeNode t1) {
-                
+                         
 //                Stage secondWindow=new Stage();
 //                Scene scene=new Scene(new VBox(),300,275);
 //                secondWindow.setTitle("secondWindow");
@@ -981,6 +981,8 @@ public class SapphireProgramReader extends Application {
 //                    testArea.clear();
 //                    testFlowArea.clear();
                     if (t1.getNodeType().equalsIgnoreCase("test")){
+                        accordion.setExpandedPane(testContextPane);
+                        
 //                        Test test=XMLRead.newTests.get(t1.getBaseNode().getTestFlowRef());
                         Test test=XMLRead.newTests.get(t1.getTestFlowRef());
                         
@@ -1138,6 +1140,7 @@ public class SapphireProgramReader extends Application {
 //                        }
                     }
                     if (t1.getNodeType().equalsIgnoreCase("device") && t1.getNodeIndex()!=-1){
+                        accordion.setExpandedPane(testContextPane);
                         
                         Test test=xmlReader.binningTest.get(t1.getNodeIndex());
                         if(test!=null){
