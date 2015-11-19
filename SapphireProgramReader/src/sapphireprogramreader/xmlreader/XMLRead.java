@@ -138,6 +138,7 @@ public class XMLRead {
     public static List<File> unusedFileList = new ArrayList<>();
     
     public static boolean evaluationOn=false; 
+    public static boolean expandTestTree=true;
 
     public String configFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\Config.xml";
     public static String openXMLFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat";
@@ -4412,6 +4413,16 @@ public class XMLRead {
                         else
                             XMLRead.evaluationOn=false;
                         break;
+                    case "ExpandTestTree":
+                        if(!variables.isEmpty() && variables.size()==1){
+                            
+                            if(variables.get(0).getText().trim().toLowerCase().equals("on"))
+                                XMLRead.expandTestTree=true;
+                            else
+                            XMLRead.expandTestTree=false;
+                        }
+                        break;
+                        
                     case "FolderFilter":
                         for(Element variable: variables){
                             this.folderNameFilter.add(variable.getText().trim());
@@ -4808,6 +4819,13 @@ public class XMLRead {
             node= EquationEvaluationRoot.addElement("Variable");
             node.addComment("This variable is to disable(off) or enable(on) Equation Evalution feature");
             node.setText("on");
+            
+            Element ExpandTestTreeRoot= root.addElement("Config");
+            ExpandTestTreeRoot.addAttribute("name", "ExpandTestTreeRoot");
+            node= ExpandTestTreeRoot.addElement("Variable");
+            node.addComment("This variable is to disable(off) or enable(on) expand test tree");
+            node.setText("on");
+            
                 
             Element FolderFilterRoot= root.addElement("Config");
              FolderFilterRoot.addComment("This is to set the Folder filters, all the folders would be ignored during loading xml files");

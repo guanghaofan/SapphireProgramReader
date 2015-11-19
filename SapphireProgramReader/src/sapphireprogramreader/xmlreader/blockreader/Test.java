@@ -109,6 +109,8 @@ public class Test {
         }
         else{
             getTreeItem();
+            
+            setExpanded(rootItem);
             return rootItem;
         }   
     }
@@ -287,7 +289,10 @@ public class Test {
         return rootItem;
     }
     public void setExpanded(TreeItem treeItem){
-        if(treeItem.isExpanded()) treeItem.setExpanded(false);
+//        if(!treeItem.isExpanded()){
+            treeItem.setExpanded(XMLRead.expandTestTree);
+//            System.out.println("expand tree " + treeItem.toString());
+//        }
 //        System.out.println(treeItem.getValue().toString() + " is set un expanded");
         for(int i=0; i!= treeItem.getChildren().size();i++){
             TreeItem item= (TreeItem) treeItem.getChildren().get(i);
