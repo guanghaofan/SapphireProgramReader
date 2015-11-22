@@ -4601,7 +4601,7 @@ public class XMLRead {
                 if(content.contains(s)){
                     int i = content.split("%").length;
                     content=content.split("%")[i-1];
-                            }
+                }
                 printWriter.print(" -c /\\V\\C" + content);
             }
             printWriter.print(" \"");
