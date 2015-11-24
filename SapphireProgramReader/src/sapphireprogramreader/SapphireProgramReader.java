@@ -1111,6 +1111,7 @@ public class SapphireProgramReader extends Application {
 //                        testArea.setScrollTop(0);
                     }
                     else if(t1.getNodeType().equalsIgnoreCase("flow")){
+                        testContextTree.setRoot(null);
                         t1.getBaseNode().printFlowNode();
 //                        for(String line: t1.getBaseNode().getText()){
 //                              //System.out.println(line);
@@ -1126,6 +1127,7 @@ public class SapphireProgramReader extends Application {
 //                        }
                     }
                     else if(t1.getNodeType().equalsIgnoreCase("entry")){
+                        testContextTree.setRoot(null);
                         t1.getStartNode().printStartNode();
 //                        for(String line: t1.getStartNode().getText()){
 //                            //System.out.println(line);
@@ -1133,6 +1135,7 @@ public class SapphireProgramReader extends Application {
 //                        }
                     }
                     else if(t1.getNodeType().equalsIgnoreCase("exit")){
+                        testContextTree.setRoot(null);
                         t1.getExitNode().printExitNode();
 //                        for(String line: t1.getExitNode().getText()){
 //                            //System.out.println(line);
@@ -1453,7 +1456,9 @@ public class SapphireProgramReader extends Application {
         
         //accordion.getPanes().addAll(myTitledPane("NodeInfo"),myTitledPane("Test"));
         
-        AnchorPane nodeInfoPane = new AnchorPane();
+        final AnchorPane nodeInfoPane = new AnchorPane();
+        nodeInfoPane.setMinHeight(200);
+        nodeInfoPane.setMaxHeight(200);
         
         final HBox flowContextBox= new HBox();
         HBox nodeTypeBox= new HBox();
@@ -1541,8 +1546,8 @@ public class SapphireProgramReader extends Application {
         
         nodeInfoPane.getChildren().addAll(vBox);
 
-        titledPane.setContent(nodeInfoPane);
-        titledPane.setText("Node Information");
+//        titledPane.setContent(nodeInfoPane);
+//        titledPane.setText("Node Information");
 
 //        final TitledPane textTitledPane= new TitledPane();
 //        AnchorPane textAnchorPane = new AnchorPane();
@@ -1589,7 +1594,7 @@ public class SapphireProgramReader extends Application {
                             
         
         accordion.setMinWidth(0);
-        accordion.getPanes().addAll(titledPane, /*textTitledPane,*/ equationPane, testContextPane);
+        accordion.getPanes().addAll(/*titledPane, /*textTitledPane,*/ equationPane, testContextPane);
 //        accordion.setExpandedPane(textTitledPane);
                 
         AnchorPane extendPane= new AnchorPane();
@@ -1632,8 +1637,44 @@ public class SapphireProgramReader extends Application {
         });
         
         tab2.setContent(extendPane);
-        tab1.setContent(accordion);
+//        tab1.setContent(accordion);
         tab3.setContent(CleanUpPane);
+        
+        AnchorPane mainAnchorPane= new AnchorPane();
+        VBox mainVBox= new VBox();
+        mainAnchorPane.getChildren().addAll(nodeInfoPane,accordion);
+        
+        tab1.setContent(mainAnchorPane);
+        
+//        mainVBox.prefHeight( Control.USE_COMPUTED_SIZE);
+//        mainVBox.prefWidth( Control.USE_COMPUTED_SIZE);
+        
+//        
+//        mainAnchorPane.prefHeight( Control.USE_COMPUTED_SIZE);
+//        mainAnchorPane.prefWidth( Control.USE_COMPUTED_SIZE);
+//        
+        
+        
+        
+        mainAnchorPane.heightProperty().addListener(new ChangeListener<Number>(){
+            
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+                accordion.setPrefHeight(t1.doubleValue()-185);
+              
+//                nodeInfoPane.setPrefHeight(200);
+                accordion.setLayoutY(185);
+            }
+        });
+        mainAnchorPane.widthProperty().addListener(new ChangeListener<Number>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
+                accordion.setPrefWidth(t1.doubleValue()-1);
+                nodeInfoPane.setPrefWidth(t1.doubleValue()-1);
+            }
+        });
         
 //        HBox actionHBox= new HBox();
 //        Label _actionLabel= new Label("Action");
