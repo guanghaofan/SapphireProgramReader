@@ -58,4 +58,11 @@ public class GoToResult {
             return false;
         
     }
+    public boolean containsSearch(String content){
+        if(this.nodeRef!=null && this.nodeRef.toLowerCase().contains(content))
+            return true;
+        else
+            return false;
+        
+    }
 }

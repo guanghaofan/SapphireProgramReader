@@ -138,6 +138,42 @@ public class Levels {
         }
         
     }
+    
+    public boolean containsSearch(String content){
+        boolean isFound=false;
+        if(this.name.toLowerCase().contains(content)||(this.LoadboardRef!=null && this.LoadboardRef.toLowerCase().contains(content)))
+            return true;
+        else{
+            for(DPS dps: this.dps){
+                if(dps!=null&&dps.containsSearch(content)){
+                    isFound=true;
+                    break;
+                }
+            }
+            if(isFound)
+                return true;
+            else{
+                for(DCL dcl: this.dcl){
+                    if(dcl!=null&&dcl.containsSearch(content)){
+                        isFound=true;
+                        break;
+                    }
+                }
+                if(isFound)
+                    return true;
+                else{
+                    for(Connection _connection:this.connection){
+                        if(_connection.containsSearch(content)){
+                            isFound=true;
+                            break;
+                        }
+                    }
+                    return isFound;
+                }
+            }
+        }
+        
+    }
     public String getFileName() {
         return fileName;
     }
@@ -325,6 +361,20 @@ public class Levels {
             return isFound;
             
         } 
+        public boolean containsSearch(String content){
+//            System.out.println("Start Search DPs in " + this.sigRef);
+            boolean isFound=false;    
+            for(Item item: this.items){
+                if(item!=null&&item.containsSearch(content)){
+                    isFound=true;
+                    break;
+                            
+                }
+                
+            }
+            return isFound;
+            
+        } 
 
         public TreeItem getRoot() {
             TreeItem root= new TreeItem( new TestNodeCell_Label(this.sigRef));
@@ -389,6 +439,21 @@ public class Levels {
             for(Item item: this.items){
 //                System.out.println("Start Search DCL in " + this.sigRef);
                 if(item!=null && item.search(content)){
+                    isFound=true;
+                    break;
+                            
+                }
+                
+            }
+            return isFound;
+            
+        }
+        
+        public boolean containsSearch(String content){
+            boolean isFound=false;    
+            for(Item item: this.items){
+//                System.out.println("Start Search DCL in " + this.sigRef);
+                if(item!=null && item.containsSearch(content)){
                     isFound=true;
                     break;
                             
@@ -471,6 +536,21 @@ public class Levels {
             for(Item item: this.items){
 //                System.out.println("Start Search DCL in " + this.sigRef);
                 if(item!=null && item.search(content)){
+                    isFound=true;
+                    break;
+                            
+                }
+                
+            }
+            return isFound;
+            
+        }
+        
+        public boolean containsSearch(String content){
+            boolean isFound=false;    
+            for(Item item: this.items){
+//                System.out.println("Start Search DCL in " + this.sigRef);
+                if(item!=null && item.containsSearch(content)){
                     isFound=true;
                     break;
                             
@@ -575,6 +655,13 @@ public class Levels {
         
         public boolean search(String content){
             if(this.name.equals(content)||this.expression.equals(content))
+                return true;
+            else
+                return false;
+        }
+        
+        public boolean containsSearch(String content){
+            if(this.name.toLowerCase().contains(content)||this.expression.toLowerCase().contains(content))
                 return true;
             else
                 return false;

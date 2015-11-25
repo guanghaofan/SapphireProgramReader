@@ -269,5 +269,21 @@ public class BaseNode {
         this.used = used;
     }
     
+    
+    public boolean containsSearch(String content){
+        if(this.nodeName.toLowerCase().contains(content)||(this.tfRef.toLowerCase().contains(content))||(this.equationsRef!=null&&this.equationsRef.toLowerCase().contains(content))||(this.binningRef!=null&& this.binningRef.toLowerCase().contains(content)))
+            return true;
+        else{
+            boolean isFound=false;
+            for(GoToResult result: this.gotoResult){
+                if(result.containsSearch(content)){
+                    isFound=true;
+                    break;
+                }
+            }
+            return isFound;
+        }
+        
+    }
    
 }

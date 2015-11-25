@@ -90,6 +90,19 @@ public class FlowOverride {
         return found;
     
     }
+    
+     public boolean containsSearch(String context){
+        
+        boolean found=false;
+        for(FlowContext flowContext: this.flowContext){
+            if(flowContext.containsSearch(context)){
+                found=true;
+                break;
+            }
+        }
+        return found;
+    
+    }
     public void print(){
       System.out.println("<FlowOverride name=\"  "+ this.name + "\">");
       if(this.enable)

@@ -122,6 +122,9 @@ public class Test {
     public boolean search(String content){
         return root.search(content);
     }
+    public boolean searchIfContains(String content){
+        return root.searchIfContains(content);
+    }
     
     
 
@@ -971,6 +974,30 @@ public class Test {
                     boolean isFind=false;
                     for(TestItem item: this.subItems){
                         if(item.search(content)){
+                            isFind=true;
+                            break;
+                        }
+                    }
+                    if(isFind)
+                        return true;
+                    else
+                        return false;
+                }
+        }
+        public boolean searchIfContains(String content){
+                if(this.isLeaf){
+//                    System.out.println(this.name);
+                    if (this.expression!=null && this.expression.toLowerCase().contains(content))
+                        return true;
+                    else
+                        return false;
+                }
+                else{
+                    if (this.expression!=null && this.expression.toLowerCase().contains(content))
+                        return true;
+                    boolean isFind=false;
+                    for(TestItem item: this.subItems){
+                        if(item.searchIfContains(content)){
                             isFind=true;
                             break;
                         }

@@ -52,6 +52,15 @@ public class FlowContext{
         
         }
         
+        public boolean containsSearch(String context){
+            if(this.name.toLowerCase().contains(context))
+                return true;
+            else{
+                return (this.byPass.containsSearch(context));
+            }
+        
+        }
+        
         public void print(){
             System.out.println("    <FlowContext name=\"" + this.name +"\">" );
             this.byPass.print();
@@ -98,6 +107,16 @@ public class FlowContext{
                 if(this.equationRef.equals(context))
                     return true;
                 else if(this.variableName.equals(context))
+                    return true;
+                else
+                    return false;
+                  
+            }
+            
+            public boolean containsSearch(String context){
+                if(this.equationRef.toLowerCase().contains(context))
+                    return true;
+                else if(this.variableName.toLowerCase().contains(context))
                     return true;
                 else
                     return false;

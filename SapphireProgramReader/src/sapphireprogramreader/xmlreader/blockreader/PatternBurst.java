@@ -171,6 +171,20 @@ public class PatternBurst {
             return isFind;
         }
     }
+    public boolean containsSearch(String content){
+        if (this.name.toLowerCase().contains(content)||( this.compareRef!=null &&this.compareRef.toLowerCase().contains(content))||(this.composite!=null&&this.composite.toLowerCase().contains(content)))
+            return true;
+        else{
+            boolean isFind=false;
+            for(PatListItem item: this.getPatternList()){
+                if(item.getName().toLowerCase().contains(content)||(item.getEnabled()!=null && item.getEnabled().toLowerCase().contains(content))){
+                    isFind=true;
+                    break;
+                }
+            }
+            return isFind;
+        }
+    }
     public TreeItem getChildren( TreeItem root){
 
         

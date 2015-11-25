@@ -191,5 +191,9 @@ public class FlowTable {
         
     
     }
+    public boolean containsSearch(String content){
+        return this.flowName.toLowerCase().contains(content)||((this.equationsRef!=null)&&(this.equationsRef.toLowerCase().contains(content)));
+            
+    }
     
 }

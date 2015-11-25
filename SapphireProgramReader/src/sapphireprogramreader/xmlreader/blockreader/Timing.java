@@ -136,6 +136,22 @@ public class Timing {
             return isFound;
         }
     }
+    
+    public boolean containsSearch(String content){
+        System.out.println("Start to search Timing in " + this.name);
+        boolean isFound=false;
+        if (this.name.toLowerCase().contains(content))
+            return true;
+        else{
+            for(TimingDomain domain: this.timingDomain){
+                if(domain!=null&&domain.containsSearch(content)){
+                    isFound=true;
+                    break;
+                }
+            }
+            return isFound;
+        }
+    }
     public String getName() {
         return name;
     }
@@ -233,12 +249,30 @@ public class Timing {
         public boolean search(String content){
             System.out.println("Start to search in SignalRef "+ this.name);
             boolean isFound=false;
-            if(this.name.equals(content)||(this.strobeMode!=null && this.strobeMode.equals(content))||(this.signalDelay!=null && this.signalDelay.equals(content))){
+            if((this.name!=null && this.name.equals(content))||(this.strobeMode!=null && this.strobeMode.equals(content))||(this.signalDelay!=null && this.signalDelay.equals(content))){
                 return true;
             }
             else{
                 for(WaveForm waveForm: this.waveForms){
                     if (waveForm!=null && waveForm.search(content)){
+                        isFound=true;
+                        break;
+                    }
+                }
+                return isFound;
+            }
+            
+        }
+        
+        public boolean containsSearch(String content){
+            System.out.println("Start to search in SignalRef "+ this.name);
+            boolean isFound=false;
+            if(((this.name!=null)&&this.name.toLowerCase().contains(content))||(this.strobeMode!=null && this.strobeMode.toLowerCase().contains(content))||(this.signalDelay!=null && this.signalDelay.toLowerCase().contains(content))){
+                return true;
+            }
+            else{
+                for(WaveForm waveForm: this.waveForms){
+                    if (waveForm!=null && waveForm.containsSearch(content)){
                         isFound=true;
                         break;
                     }
@@ -440,6 +474,23 @@ public class Timing {
                     return false;     
                 
             }
+            
+            public boolean containsSearch(String content){
+                System.out.println("Start to search in WaveForm "+ this.name);
+                if (this.name!=null&&this.name.toLowerCase().contains(content))
+                    return true;
+                else if((this.time1!=null && this.time1.toLowerCase().contains(content))|| this.event1!=null&& this.event1.toLowerCase().contains(content))
+                    return true;
+                else if((this.time2!=null && this.time2.toLowerCase().contains(content))|| this.event2!=null&& this.event2.toLowerCase().contains(content))
+                    return true;
+                else if((this.time3!=null && this.time3.toLowerCase().contains(content))|| this.event3!=null&& this.event3.toLowerCase().contains(content))
+                    return true;
+                else if((this.time4!=null && this.time4.toLowerCase().contains(content))|| this.event4!=null&& this.event4.toLowerCase().contains(content))
+                    return true;
+                else
+                    return false;     
+                
+            }
            
 
             @Override
@@ -479,7 +530,15 @@ public class Timing {
         }
         public boolean search(String content){
             System.out.println("Start to search in Period "+ this.name);
-            if(this.name.equals(content)||this.expression.equals(content))
+            if((this.name!=null&&this.name.equals(content))||(this.expression!=null&&this.expression.equals(content)))
+                return true;
+            else
+                return false;
+        }
+        
+        public boolean containsSearch(String content){
+            System.out.println("Start to search in Period "+ this.name);
+            if((this.name!=null && this.name.toLowerCase().contains(content))||(this.expression!=null&& this.expression.toLowerCase().contains(content)))
                 return true;
             else
                 return false;
@@ -619,7 +678,7 @@ public class Timing {
         public boolean search(String content){
             System.out.println("Start to search in Timing Domain "+ this.name);
             boolean isFound=false;
-            if(this.name.equals(content))
+            if(this.name!=null && this.name.equals(content))
                 return true;
             else{
                 for(Period period: this.periods){
@@ -633,6 +692,32 @@ public class Timing {
                 else{
                     for(SignalRef sig :this.signalRefs){
                         if(sig!=null&& sig.search(content)){
+                            isFound=true;
+                            break;
+                        }
+                    }
+                    return isFound;
+                }
+            } 
+        }
+        
+        public boolean containsSearch(String content){
+            System.out.println("Start to search in Timing Domain "+ this.name);
+            boolean isFound=false;
+            if(this.name!=null && this.name.toLowerCase().contains(content))
+                return true;
+            else{
+                for(Period period: this.periods){
+                    if(period!=null&&period.containsSearch(content)){
+                        isFound=true;
+                        break;
+                    }
+                }
+                if(isFound)
+                    return true;
+                else{
+                    for(SignalRef sig :this.signalRefs){
+                        if(sig!=null&& sig.containsSearch(content)){
                             isFound=true;
                             break;
                         }

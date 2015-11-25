@@ -134,4 +134,14 @@ public final class StartNode {
         }
         return isFound;
     }
+    public boolean containsSearch(String content){
+        boolean isFound=false;
+        for(GoToResult result: this.getResult()){
+            if(result.containsSearch(content)){
+                isFound=true;
+                break;
+            }
+        }
+        return isFound;
+    }
 }

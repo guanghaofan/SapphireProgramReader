@@ -27,7 +27,9 @@ public class GenericBlock {
     public boolean search(String content){
         return root.search(content);
     }
-    
+    public boolean containsSearch(String content){
+        return root.containsSearch(content);
+    }
 
     public Item getRoot() {
         return root;
@@ -112,6 +114,31 @@ public class GenericBlock {
                     boolean isFind=false;
                     for(Item item: this.subItems){
                         if(item!=null&&item.search(content)){
+                            isFind=true;
+                            break;
+                        }
+                    }
+                    if(isFind)
+                        return true;
+                    else
+                        return false;
+                }
+        }
+        
+        public boolean containsSearch(String content){
+                if(this.isLeaf){
+//                    System.out.println(this.name);
+                    if (this.expression!=null && this.expression.toLowerCase().contains(content))
+                        return true;
+                    else
+                        return false;
+                }
+                else{
+                    if (this.expression!=null && this.expression.toLowerCase().contains(content))
+                        return true;
+                    boolean isFind=false;
+                    for(Item item: this.subItems){
+                        if(item!=null&&item.containsSearch(content)){
                             isFind=true;
                             break;
                         }
