@@ -4721,6 +4721,18 @@ public class XMLRead {
                         else
                             XMLRead.evaluationOn=false;
                         break;
+                    case "CaseSensitive":
+                        if(!variables.isEmpty() && variables.size()==1){
+                            
+                            if(variables.get(0).getText().trim().toLowerCase().equals("on"))
+                                XMLRead.caseSenstive=true;
+                            else
+                            XMLRead.caseSenstive=false;
+                        }
+                        else
+                            XMLRead.caseSenstive=false;
+                        break;    
+                        
                     case "ExpandTestTree":
                         if(!variables.isEmpty() && variables.size()==1){
                             
@@ -4911,6 +4923,57 @@ public class XMLRead {
                     content=content.split("%")[i-1];
                 }
                 printWriter.print(" -c /\\V\\C" + content);
+            }
+            printWriter.print(" \"");
+            printWriter.print(fileName);
+            printWriter.print("\"");
+            printWriter.close();
+            printWriter= null;
+        }
+        
+    }
+    public static void editBatIgnoreCase( String fileName, String content){
+        
+        File _file=new File(System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat");
+        if (!_file.exists()){
+            try {
+                _file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(XMLRead.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        String file= _file.getAbsolutePath();
+        
+        
+        PrintWriter printWriter =null;
+
+        if ( printWriter == null) {
+            try {
+                printWriter = new PrintWriter(new FileWriter(file, false),true);             
+            } catch (IOException e) { 
+                System.out.println ("ERROR: Unable to open file");
+                printWriter=null;
+            }       
+        }
+        if ( printWriter != null) {
+            printWriter.print("\"");
+            printWriter.print(notePadPath);
+            printWriter.print("\"");
+            if(notePadPath.toLowerCase().contains("gvim")&& content!=null){
+                
+                //-c /\V\CINSTALLATION
+                String s="^";
+                if(content.contains(s))
+                    content= content.replaceAll("\\^", "\"" + "^" + "\"");
+                s="|";
+                if(content.contains(s))
+                    content= content.replaceAll("\\|", "\"" + "|" + "\"");
+                s="%";
+                if(content.contains(s)){
+                    int i = content.split("%").length;
+                    content=content.split("%")[i-1];
+                }
+                printWriter.print(" -c /\\V\\c" + content);
             }
             printWriter.print(" \"");
             printWriter.print(fileName);
@@ -5127,6 +5190,12 @@ public class XMLRead {
             node= EquationEvaluationRoot.addElement("Variable");
             node.addComment("This variable is to disable(off) or enable(on) Equation Evalution feature");
             node.setText("on");
+            
+            Element CaseSensitiveRoot= root.addElement("Config");
+            CaseSensitiveRoot.addAttribute("name", "CaseSensitive");
+            node= CaseSensitiveRoot.addElement("Variable");
+            node.addComment("This variable is to disable(off) or enable(on) case senstive in content search");
+            node.setText("off");
             
             Element ExpandTestTreeRoot= root.addElement("Config");
             ExpandTestTreeRoot.addAttribute("name", "ExpandTestTreeRoot");

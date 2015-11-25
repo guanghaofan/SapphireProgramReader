@@ -243,7 +243,10 @@ public class SapphireProgramReader extends Application {
 //                    System.out.println("");
                     
                     if(XMLRead.notePadPath.toLowerCase().contains("gvim") && searchContent!=null && searchContent!=""){
-                        XMLRead.editBat(fileListView.getSelectionModel().getSelectedItem().toString(),searchContent);
+                        if(XMLRead.caseSenstive)    
+                            XMLRead.editBat(fileListView.getSelectionModel().getSelectedItem().toString(),searchContent);
+                        else
+                            XMLRead.editBatIgnoreCase(fileListView.getSelectionModel().getSelectedItem().toString(),searchContent);
                         try {
                             XMLRead.runBat(XMLRead.openXMLFile);
                         } catch (InterruptedException ex) {
