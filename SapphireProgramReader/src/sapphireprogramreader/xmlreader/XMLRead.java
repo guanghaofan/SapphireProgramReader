@@ -139,6 +139,7 @@ public class XMLRead {
     
     public static boolean evaluationOn=false; 
     public static boolean expandTestTree=true;
+    public static boolean caseSenstive=false;
 
     public String configFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\Config.xml";
     public static String openXMLFile=System.getProperty("user.home") + "\\SapphireProgramReader\\config\\openXML.bat";
@@ -3890,6 +3891,10 @@ public class XMLRead {
 
     public void startSearch(String content, boolean depthSearch) {
         searchResult.clear();
+        if(!caseSenstive){
+            content=content.toLowerCase();
+        }
+        
         File folder= new File("config");
         if(!folder.exists()||(folder.exists()&&folder.isFile())){
             folder.mkdir();
@@ -3935,145 +3940,299 @@ public class XMLRead {
 //            }
 //        }
         
-        for(Test test: XMLRead.newTests.values()){
-            if(searchResult.contains(test.getFileName()) && (!depthSearch))
-                continue;
-            if(test.search(content)){
-                addFile(test.getFileName());
-                if(depthSearch){
-                    test.print(printWriter);
-                }
-            }
-            else if(test.getEquationRef().contains(content) || test.getVariables().contains(content)){
-                addFile(test.getFileName());
-                if(depthSearch){
-                    test.print(printWriter);
-                }
-            }
+        if(!caseSenstive){
             
-                
+            for(Test test: XMLRead.newTests.values()){
+                if(searchResult.contains(test.getFileName()) && (!depthSearch))
+                    continue;
+                if(test.searchIfContains(content)){
+                    addFile(test.getFileName());
+                    if(depthSearch){
+                        test.print(printWriter);
+                    }
+                }
+            }
+        }
+        
+        else{
+        
+            for(Test test: XMLRead.newTests.values()){
+                if(searchResult.contains(test.getFileName()) && (!depthSearch))
+                    continue;
+                if(test.search(content)){
+                    addFile(test.getFileName());
+                    if(depthSearch){
+                        test.print(printWriter);
+                    }
+                }
+                else if(test.getEquationRef().contains(content) || test.getVariables().contains(content)){
+                    addFile(test.getFileName());
+                    if(depthSearch){
+                        test.print(printWriter);
+                    }
+                }
+
+
+            }
         }
         System.out.println("Test Search Done");
         
-        for (FlowTable table : flowTables) {
-            if(searchResult.contains(table.getFileName()) && (!depthSearch))
-                continue;
-//            System.out.println("flow Name " + table.getFlowName());
-            boolean isFound = false;
-            if(table.search(content)){
-                if(depthSearch) {
-                    table.printFlowTable(printWriter);
-                }
-                addFile(table.getFileName());
-                continue;
-            }
-            else{
-                if(table.getStartNode().search(content)){
-                    addFile(table.getFileName());
+        
+        if(!caseSenstive){
+            for (FlowTable table : flowTables) {
+                if(searchResult.contains(table.getFileName()) && (!depthSearch))
+                    continue;
+    //            System.out.println("flow Name " + table.getFlowName());
+                boolean isFound = false;
+                if(table.containsSearch(content)){
                     if(depthSearch) {
-                         table.getStartNode().printStartNode(printWriter);
+                        table.printFlowTable(printWriter);
                     }
-                    else
-                        continue;
+                    addFile(table.getFileName());
+                    continue;
                 }
-               
-                for (BaseNode node : table.getNodes()) {
-                    if(node.search(content)){  
-                        isFound=true;
+                else{
+                    if(table.getStartNode().containsSearch(content)){
+                        addFile(table.getFileName());
                         if(depthSearch) {
-                            node.printTestNode(printWriter);
+                             table.getStartNode().printStartNode(printWriter);
                         }
                         else
-                            break;
+                            continue;
                     }
-                        
+
+                    for (BaseNode node : table.getNodes()) {
+                        if(node.containsSearch(content)){  
+                            isFound=true;
+                            if(depthSearch) {
+                                node.printTestNode(printWriter);
+                            }
+                            else
+                                break;
+                        }
+
+                    }
+                    if(isFound)
+                        addFile(table.getFileName());
                 }
-                if(isFound)
+            }
+            
+        }
+        else{
+            for (FlowTable table : flowTables) {
+                if(searchResult.contains(table.getFileName()) && (!depthSearch))
+                    continue;
+    //            System.out.println("flow Name " + table.getFlowName());
+                boolean isFound = false;
+                if(table.search(content)){
+                    if(depthSearch) {
+                        table.printFlowTable(printWriter);
+                    }
                     addFile(table.getFileName());
+                    continue;
+                }
+                else{
+                    if(table.getStartNode().search(content)){
+                        addFile(table.getFileName());
+                        if(depthSearch) {
+                             table.getStartNode().printStartNode(printWriter);
+                        }
+                        else
+                            continue;
+                    }
+
+                    for (BaseNode node : table.getNodes()) {
+                        if(node.search(content)){  
+                            isFound=true;
+                            if(depthSearch) {
+                                node.printTestNode(printWriter);
+                            }
+                            else
+                                break;
+                        }
+
+                    }
+                    if(isFound)
+                        addFile(table.getFileName());
+                }
             }
         }
         System.out.println("Flow Search Done");
         
+        if(!caseSenstive){
+            for (Iterator<PatternBurst> it = patternBursts.values().iterator(); it.hasNext();) {
+                PatternBurst pattern = it.next();
+                if(searchResult.contains(pattern.getFileName()) && (!depthSearch))
+                    continue;
+
+                if(pattern.containsSearch(content)){
+                    addFile(pattern.getFileName());
+                    if(depthSearch)
+                        pattern.print(printWriter);
+                }
+            }
         
-        for (Iterator<PatternBurst> it = patternBursts.values().iterator(); it.hasNext();) {
-            PatternBurst pattern = it.next();
-            if(searchResult.contains(pattern.getFileName()) && (!depthSearch))
-                continue;
-            
-            if(pattern.search(content)){
-                addFile(pattern.getFileName());
-                if(depthSearch)
-                    pattern.print(printWriter);
+        }
+        else{
+            for (Iterator<PatternBurst> it = patternBursts.values().iterator(); it.hasNext();) {
+                PatternBurst pattern = it.next();
+                if(searchResult.contains(pattern.getFileName()) && (!depthSearch))
+                    continue;
+
+                if(pattern.search(content)){
+                    addFile(pattern.getFileName());
+                    if(depthSearch)
+                        pattern.print(printWriter);
+                }
             }
         }
         System.out.println("Pattern Burst search Done");
 //        System.out.println("Total Equation count " + this.equations.values().size());
         // start to search equations
 //        int i=0;
-        for (Equation equation : this.equations.values()) {
-            if(searchResult.contains(equation.getFileName()) && (!depthSearch))
-                continue;
-            
-            if(equation.getName().equals(content)){
-                addFile(equation.getFileName());
-                if(depthSearch) writeContext(printWriter,equation,"equation");
-                continue; 
-                     
-            }
-//            if(i==3631){
-//                i=3631;
-//            }
-            boolean isFind=false;
-            System.out.println("Start to search in " + equation.getName() );
-//            if(equation.getName().equals("OBD"))
-//                isFind=false;
-            if(equation.getGroupList()!=null){
-                for (Group group : equation.getGroupList()) {
-                    if(group.getNodes()!=null){
-                        for (equationNode node : group.getNodes()) {
-                            if (node.getName().equals(content)) {
-                                addFile(equation.getFileName());
-                                if(depthSearch) writeContext(printWriter,equation,"equation");
-                                isFind=true;
-                                break;
-                            }
-                            if (node.getType() == 0) { // this ia a variable
-                                if (node.getExpression().equals(content)) {
+        
+        if(!caseSenstive){
+            for (Equation equation : this.equations.values()) {
+                if(searchResult.contains(equation.getFileName()) && (!depthSearch))
+                    continue;
+
+                if(equation.getName().toLowerCase().equals(content)){
+                    addFile(equation.getFileName());
+                    if(depthSearch) writeContext(printWriter,equation,"equation");
+                    continue; 
+
+                }
+    //            if(i==3631){
+    //                i=3631;
+    //            }
+                boolean isFind=false;
+                System.out.println("Start to search in " + equation.getName() );
+    //            if(equation.getName().equals("OBD"))
+    //                isFind=false;
+                if(equation.getGroupList()!=null){
+                    for (Group group : equation.getGroupList()) {
+                        if(group.getNodes()!=null){
+                            for (equationNode node : group.getNodes()) {
+                                if (node.getName().toLowerCase().equals(content)) {
                                     addFile(equation.getFileName());
                                     if(depthSearch) writeContext(printWriter,equation,"equation");
                                     isFind=true;
                                     break;
                                 }
+                                if (node.getType() == 0) { // this ia a variable
+                                    if (node.getExpression().toLowerCase().equals(content)) {
+                                        addFile(equation.getFileName());
+                                        if(depthSearch) writeContext(printWriter,equation,"equation");
+                                        isFind=true;
+                                        break;
+                                    }
+                                }
                             }
                         }
+                        if(isFind) break;
                     }
-                    if(isFind) break;
+                }
+            }
+            
+        
+        }
+        else{
+            for (Equation equation : this.equations.values()) {
+                if(searchResult.contains(equation.getFileName()) && (!depthSearch))
+                    continue;
+
+                if(equation.getName().equals(content)){
+                    addFile(equation.getFileName());
+                    if(depthSearch) writeContext(printWriter,equation,"equation");
+                    continue; 
+
+                }
+    //            if(i==3631){
+    //                i=3631;
+    //            }
+                boolean isFind=false;
+                System.out.println("Start to search in " + equation.getName() );
+    //            if(equation.getName().equals("OBD"))
+    //                isFind=false;
+                if(equation.getGroupList()!=null){
+                    for (Group group : equation.getGroupList()) {
+                        if(group.getNodes()!=null){
+                            for (equationNode node : group.getNodes()) {
+                                if (node.getName().equals(content)) {
+                                    addFile(equation.getFileName());
+                                    if(depthSearch) writeContext(printWriter,equation,"equation");
+                                    isFind=true;
+                                    break;
+                                }
+                                if (node.getType() == 0) { // this ia a variable
+                                    if (node.getExpression().equals(content)) {
+                                        addFile(equation.getFileName());
+                                        if(depthSearch) writeContext(printWriter,equation,"equation");
+                                        isFind=true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if(isFind) break;
+                    }
                 }
             }
         }
         System.out.println("Equations search Done");
         
         // start to search test description
-        for(GenericBlock _testDescription: XMLRead.testDescription.values()){
-            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
-                continue;
-            if (_testDescription.search(content)){
-                addFile(_testDescription.getFileName());
-                if(depthSearch){
-                    _testDescription.print(printWriter);
+        
+        
+        if(!caseSenstive){
+            for(GenericBlock _testDescription: XMLRead.testDescription.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.containsSearch(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+            for(GenericBlock _testDescription: XMLRead.testDescription.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.search(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
                 }
             }
         }
         System.out.println("TestDescription search Done");
         
         // start to search test result spec
-        for(GenericBlock _testDescription: XMLRead.resultSpecs.values()){
-            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
-                continue;
-            if (_testDescription.search(content)){
-                addFile(_testDescription.getFileName());
-                if(depthSearch){
-                    _testDescription.print(printWriter);
+        if(!caseSenstive){
+            for(GenericBlock _testDescription: XMLRead.resultSpecs.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.containsSearch(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+        
+            for(GenericBlock _testDescription: XMLRead.resultSpecs.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.search(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
                 }
             }
         }
@@ -4081,131 +4240,280 @@ public class XMLRead {
         
         
         // start to search compareSpec
-        for(GenericBlock _testDescription: XMLRead.compares.values()){
-            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
-                continue;
-            if (_testDescription.search(content)){
-                addFile(_testDescription.getFileName());
-                if(depthSearch){
-                    _testDescription.print(printWriter);
+        if(!caseSenstive){
+            for(GenericBlock _testDescription: XMLRead.compares.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.containsSearch(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
+                }
+            }
+        }
+        {
+            for(GenericBlock _testDescription: XMLRead.compares.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.search(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
                 }
             }
         }
         System.out.println("Compares search Done");
         
          // start to search DCs
-        for(GenericBlock _testDescription: XMLRead.DCs.values()){
-            if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
-                continue;
-            if (_testDescription.search(content)){
-                addFile(_testDescription.getFileName());
-                if(depthSearch){
-                    _testDescription.print(printWriter);
+        if(!caseSenstive){
+            for(GenericBlock _testDescription: XMLRead.DCs.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.containsSearch(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+            for(GenericBlock _testDescription: XMLRead.DCs.values()){
+                if(searchResult.contains(_testDescription.getFileName()) && (!depthSearch))
+                    continue;
+                if (_testDescription.search(content)){
+                    addFile(_testDescription.getFileName());
+                    if(depthSearch){
+                        _testDescription.print(printWriter);
+                    }
                 }
             }
         }
         System.out.println("DC sequence/control/pattern search Done");
 
         // start to seach TestProgram
-
-        if (action.search(content)){
-            addFile(action.getFileName());
-            if(depthSearch){
-                action.print(printWriter);
+        if(!caseSenstive){
+            if (action.containsSearch(content)){
+                addFile(action.getFileName());
+                if(depthSearch){
+                    action.print(printWriter);
+                }
+            }
+        }
+        else{
+            if (action.search(content)){
+                addFile(action.getFileName());
+                if(depthSearch){
+                    action.print(printWriter);
+                }
             }
         }
         System.out.println("Action search Done");
-        for (GenericBlock _vectorResult :vectorResult.values()) {
-            if(searchResult.contains(_vectorResult.getFileName()) && (!depthSearch))
-                continue;
-            if(_vectorResult.search(content)){
-                addFile(_vectorResult.getFileName());
-                if(depthSearch){
-                    _vectorResult.print(printWriter);
+        if(!caseSenstive){
+            for (GenericBlock _vectorResult :vectorResult.values()) {
+                if(searchResult.contains(_vectorResult.getFileName()) && (!depthSearch))
+                    continue;
+                if(_vectorResult.containsSearch(content)){
+                    addFile(_vectorResult.getFileName());
+                    if(depthSearch){
+                        _vectorResult.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+            for (GenericBlock _vectorResult :vectorResult.values()) {
+                if(searchResult.contains(_vectorResult.getFileName()) && (!depthSearch))
+                    continue;
+                if(_vectorResult.search(content)){
+                    addFile(_vectorResult.getFileName());
+                    if(depthSearch){
+                        _vectorResult.print(printWriter);
+                    }
                 }
             }
         }
         System.out.println("Vector Result search Done");
         //starts to search LoadBoardRef
-        for (GenericBlock _loadBoardRef :XMLRead.loadBoards.values()) {
-            if(searchResult.contains(_loadBoardRef.getFileName()) && (!depthSearch))
-                continue;
-            if(_loadBoardRef.search(content)){
-                addFile(_loadBoardRef.getFileName());
-                if(depthSearch){
-                    _loadBoardRef.print(printWriter);
+        
+        if(!caseSenstive){
+            for (GenericBlock _loadBoardRef :XMLRead.loadBoards.values()) {
+                if(searchResult.contains(_loadBoardRef.getFileName()) && (!depthSearch))
+                    continue;
+                if(_loadBoardRef.containsSearch(content)){
+                    addFile(_loadBoardRef.getFileName());
+                    if(depthSearch){
+                        _loadBoardRef.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+            for (GenericBlock _loadBoardRef :XMLRead.loadBoards.values()) {
+                if(searchResult.contains(_loadBoardRef.getFileName()) && (!depthSearch))
+                    continue;
+                if(_loadBoardRef.search(content)){
+                    addFile(_loadBoardRef.getFileName());
+                    if(depthSearch){
+                        _loadBoardRef.print(printWriter);
+                    }
                 }
             }
         }
         
         System.out.println("SoftSet search Done");
         //starts to search LoadBoardRef
-        for (GenericBlock _softSet :XMLRead.softSet.values()) {
-            if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
-                continue;
-            if(_softSet.search(content)){
-                addFile(_softSet.getFileName());
-                if(depthSearch){
-                    _softSet.print(printWriter);
+        if(!caseSenstive){
+            for (GenericBlock _softSet :XMLRead.softSet.values()) {
+                if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
+                    continue;
+                if(_softSet.containsSearch(content)){
+                    addFile(_softSet.getFileName());
+                    if(depthSearch){
+                        _softSet.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+            for (GenericBlock _softSet :XMLRead.softSet.values()) {
+                if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
+                    continue;
+                if(_softSet.search(content)){
+                    addFile(_softSet.getFileName());
+                    if(depthSearch){
+                        _softSet.print(printWriter);
+                    }
                 }
             }
         }
         
-        for (GenericBlock _softSet :XMLRead.softSetGroup.values()) {
-            if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
-                continue;
-            if(_softSet.search(content)){
-                addFile(_softSet.getFileName());
-                if(depthSearch){
-                    _softSet.print(printWriter);
+        if(!caseSenstive){
+            for (GenericBlock _softSet :XMLRead.softSetGroup.values()) {
+                if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
+                    continue;
+                if(_softSet.containsSearch(content)){
+                    addFile(_softSet.getFileName());
+                    if(depthSearch){
+                        _softSet.print(printWriter);
+                    }
                 }
             }
         }
-        for (GenericBlock axisList :XMLRead.AxisList.values()) {
-            if(searchResult.contains(axisList.getFileName()) && (!depthSearch))
-                continue;
-            if(axisList.search(content)){
-                addFile(axisList.getFileName());
-                if(depthSearch){
-                    axisList.print(printWriter);
+        else{
+            for (GenericBlock _softSet :XMLRead.softSetGroup.values()) {
+                if(searchResult.contains(_softSet.getFileName()) && (!depthSearch))
+                    continue;
+                if(_softSet.search(content)){
+                    addFile(_softSet.getFileName());
+                    if(depthSearch){
+                        _softSet.print(printWriter);
+                    }
+                }
+            }
+        }
+        if(!caseSenstive){
+            for (GenericBlock axisList :XMLRead.AxisList.values()) {
+                if(searchResult.contains(axisList.getFileName()) && (!depthSearch))
+                    continue;
+                if(axisList.containsSearch(content)){
+                    addFile(axisList.getFileName());
+                    if(depthSearch){
+                        axisList.print(printWriter);
+                    }
+                }
+            }
+        }
+        else{
+            for (GenericBlock axisList :XMLRead.AxisList.values()) {
+                if(searchResult.contains(axisList.getFileName()) && (!depthSearch))
+                    continue;
+                if(axisList.search(content)){
+                    addFile(axisList.getFileName());
+                    if(depthSearch){
+                        axisList.print(printWriter);
+                    }
                 }
             }
         }
         
         System.out.println("LoadBoards search Done");
         // start to search levels
-        for(Levels _level: levels.values()){
-            if(searchResult.contains(_level.getFileName()) && (!depthSearch))
-                continue;
-            System.out.println("start search Level in " + _level.getName());
-            if(_level.search(content)){
-                addFile(_level.getFileName());
-                if(depthSearch)
-                    _level.print(printWriter);
+        if(!caseSenstive){
+            for(Levels _level: levels.values()){
+                if(searchResult.contains(_level.getFileName()) && (!depthSearch))
+                    continue;
+                System.out.println("start search Level in " + _level.getName());
+                if(_level.containsSearch(content)){
+                    addFile(_level.getFileName());
+                    if(depthSearch)
+                        _level.print(printWriter);
+                }
+
             }
-        
+        }
+        else{
+            for(Levels _level: levels.values()){
+                if(searchResult.contains(_level.getFileName()) && (!depthSearch))
+                    continue;
+                System.out.println("start search Level in " + _level.getName());
+                if(_level.search(content)){
+                    addFile(_level.getFileName());
+                    if(depthSearch)
+                        _level.print(printWriter);
+                }
+
+            }
         }
         System.out.println("Levels search Done");
         // starts to search timing
-        for(Timing _timing: XMLRead.timing.values()){
+        if(!caseSenstive){
+            for(Timing _timing: XMLRead.timing.values()){
             
-            if(searchResult.contains(_timing.getFileName()) && (!depthSearch))
-                continue;
-            
-            if(_timing.search(content)){
-                addFile(_timing.getFileName());
-                if(depthSearch)
-                    _timing.print(printWriter);
+                if(searchResult.contains(_timing.getFileName()) && (!depthSearch))
+                    continue;
+
+                if(_timing.containsSearch(content)){
+                    addFile(_timing.getFileName());
+                    if(depthSearch)
+                        _timing.print(printWriter);
+                }
+
             }
-                
+        }
+        else{
+            for(Timing _timing: XMLRead.timing.values()){
+
+                if(searchResult.contains(_timing.getFileName()) && (!depthSearch))
+                    continue;
+
+                if(_timing.search(content)){
+                    addFile(_timing.getFileName());
+                    if(depthSearch)
+                        _timing.print(printWriter);
+                }
+
+            }
         }
         System.out.println("Timing search Done");
-        
-        for(FlowOverride flowOverride: this.flowOverrides.values()){
-            if(searchResult.contains(flowOverride.getFileName()))
-                continue;
-            if(flowOverride.search(content)){
-                addFile(flowOverride.getFileName());
+        if(!caseSenstive){
+            for(FlowOverride flowOverride: this.flowOverrides.values()){
+                if(searchResult.contains(flowOverride.getFileName()))
+                    continue;
+                if(flowOverride.containsSearch(content)){
+                    addFile(flowOverride.getFileName());
+                }
+            }
+        }
+        else{
+            for(FlowOverride flowOverride: this.flowOverrides.values()){
+                if(searchResult.contains(flowOverride.getFileName()))
+                    continue;
+                if(flowOverride.search(content)){
+                    addFile(flowOverride.getFileName());
+                }
             }
         }
         
