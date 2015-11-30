@@ -39,6 +39,10 @@ public class FlowTable {
         
         // print start node
         startNode.printStartNode();
+        if(!this.deviceNodes.isEmpty()){
+        
+            this.deviceNodes.get(0).print();
+        }
 
         // print test node or flow node
         
@@ -64,6 +68,11 @@ public class FlowTable {
         
         // print start node
         startNode.printStartNodeInFlow(printWriter);
+        
+        if(!this.deviceNodes.isEmpty()){
+        
+            this.deviceNodes.get(0).printWriter(printWriter, "inflow");
+        }
 
         // print test node or flow node
         

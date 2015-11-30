@@ -5,6 +5,7 @@
  */
 package sapphireprogramreader.xmlreader.blockreader;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import org.dom4j.Element;
@@ -49,6 +50,31 @@ public class DeviceNode {
         }
         System.out.println("    </Node>");
     }
+    
+    public void printWriter(PrintWriter printWriter, String space){
+        if(space==null){
+        //System.out.println("");
+            printWriter.println("<Node name=\"" + name + "\">");
+            printWriter.println("  <Type>Device</Type>");
+            printWriter.println("  <BinningRef>" + this.binningRef+  "</BinningRef>");
+            for(GoToResult gotoResult: this.gotoResult){
+                gotoResult.printGoToResultInFlow(printWriter);
+            }
+            printWriter.println("</Node>");
+        }
+        else{
+            printWriter.println("  <Node name=\"" + name + "\">");
+            printWriter.println("    <Type>Device</Type>");
+            printWriter.println("    <BinningRef>" + this.binningRef+  "</BinningRef>");
+            for(GoToResult gotoResult: this.gotoResult){
+                gotoResult.printGoToResultInFlow(printWriter);
+            }
+            printWriter.println("  </Node>");
+        
+        }
+        
+        
+    }
 
     public String getFlowName() {
         return flowName;
@@ -86,7 +112,45 @@ public class DeviceNode {
         this.used = used;
     }
     
+    public boolean search(String content){
+        if(this.name.equals(content))
+            return true;
+        else if(this.nodeType.equals(content))
+            return true;
+        else if(this.binningRef.equals(content))
+            return true;
+        else{
+            boolean find=false;
+            for(GoToResult result: this.gotoResult){
+                if(result.search(content)){
+                    find =true;
+                    break;
+                }
+                    
+            }
+            return find;
+        }
+    }
     
+    public boolean containsSearch(String content){
+        if(this.name.toLowerCase().contains(content))
+            return true;
+        else if(this.nodeType.toLowerCase().contains(content))
+            return true;
+        else if(this.binningRef.toLowerCase().contains(content))
+            return true;
+        else{
+            boolean find=false;
+            for(GoToResult result: this.gotoResult){
+                if(result.containsSearch(content)){
+                    find =true;
+                    break;
+                }
+                    
+            }
+            return find;
+        }
+    }
     
     
 }

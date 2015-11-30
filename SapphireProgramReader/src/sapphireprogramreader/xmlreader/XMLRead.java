@@ -2379,17 +2379,6 @@ public class XMLRead {
                 row.detach();
             }
         });
-        reader.addHandler( "/blocks/Config/Param",new ElementHandler() {
-            @Override
-            public void onStart(ElementPath path) {
-//                System.out.println("Start to read Flow " + path.getCurrent().attributeValue("name")); 
-            }
-            @Override
-            public void onEnd(ElementPath path) {
-                Element row = path.getCurrent();
-                row.detach();
-            }
-        });
         
         try {
             document = reader.read(file);
@@ -3891,10 +3880,7 @@ public class XMLRead {
 
     public void startSearch(String content, boolean depthSearch) {
         searchResult.clear();
-        if(!caseSenstive){
-            content=content.toLowerCase();
-        }
-        
+      
         File folder= new File("config");
         if(!folder.exists()||(folder.exists()&&folder.isFile())){
             folder.mkdir();
@@ -3922,6 +3908,7 @@ public class XMLRead {
                 try {
                     printWriter = new PrintWriter(new FileWriter(fileName, false),false);
                     printWriter.println("<Search name=\"" +content + "\">");
+                    printWriter.println("");
                     fileName=oneFile.getAbsolutePath();
                 } catch (IOException e) { 
                     System.out.println ("ERROR: Unable to open file");
@@ -3939,6 +3926,10 @@ public class XMLRead {
 //                }
 //            }
 //        }
+        
+        if(!caseSenstive){
+            content=content.toLowerCase();
+        }
         
         if(!caseSenstive){
             
@@ -4000,6 +3991,18 @@ public class XMLRead {
                         else
                             continue;
                     }
+                    
+                    if(table.getDeviceNodes()!=null && table.getDeviceNodes().containsSearch(content)){
+                       addFile(table.getFileName());
+                        if(depthSearch) {
+                            table.getDeviceNodes().printWriter(printWriter, null);                           
+                        }
+                        else
+                            continue;
+                        
+                        
+                    
+                    }
 
                     for (BaseNode node : table.getNodes()) {
                         if(node.containsSearch(content)){  
@@ -4040,7 +4043,17 @@ public class XMLRead {
                         else
                             continue;
                     }
-
+                    if(table.getDeviceNodes()!=null && table.getDeviceNodes().search(content)){
+                       addFile(table.getFileName());
+                        if(depthSearch) {
+                            table.getDeviceNodes().printWriter(printWriter, null);                           
+                        }
+                        else
+                            continue;
+                        
+                        
+                    
+                    }
                     for (BaseNode node : table.getNodes()) {
                         if(node.search(content)){  
                             isFound=true;
@@ -4265,6 +4278,35 @@ public class XMLRead {
             }
         }
         System.out.println("Compares search Done");
+        
+        if(!caseSenstive){
+            for(Test binTest: binningTest){
+                if(searchResult.contains(binTest.getFileName()) && (!depthSearch))
+                    continue;
+                if(binTest.searchIfContains(content)){
+                    addFile(binTest.getFileName());
+                    if(depthSearch){
+                        binTest.print(printWriter);
+                    }
+                }
+                
+            }
+        
+        }
+        else{
+            for(Test binTest: binningTest){
+                if(searchResult.contains(binTest.getFileName()) && (!depthSearch))
+                    continue;
+                if(binTest.search(content)){
+                    addFile(binTest.getFileName());
+                    if(depthSearch){
+                        binTest.print(printWriter);
+                    }
+                }
+                
+            }
+        
+        }
         
          // start to search DCs
         if(!caseSenstive){
@@ -4636,7 +4678,7 @@ public class XMLRead {
                 if(!isSkip)
                 { 
                         if(!(file.getParentFile().getName().toLowerCase().contains("bitmap")||file.getParentFile().getName().toLowerCase().contains("config"))){
-                        readEquation(file);
+                        readTest(file);
                         System.out.println("Re-Read Equation file " + file.getAbsolutePath());
                     }
                 }
