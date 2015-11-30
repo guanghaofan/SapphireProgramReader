@@ -4542,7 +4542,7 @@ public class XMLRead {
         System.out.println("Timing search Done");
         if(!caseSenstive){
             for(FlowOverride flowOverride: this.flowOverrides.values()){
-                if(searchResult.contains(flowOverride.getFileName()))
+                if(searchResult.contains(flowOverride.getFileName())&& (!depthSearch))
                     continue;
                 if(flowOverride.containsSearch(content)){
                     addFile(flowOverride.getFileName());
@@ -4551,7 +4551,7 @@ public class XMLRead {
         }
         else{
             for(FlowOverride flowOverride: this.flowOverrides.values()){
-                if(searchResult.contains(flowOverride.getFileName()))
+                if(searchResult.contains(flowOverride.getFileName())&& (!depthSearch))
                     continue;
                 if(flowOverride.search(content)){
                     addFile(flowOverride.getFileName());
