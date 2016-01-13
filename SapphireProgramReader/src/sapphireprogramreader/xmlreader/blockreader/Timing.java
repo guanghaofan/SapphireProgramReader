@@ -247,7 +247,7 @@ public class Timing {
             printWriter.println("        </SignalRef>");
         }
         public boolean search(String content){
-            System.out.println("Start to search in SignalRef "+ this.name);
+//            System.out.println("Start to search in SignalRef "+ this.name);
             boolean isFound=false;
             if((this.name!=null && this.name.equals(content))||(this.strobeMode!=null && this.strobeMode.equals(content))||(this.signalDelay!=null && this.signalDelay.equals(content))){
                 return true;
@@ -265,7 +265,7 @@ public class Timing {
         }
         
         public boolean containsSearch(String content){
-            System.out.println("Start to search in SignalRef "+ this.name);
+//            System.out.println("Start to search in SignalRef "+ this.name);
             boolean isFound=false;
             if(((this.name!=null)&&this.name.toLowerCase().contains(content))||(this.strobeMode!=null && this.strobeMode.toLowerCase().contains(content))||(this.signalDelay!=null && this.signalDelay.toLowerCase().contains(content))){
                 return true;
@@ -459,7 +459,7 @@ public class Timing {
                 printWriter.println(toString());
             }
             public boolean search(String content){
-                System.out.println("Start to search in WaveForm "+ this.name);
+//                System.out.println("Start to search in WaveForm "+ this.name);
                 if (this.name!=null&&this.name.equals(content))
                     return true;
                 else if((this.time1!=null && this.time1.equals(content))|| this.event1!=null&& this.event1.equals(content))
@@ -476,7 +476,7 @@ public class Timing {
             }
             
             public boolean containsSearch(String content){
-                System.out.println("Start to search in WaveForm "+ this.name);
+//                System.out.println("Start to search in WaveForm "+ this.name);
                 if (this.name!=null&&this.name.toLowerCase().contains(content))
                     return true;
                 else if((this.time1!=null && this.time1.toLowerCase().contains(content))|| this.event1!=null&& this.event1.toLowerCase().contains(content))
@@ -529,7 +529,7 @@ public class Timing {
             printWriter.println(toString());
         }
         public boolean search(String content){
-            System.out.println("Start to search in Period "+ this.name);
+//            System.out.println("Start to search in Period "+ this.name);
             if((this.name!=null&&this.name.equals(content))||(this.expression!=null&&this.expression.equals(content)))
                 return true;
             else
@@ -537,7 +537,7 @@ public class Timing {
         }
         
         public boolean containsSearch(String content){
-            System.out.println("Start to search in Period "+ this.name);
+//            System.out.println("Start to search in Period "+ this.name);
             if((this.name!=null && this.name.toLowerCase().contains(content))||(this.expression!=null&& this.expression.toLowerCase().contains(content)))
                 return true;
             else

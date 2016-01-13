@@ -4307,7 +4307,7 @@ public class XMLRead {
             }
         
         }
-        
+        System.out.println("binning tests search Done");
          // start to search DCs
         if(!caseSenstive){
             for(GenericBlock _testDescription: XMLRead.DCs.values()){
@@ -4405,7 +4405,7 @@ public class XMLRead {
             }
         }
         
-        System.out.println("SoftSet search Done");
+        System.out.println("loadboards search Done");
         //starts to search LoadBoardRef
         if(!caseSenstive){
             for (GenericBlock _softSet :XMLRead.softSet.values()) {
@@ -4456,6 +4456,7 @@ public class XMLRead {
                 }
             }
         }
+        System.out.println("soft set search done");
         if(!caseSenstive){
             for (GenericBlock axisList :XMLRead.AxisList.values()) {
                 if(searchResult.contains(axisList.getFileName()) && (!depthSearch))
@@ -4481,7 +4482,7 @@ public class XMLRead {
             }
         }
         
-        System.out.println("LoadBoards search Done");
+        System.out.println("axislist search Done");
         // start to search levels
         if(!caseSenstive){
             for(Levels _level: levels.values()){
@@ -4558,6 +4559,7 @@ public class XMLRead {
                 }
             }
         }
+        System.out.println("flow overrides dearch done");
         
         
         if(depthSearch && fileName!=""){
