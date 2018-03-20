@@ -15,5 +15,5 @@
 1. direct access and edit the specified xml files which you are instrested in.
 1. expression evaluation supported 
 1. fast search engine for everthing in the test program.
-1. direct seek to the search text while opeing xml file in your editor.
+1. direct seek to the search text and highlight it while opeing xml file in your editor.
 
